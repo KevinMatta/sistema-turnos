@@ -299,15 +299,15 @@ GO
 CREATE OR ALTER PROCEDURE [Acce].[sp_PantallasPorRol_crear]
     @Rol_Id int,
     @Pant_Id int,
-    @Prol_Creacion int,
-    @Prol_FechaCreacion datetime
+    @PaRo_Creacion int,
+    @PaRo_FechaCreacion datetime
 AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        INSERT INTO [Acce].[tbPantallasPorRol] (Rol_Id, Pant_Id, Prol_Creacion, Prol_FechaCreacion)
-        VALUES (@Rol_Id, @Pant_Id, @Prol_Creacion, @Prol_FechaCreacion);
+        INSERT INTO [Acce].[tbPantallasPorRoles] (Rol_Id, Pant_Id, PaRo_Creacion, PaRo_FechaCreacion)
+        VALUES (@Rol_Id, @Pant_Id, @PaRo_Creacion, @PaRo_FechaCreacion);
         SELECT 1 AS Resultado;
 
         COMMIT;
@@ -326,8 +326,8 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        DELETE FROM [Acce].[tbPantallasPorRol]
-        WHERE Prol_Id = @Rol_Id;
+        DELETE FROM [Acce].[tbPantallasPorRoles]
+        WHERE PaRo_Id = @Rol_Id;
         SELECT 1 AS Resultado; 
 
         COMMIT;
@@ -340,7 +340,7 @@ END
 GO
 
 -- === ESTADOS ===
-CREATE OR ALTER PROCEDURE [Acce].[sp_Estados_crear]
+CREATE OR ALTER PROCEDURE [Gene].[sp_Estados_crear]
     @Esta_Id varchar(2),
     @Esta_Descripcion varchar(50),
     @Esta_Creacion int,
@@ -350,7 +350,7 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        INSERT INTO [Acce].[tbEstados] ( Esta_Id, Esta_Descripcion, Esta_Creacion, Esta_FechaCreacion)
+        INSERT INTO [Gene].[tbEstados] ( Esta_Id, Esta_Descripcion, Esta_Creacion, Esta_FechaCreacion)
         VALUES (@Esta_Id, @Esta_Descripcion, @Esta_Creacion, @Esta_FechaCreacion);
         SELECT @Esta_Id AS Resultado;
 
@@ -363,7 +363,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE [Acce].[sp_Estados_editar]
+CREATE OR ALTER PROCEDURE [Gene].[sp_Estados_editar]
     @Esta_Id varchar(2),
     @Esta_Descripcion varchar(50),
     @Esta_Modificacion int,
@@ -373,7 +373,7 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        UPDATE [Acce].[tbEstados]
+        UPDATE [Gene].[tbEstados]
         SET Esta_Descripcion = @Esta_Descripcion,
             Esta_Modificacion = @Esta_Modificacion,
             Esta_FechaModificacion = @Esta_FechaModificacion
@@ -389,14 +389,14 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE [Acce].[sp_Estados_eliminar]
+CREATE OR ALTER PROCEDURE [Gene].[sp_Estados_eliminar]
     @Esta_Id varchar(2)
 AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        DELETE FROM [Acce].[tbEstados]
+        DELETE FROM [Gene].[tbEstados]
         WHERE Esta_Id = @Esta_Id;
         SELECT 1 AS Resultado;
 
@@ -409,20 +409,20 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE [Acce].[sp_Estados_listar] AS
+CREATE OR ALTER PROCEDURE [Gene].[sp_Estados_listar] AS
 BEGIN
     SELECT Esta_Id, Esta_Descripcion
-    FROM [Acce].[tbEstados]
+    FROM [Gene].[tbEstados]
     WHERE Esta_Estado = 1;
 END
 GO
 
-CREATE OR ALTER PROCEDURE [Acce].[sp_Estados_obtener]
+CREATE OR ALTER PROCEDURE [Gene].[sp_Estados_obtener]
     @Esta_Id varchar(2)
 AS
 BEGIN
     SELECT Esta_Id, Esta_Descripcion, Esta_Creacion, Esta_FechaCreacion, Esta_Modificacion, Esta_FechaModificacion
-    FROM [Acce].[tbEstados]
+    FROM [Gene].[tbEstados]
     WHERE Esta_Id = @Esta_Id AND Esta_Estado = 1;
 END
 GO
@@ -600,7 +600,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER [Gene].[sp_EstadosCiviles_listar] AS
+CREATE OR ALTER PROCEDURE [Gene].[sp_EstadosCiviles_listar] AS
 BEGIN
     SELECT EsCi_Id, EsCi_Descripcion
     FROM [Gene].[tbEstadosCiviles]
@@ -897,7 +897,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER [Turn].[sp_Hospitales_listar] AS
+CREATE OR ALTER PROCEDURE [Turn].[sp_Hospitales_listar] AS
 BEGIN
     SELECT [Hosp_Id], [Hosp_Descripcion], [Hosp_Direccion], h.Ciud_Id, c.Ciud_Descripcion
     FROM [Turn].[tbHospitales] h
@@ -906,11 +906,11 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER [turn].[sp_Hospitales_obtener] 
+CREATE OR ALTER  PROCEDURE [turn].[sp_Hospitales_obtener] 
 @Hosp_Id int
 AS
 BEGIN
-    SELECT [Hosp_Id], [Hosp_Descripcion], [Hosp_Direccion], [Ciud_Id], h.[Ciud_Descripcion], Ciud_Creacion, Ciud_FechaCreacion, Ciud_Modificacion, Ciud_FechaModificacion
+    SELECT [Hosp_Id], [Hosp_Descripcion], [Hosp_Direccion], h.[Ciud_Id], c.[Ciud_Descripcion], Ciud_Creacion, Ciud_FechaCreacion, Ciud_Modificacion, Ciud_FechaModificacion
     FROM [Turn].[tbHospitales] h
     INNER JOIN [Gene].[tbCiudades] c ON c.Ciud_Id = h.Ciud_Id
     WHERE [Hosp_Estado] = 1 AND c.Ciud_Estado = 1 AND [Hosp_Id] = @Hosp_Id;
@@ -1006,26 +1006,27 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER [Turn].[sp_Empleados_listar] AS
+CREATE OR ALTER PROCEDURE [Turn].[sp_Empleados_listar] AS
 BEGIN
-    SELECT [Empl_Id], [Pers_Identidad], CONCAT(p.Pers_PrimerNombre, ' ', p.Pers_PrimerApellido) as Nombre, [Carg_Id], c.Carg_Descripcion, [Hosp_Id], h.Hosp_Descripcion
-    FROM [Turn].[tbEmpleados]
-    JOIN [Gene].[tbCargos] c ON c.Carg_Id = [Carg_Id]
-    JOIN [Turn].[tbHospitales] h ON h.Hosp_Id = [Hosp_Id]
-    JOIN [Gene].[tbPersonas] p ON p.Pers_Identidad = [Pers_Identidad]
-    WHERE [Empl_Estado] = 1 AND c.Carg_Estado = 1 AND h.Hosp_Estado = 1 AND p.Pers_Estado = 1 AND [Empl_Id] = @Empl_Id;
+    SELECT [Empl_Id], e.[Pers_Identidad], CONCAT(p.Pers_PrimerNombre, ' ', p.Pers_PrimerApellido) as Nombre, e.[Carg_Id], c.Carg_Descripcion, e.[Hosp_Id], h.Hosp_Descripcion
+    FROM [Turn].[tbEmpleados] e
+    JOIN [Gene].[tbCargos] c ON c.Carg_Id = e.[Carg_Id]
+    JOIN [Turn].[tbHospitales] h ON h.Hosp_Id = e.[Hosp_Id]
+    JOIN [Gene].[tbPersonas] p ON p.Pers_Identidad = e.[Pers_Identidad]
+    WHERE [Empl_Estado] = 1 AND c.Carg_Estado = 1 AND h.Hosp_Estado = 1 AND p.Pers_Estado = 1;
 END
 GO
 
-CREATE OR ALTER [Turn].[sp_Empleados_buscar] AS
+CREATE OR ALTER PROCEDURE [Turn].[sp_Empleados_buscar] 
 @Empl_Id INT
+AS
 BEGIN
-    SELECT [Empl_Id], [Pers_Identidad], CONCAT(p.Pers_PrimerNombre, ' ', p.Pers_PrimerApellido) as Nombre,
-    p.Pers_PrimerNombre, p.Pers_SegundoNombre, p.Pers_PrimerApellido, p.Pers_SegundoApellido, p.Pers_Sexo, p.EsCi_Id, es.EsCi_Descripcion, [Carg_Id], c.Carg_Descripcion, [Hosp_Id], h.Hosp_Descripcion
-    FROM [Turn].[tbEmpleados]
-    JOIN [Gene].[tbCargos] c ON c.Carg_Id = [Carg_Id]
-    JOIN [Turn].[tbHospitales] h ON h.Hosp_Id = [Hosp_Id]
-    JOIN [Gene].[tbPersonas] p ON p.Pers_Identidad = [Pers_Identidad]
+    SELECT [Empl_Id], e.[Pers_Identidad], CONCAT(p.Pers_PrimerNombre, ' ', p.Pers_PrimerApellido) as Nombre,
+    p.Pers_PrimerNombre, p.Pers_SegundoNombre, p.Pers_PrimerApellido, p.Pers_SegundoApellido, p.Pers_Sexo, p.EsCi_Id, es.EsCi_Descripcion, e.[Carg_Id], c.Carg_Descripcion, e.[Hosp_Id], h.Hosp_Descripcion
+    FROM [Turn].[tbEmpleados] e
+    JOIN [Gene].[tbCargos] c ON c.Carg_Id = e.[Carg_Id]
+    JOIN [Turn].[tbHospitales] h ON h.Hosp_Id = e.[Hosp_Id]
+    JOIN [Gene].[tbPersonas] p ON p.Pers_Identidad = e.[Pers_Identidad]
     JOIN [Gene].[tbEstadosCiviles] es ON es.EsCi_Id = p.EsCi_Id
     WHERE [Empl_Id] = @Empl_Id AND [Empl_Estado] = 1 AND c.Carg_Estado = 1 AND h.Hosp_Estado = 1 AND p.Pers_Estado = 1;
 END
@@ -1123,8 +1124,9 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROCEDURE [Turn].[sp_Turnos_buscar] AS
+CREATE OR ALTER PROCEDURE [Turn].[sp_Turnos_buscar] 
 @Turn_Id int
+AS
 BEGIN
     SELECT [Turn_Id], [Turn_Descripcion], [Turn_Horario]
     FROM [Turn].[tbTurnos]
@@ -1216,4 +1218,17 @@ BEGIN
         ROLLBACK;
     END CATCH
 END
+GO
+
+CREATE OR ALTER PROCEDURE [Turn].[sp_TurnosPorEmpleados_listar]
+AS
+BEGIN
+SELECT te.TuEm_Id, te.Turn_Id,
+CONCAT(p.Pers_PrimerNombre, ' ', p.Pers_PrimerApellido, ' - ', CONVERT(varchar(5), t.Turn_Horario, 108)) AS title,
+CONVERT(varchar(10), TuEm_FechaInicio, 23) AS start
+FROM Turn.tbTurnosPorEmpleados te
+JOIN Turn.tbTurnos t ON te.Turn_Id = t.Turn_Id
+JOIN Turn.tbEmpleados e ON e.Empl_Id = te.Empl_Id
+JOIN Gene.tbPersonas p ON p.Pers_Identidad = e.Pers_Identidad
+END;
 GO

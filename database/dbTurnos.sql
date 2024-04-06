@@ -136,7 +136,7 @@ GO
 CREATE TABLE [Turn].[tbEmpleados] (
   [Empl_Id] int PRIMARY KEY IDENTITY(1, 1),
   [Pers_Identidad] varchar(13) NOT NULL,
-  [Usua_Id] int NOT NULL,
+  [Usua_Id] int,
   [Carg_Id] int,
   [Hosp_Id] int,
   [Empl_Estado] bit DEFAULT (1),
