@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_Turnos.Common.Models
 {
-    class TurnosPorEmpleadoViewModel
+    public class TurnosPorEmpleadoViewModel
     {
         public int TuEm_Id { get; set; }
         public DateTime TuEm_FechaInicio { get; set; }
@@ -24,5 +24,7 @@ namespace Sistema_Turnos.Common.Models
         public string title { get; set; }
         [NotMapped]
         public string start { get; set; }
+        [NotMapped]
+        public string end { get; set; }
     }
 }

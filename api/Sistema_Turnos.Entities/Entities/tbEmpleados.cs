@@ -15,7 +15,7 @@ namespace Sistema_Turnos.Entities.Entities
 
         public int Empl_Id { get; set; }
         public string Pers_Identidad { get; set; }
-        public int Usua_Id { get; set; }
+        public int? Usua_Id { get; set; }
         public int? Carg_Id { get; set; }
         public int? Hosp_Id { get; set; }
         public bool? Empl_Estado { get; set; }

@@ -17,6 +17,11 @@ namespace Sistema_Turnos.DataAccess.Repository
 
         #region TurnosPorEmpleado
         public static string TuEm_Listar = "[Turn].[sp_TurnosPorEmpleados_listar]";
+        public static string TuEm_Buscar = "[Turn].[sp_TurnosPorEmpleados_buscar]";
+        public static string TuEm_Crear = "[Turn].[sp_TurnosPorEmpleados_crear]";
+        public static string TuEm_Editar = "[Turn].[sp_TurnosPorEmpleados_editar]";
+        public static string TuEm_Eliminar = "[Turn].[sp_TurnosPorEmpleados_eliminar]";
         #endregion
+
     }
 }
