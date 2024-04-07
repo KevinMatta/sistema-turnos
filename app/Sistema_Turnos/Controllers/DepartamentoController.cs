@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrontendCNE.Controllers
+namespace Sistema_Turnos.Controllers
 {
     public class DepartamentoController : Controller
     {
@@ -26,8 +26,6 @@ namespace FrontendCNE.Controllers
             {
                 var model = new List<DepartamentoViewModel>();
                 var list = await _departamentoServicios.ObtenerDepartamentoList();
-                TempData["Bienvenida"] = "Bienvenido a la Pantalla de Departamentos";
-                TempData["PantallaDepartamentos"] = true;
                 return View(list.Data);
             }
             catch (Exception ex)
@@ -51,9 +49,13 @@ namespace FrontendCNE.Controllers
                 item.Esta_Creacion = 1;
                 item.Esta_FechaCreacion = DateTime.Now;
                 var list = await _departamentoServicios.CrearDepartamento(item);
-                TempData["PantallaDepartamentos"] = false;
-                TempData["Editar"] = false;
-                TempData["Agregar"] = true;
+                string[] notificaciones = new string[4];
+                notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                notificaciones[1] = "Agregado";
+                notificaciones[2] = "Se agregaron los datos con exito";
+                notificaciones[3] = "info";
+                TempData["Notificaciones"] = notificaciones;
+
                 return RedirectToAction("Index");
                 //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
@@ -89,9 +91,12 @@ namespace FrontendCNE.Controllers
                 var result = await _departamentoServicios.EditarDepartamento(item);
                 if (result.Success)
                 {
-                    TempData["PantallaDepartamentos"] = false;
-                    TempData["Agregar"] = false;
-                    TempData["Editar"] = true;
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Exito";
+                    notificaciones[2] = "Se edito el registro con exito";
+                    notificaciones[3] = "info";
+                    TempData["Notificaciones"] = notificaciones;
                     return RedirectToAction("Index");
                 }
                 else
@@ -116,17 +121,22 @@ namespace FrontendCNE.Controllers
                 var hola = list.Message;
                 if (hola == "Error al realizar la operacion.") 
                 {
-                    TempData["Eliminar"] = false;
-                    TempData["Mensaje"] = "El departamento tiene dependencia en otra tabla";
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Error";
+                    notificaciones[2] = "Ocurrio un error al eliminar el departamento";
+                    notificaciones[3] = "danger";
+                    TempData["Notificaciones"] = notificaciones;
                 }
                 else
                 {
-                    TempData["Eliminar"] = true;
-                    TempData["Mensaje"] = "Se elimino el departamento con exito";
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Exito";
+                    notificaciones[2] = "Se elimino el departamento con exito";
+                    notificaciones[3] = "info";
+                    TempData["Notificaciones"] = notificaciones;
                 }
-                TempData["PantallaDepartamentos"] = false;
-                TempData["Agregar"] = false;
-                TempData["Editar"] = false;
                 return RedirectToAction("Index");
                 //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }

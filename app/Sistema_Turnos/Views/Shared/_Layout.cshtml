@@ -221,8 +221,36 @@
     <!-- datatables -->
     <script src="../assets/js/core/datatables.min.js"></script>
 
-    <script>
-    $(document).ready(function () {
+
+    @if (TempData["Notificaciones"] != null)
+    {
+        string[] notificaciones = TempData["Notificaciones"] as string[];
+        <script>
+        $(document).ready(function () {
+            $.notify({
+                icon: "@notificaciones[0]",
+                message: "<b>@notificaciones[1]</b> - @notificaciones[2]"
+            }, {
+                type: "@notificaciones[3]",
+                timer: 1000,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                }
+            });
+        });
+        </script>
+    }
+
+
+    @*<script>
+        $(document).ready(function () {
+
+            @if (TempData["Notificaciones"] != null)
+            {
+
+            }
+
         // Verificar si se ha accedido a la pantalla de Departamentos
         var pantallaDepartamentos = '@TempData["PantallaDepartamentos"]';
         var Agregar = '@TempData["Agregar"]';
@@ -309,7 +337,7 @@
         }
 
     });
-    </script>
+    </script>*@
     <script>
         $(document).ready(function () {
 
