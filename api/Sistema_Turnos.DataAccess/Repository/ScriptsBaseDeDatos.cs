@@ -32,6 +32,10 @@ namespace Sistema_Turnos.DataAccess.Repository
 
         #endregion
 
+        #region Usuario
+        public static string Usua_Login = "[Acce].[SP_Usuarios_InicioSesion]";
+        #endregion
+
         #endregion
 
         #region General

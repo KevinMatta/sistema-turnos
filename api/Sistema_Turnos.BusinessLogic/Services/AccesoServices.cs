@@ -11,10 +11,12 @@ namespace Sistema_Turnos.BusinessLogic.Services
     {
         private readonly RolesRepository _rolesRepository;
         private readonly PantallaRepository _pantallaRepository;
-        public AccesoServices(RolesRepository rolesRepository, PantallaRepository pantallaRepository)
+        private readonly UsuarioRepository _usuarioRepository;
+        public AccesoServices(RolesRepository rolesRepository, PantallaRepository pantallaRepository, UsuarioRepository usuarioRepository)
         {
             _rolesRepository = rolesRepository;
             _pantallaRepository = pantallaRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         #region Roles
@@ -180,6 +182,22 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
+        #endregion
+
+        #region Usuarios
+        public ServiceResult Login(string Usuario, string Contra)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _usuarioRepository.Login(Usuario, Contra);
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
         #endregion
 
     }
