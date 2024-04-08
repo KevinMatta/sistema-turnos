@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sistema_Turnos.Models;
@@ -8,6 +9,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Text.Json;
 
 namespace Sistema_Turnos.Controllers
 {
@@ -15,32 +20,87 @@ namespace Sistema_Turnos.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UsuarioService _usuarioService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, UsuarioService usuarioService)
+        public HomeController(ILogger<HomeController> logger, UsuarioService usuarioService, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _usuarioService = usuarioService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Login(string Usuario, string Contrasenia)
         {
-            var list = await _usuarioService.Login(Usuario, Contrasenia);
-            var saber = list.Data as IEnumerable<UsuarioViewModel>;
             string usuario = "";
+            int ? idrol = 0;
 
-            if(saber.ToList().Count > 0 ) { 
+            if(Usuario != null && Contrasenia != null ) {
+                int x = 0;
 
-                foreach (var item in saber)
+                int? rol;
+
+                List<string> pantallasPorRol = new List<string>();
+                var Claim = new List<Claim>();
+                var list = await _usuarioService.Login(Usuario, Contrasenia);
+                var saber = list.Data as IEnumerable<UsuarioViewModel>;
+                var listsss = saber.ToList();
+                if (listsss.Count > 0)
                 {
-                    usuario = item.Usua_Usuario;
-                }
+                    var loginlist = listsss.FirstOrDefault();
 
-                return RedirectToAction("Index");
+                    foreach (var item in listsss)
+                    {
+                        HttpContext.Session.SetString("Usua_Id", item.Usua_Id.ToString());
+                        HttpContext.Session.SetString("rolesssss", item.Rol_Id.ToString());
+                        HttpContext.Session.SetString("Usuario", item.Usua_Nombre.ToString());
+                        pantallasPorRol.Add(item.Pant_Descripcion);
+                        if (item.Pant_Descripcion != null)
+                        {
+                            Claim.Add(new Claim(ClaimTypes.Role, item.Pant_Descripcion));
+                        }
+                        else
+                        {
+                            Claim.Add(new Claim(ClaimTypes.Role, "Ninguna Pantalla"));
+                        }
+                        rol = item.Rol_Id;
+                    }
+
+                    if (loginlist.Usua_IsAdmin == true)
+                    {
+                        pantallasPorRol.Add("Admin");
+                        Claim.Add(new Claim(ClaimTypes.Role, "Admin"));
+                    }
+
+                    var ClaimsIdentity = new ClaimsIdentity(Claim, CookieAuthenticationDefaults.AuthenticationScheme);
+
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity));
+
+                    var pantallasJson = JsonSerializer.Serialize(pantallasPorRol);
+                    HttpContext.Session.SetString("Pantallas", pantallasJson);
+
+                   return RedirectToAction("Index");
+                }
             }
 
             return View();
         }
+
+        public async Task<IActionResult> ValidarUsuario(string Usuario)
+        {
+            var list = await _usuarioService.ValidarUsuario(Usuario);
+
+            return Ok(list.Data);
+        }
+
+        public async Task<IActionResult> ValidarClave(string Contrasenia)
+        {
+            var list = await _usuarioService.ValidarClave(Contrasenia);
+
+            return Ok(list.Data);
+        }
+
         public IActionResult Index()
         {
             return View();

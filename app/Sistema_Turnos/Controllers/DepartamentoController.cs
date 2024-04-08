@@ -157,6 +157,7 @@ namespace Sistema_Turnos.Controllers
             foreach (var item in data)
             {
                     var descripcion = item.Esta_Descripcion;
+                    var fecha = item.Esta_FechaCreacion;
                     var id = item.Esta_Id;
             }
 

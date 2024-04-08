@@ -139,6 +139,20 @@ namespace Sistema_Turnos.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbPantallasPorRoles> ObtenerRol(int Rol_Id)
+        {
+            string sql = ScriptsBaseDeDatos.Rol_Obtener;
+
+            List<tbPantallasPorRoles> result = new List<tbPantallasPorRoles>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { Rol_Id = Rol_Id };
+                result = db.Query<tbPantallasPorRoles>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
         public IEnumerable<tbPantallasPorRoles> BuscarPantallasPorRol(int Rol_Id)
         {
             string sql = ScriptsBaseDeDatos.PanRo_Buscar;

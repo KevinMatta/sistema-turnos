@@ -45,6 +45,35 @@ namespace Sistema_Turnos.DataAccess.Repository
                 return result;
             }
         }
+
+        public IEnumerable<tbUsuarios> ValidarUsuario(string Usuario)
+        {
+            string sql = ScriptsBaseDeDatos.Usua_usuario;
+
+            List<tbUsuarios> result = new List<tbUsuarios>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { @Usuario = Usuario };
+                result = db.Query<tbUsuarios>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
+        public IEnumerable<tbUsuarios> ValidarClave( string Contra)
+        {
+            string sql = ScriptsBaseDeDatos.Usua_clave;
+
+            List<tbUsuarios> result = new List<tbUsuarios>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { @Contra = Contra };
+                result = db.Query<tbUsuarios>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
         public IEnumerable<tbUsuarios> List()
         {
             throw new NotImplementedException();

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using System.Text.Json;
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -39,7 +41,16 @@
                     <a href="http://www.creative-tim.com" class="simple-text logo-normal">
                     </a>
                 </div>
-                <ul class="nav">
+                @{
+                    HttpContextAccessor _httpContextAccesor = new HttpContextAccessor();
+                    var pantallasJson = _httpContextAccesor.HttpContext.Session.GetString("Pantallas");
+                    var pantallas = JsonSerializer.Deserialize<List<string>>(pantallasJson);
+
+
+                }
+            <ul class="nav">
+                @if (pantallas != null && pantallas.Contains("Roles") || pantallas.Contains("Admin") || pantallas.Contains("Usuarios"))
+                {
                     <li>
                         <a data-toggle="collapse" href="#access" aria-expanded="true" aria-controls="access">
                             <i class="tim-icons icon-key-25"></i>
@@ -49,19 +60,29 @@
 
                         <div class="collapse" id="access">
                             <ul class="nav pl-4">
-                                <li>
-                                    <a asp-controller="Rol" asp-action="Index">
-                                        <span class="sidenav-normal"> Rol </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sidenav-normal"> Usuario </span>
-                                    </a>
-                                </li>
+                                @if (pantallas != null && pantallas.Contains("Roles") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a asp-controller="Rol" asp-action="Index">
+                                            <span class="sidenav-normal"> Roles </span>
+                                        </a>
+                                    </li>
+                                }
+                                @if (pantallas != null && pantallas.Contains("Usuarios") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a href="">
+                                            <span class="sidenav-normal"> Usuarios </span>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </li>
+                }
+
+                @if (pantallas != null && pantallas.Contains("Cargos") || pantallas.Contains("Admin") || pantallas.Contains("Departamento") || pantallas.Contains("Personas") || pantallas.Contains("Estados Civiles") || pantallas.Contains("Municipios"))
+                {
                     <li>
                         <a data-toggle="collapse" href="#general" aria-expanded="false" aria-controls="general">
                             <i class="tim-icons icon-world"></i>
@@ -71,24 +92,57 @@
 
                         <div class="collapse" id="general">
                             <ul class="nav pl-4">
-                                <li>
-                                    <a asp-controller="Departamento" asp-action="Index">
-                                        <span class="sidenav-normal"> Departamento </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sidenav-normal"> Ciudad </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sidenav-normal"> Estado Civil </span>
-                                    </a>
-                                </li>
+                                @if (pantallas != null && pantallas.Contains("Cargos") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a asp-controller="Departamento" asp-action="Index">
+                                            <span class="sidenav-normal"> Cargos </span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (pantallas != null && pantallas.Contains("Departamento") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a asp-controller="Departamento" asp-action="Index">
+                                            <span class="sidenav-normal"> Departamento </span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (pantallas != null && pantallas.Contains("Estados Civiles") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a href="">
+                                            <span class="sidenav-normal"> Estado Civil </span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (pantallas != null && pantallas.Contains("Municipios") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a href="">
+                                            <span class="sidenav-normal"> Municipios </span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (pantallas != null && pantallas.Contains("Personas") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a href="">
+                                            <span class="sidenav-normal"> Personas </span>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </li>
+                }
+
+                @if (pantallas != null && pantallas.Contains("Roles") || pantallas.Contains("Admin") || pantallas.Contains("Usuarios"))
+                {
                     <li>
                         <a data-toggle="collapse" href="#turnos" aria-expanded="false" aria-controls="turnos">
                             <i class="tim-icons icon-app"></i>
@@ -98,19 +152,45 @@
 
                         <div class="collapse" id="turnos">
                             <ul class="nav pl-4">
-                                <li>
-                                    <a asp-controller="TurnosPorEmpleado" asp-action="Index">
-                                        <span class="sidenav-normal"> Calendario </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <span class="sidenav-normal"> Tabla 2 </span>
-                                    </a>
-                                </li>
-                            </ul>
+                                @if (pantallas != null && pantallas.Contains("Empleados") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a asp-controller="TurnosPorEmpleado" asp-action="Index">
+                                            <span class="sidenav-normal"> Empleados </span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (pantallas != null && pantallas.Contains("Calendario") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a asp-controller="TurnosPorEmpleado" asp-action="Index">
+                                            <span class="sidenav-normal"> Calendario </span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (pantallas != null && pantallas.Contains("Hospitales") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a href="">
+                                            <span class="sidenav-normal"> Hospitales </span>
+                                        </a>
+                                    </li>
+                                }
+
+                                @if (pantallas != null && pantallas.Contains("Turnos") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a href="">
+                                            <span class="sidenav-normal"> Turnos </span>
+                                        </a>
+                                    </li>
+                                }
+                                </ul>
                         </div>
                     </li>
+                }
                 </ul>
             </div>
         </div>
@@ -138,7 +218,7 @@
 
                             <!-- alinea el texto a la derecha -->
                             <li class="nav-item">
-                                <p>@*@{Nombre}*@</p>
+                                <p>@Context.Session.GetString("Usuario")</p>
                                 <p class="float-right">@*@{Rol}*@</p>
                             </li>
                             <li class="dropdown nav-item">
@@ -246,102 +326,6 @@
         </script>
     }
 
-
-    @*<script>
-            $(document).ready(function () {
-
-                @if (TempData["Notificaciones"] != null)
-                {
-
-                }
-
-            // Verificar si se ha accedido a la pantalla de Departamentos
-            var pantallaDepartamentos = '@TempData["PantallaDepartamentos"]';
-            var Agregar = '@TempData["Agregar"]';
-            var Eliminar = '@TempData["Eliminar"]';
-            var Editar = '@TempData["Editar"]';
-
-            if (Eliminar == 'True') {
-                pantallaDepartamentos = false;
-                // Mostrar la notificación
-                $.notify({
-                    icon: "tim-icons icon-alert-circle-exc",
-                    message: "<b>Exito</b> @TempData["Mensaje"]"
-                }, {
-                    type: 'info',
-                    timer: 1000,
-                    placement: {
-                        from: 'top',
-                        align: 'right'
-                    }
-                });
-            }
-
-             if (Eliminar == 'False') {
-                pantallaDepartamentos = false;
-                // Mostrar la notificación
-                $.notify({
-                    icon: "tim-icons icon-alert-circle-exc",
-                    message: "<b>Error</b> @TempData["Mensaje"]"
-                }, {
-                    type: 'danger',
-                    timer: 1000,
-                    placement: {
-                        from: 'top',
-                        align: 'right'
-                    }
-                });
-            }
-
-            if (Editar == 'True') {
-                pantallaDepartamentos = false;
-                // Mostrar la notificación
-                $.notify({
-                    icon: "tim-icons icon-alert-circle-exc",
-                    message: "<b>Exito</b> Se edito el registro con exito"
-                }, {
-                    type: 'info',
-                    timer: 1000,
-                    placement: {
-                        from: 'top',
-                        align: 'right'
-                    }
-                });
-            }
-
-            if (Agregar == 'True') {
-                pantallaDepartamentos = false;
-                // Mostrar la notificación
-                $.notify({
-                    icon: "tim-icons icon-alert-circle-exc",
-                    message: "<b>Agregado</b> Se agregaron los datos con exito"
-                }, {
-                    type: 'info',
-                    timer: 1000,
-                    placement: {
-                        from: 'top',
-                        align: 'right'
-                    }
-                });
-            }
-
-            if (pantallaDepartamentos == 'True') {
-                // Mostrar la notificación
-                $.notify({
-                    icon: "tim-icons icon-check-2",
-                    message: "<b>Bienvenido</b> a la Pantalla de Departamentos"
-                }, {
-                    type: 'success',
-                    timer: 1000,
-                    placement: {
-                        from: 'top',
-                        align: 'right'
-                    }
-                });
-            }
-
-        });
-        </script>*@
     <script>
         $(document).ready(function () {
 

@@ -42,5 +42,57 @@ namespace Sistema_Turnos.Services
             }
         }
 
+        public async Task<ServiceResult> ValidarUsuario(string Usuario)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Get<IEnumerable<UsuarioViewModel>, IEnumerable<UsuarioViewModel>>(req =>
+                {
+                    req.Path = $"API/Home/ValidarUsuarioHome?Usuario={Usuario}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    // Aquí deberías devolver directamente el objeto DepartamentoViewModel
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
+        public async Task<ServiceResult> ValidarClave(string Contra)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Get<IEnumerable<UsuarioViewModel>, IEnumerable<UsuarioViewModel>>(req =>
+                {
+                    req.Path = $"API/Home/ValidarClaveHome?Contra={Contra}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    // Aquí deberías devolver directamente el objeto DepartamentoViewModel
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
     }
 }

@@ -126,6 +126,20 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ObtenerRol(int Rol_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _rolesRepository.ObtenerRol(Rol_Id);
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
         public IEnumerable<tbPantallasPorRoles> ObtenerPantallasPorRol(int id)
         {
             try
@@ -198,6 +212,35 @@ namespace Sistema_Turnos.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult ValidarUsuario(string Usuario)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _usuarioRepository.ValidarUsuario(Usuario);
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ValidarClave(string Contra)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _usuarioRepository.ValidarClave(Contra);
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
         #endregion
 
     }

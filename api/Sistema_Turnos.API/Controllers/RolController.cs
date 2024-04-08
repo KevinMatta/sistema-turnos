@@ -93,8 +93,19 @@ namespace Sistema_Turnos.API.Controllers
         {
             var PantallasPorRol = _accesoServices.ObtenerPantallasPorRol(Rol_id);
             var Pantallas = _accesoServices.ListPantalla();
+            var ObtenerRol = _accesoServices.ObtenerRol(Rol_id);
 
-            var NombreRol = PantallasPorRol.FirstOrDefault()?.Rol_Descripcion;
+            int rolid = 0;
+            string NombreRol = "";
+
+            var Rol = ObtenerRol.Data;
+
+            foreach (var item in Rol)
+            {
+                rolid = item.Rol_Id;
+                NombreRol = item.Rol_Descripcion;
+            }
+
             var pantallasSeleccionadas = PantallasPorRol.Select(p => (int)p.Pant_Id).ToList();
 
             var panta = Pantallas.Data as IEnumerable<tbPantallas>;
@@ -103,7 +114,7 @@ namespace Sistema_Turnos.API.Controllers
 
             var rolViewModel = new RolViewModel
             {
-                Rol_Id = Rol_id,
+                Rol_Id = rolid,
                 Rol_Descripcion = NombreRol,
                 PantallasID = pantallasSeleccionadas,
                 pantallas = (List<PantallaViewModel>)pantallasViewModel,
@@ -127,10 +138,16 @@ namespace Sistema_Turnos.API.Controllers
 
             };
 
-            var id = _accesoServices.ObtenerId(formData.txtRol, rol.Rol_Creacion, rol.Rol_FechaCreacion);
+            var id = _accesoServices.ObtenerId(formData.txtRol, (int)rol.Rol_Modificacion, (DateTime)rol.Rol_FechaModificacion);
             var role = id.Data;
+            int RolId = 0;
+            foreach (var item in role)
+            {
+                RolId = item.Rol_Id; 
+            }
+
             _accesoServices.ActualizarRol(rol);
-              _accesoServices.EliminarPantallaPorRol(formData.Rol_Id);
+            _accesoServices.EliminarPantallaPorRol(RolId);
 
 
             foreach (var pantalla in formData.pantallasSeleccionadas)
@@ -138,9 +155,9 @@ namespace Sistema_Turnos.API.Controllers
                 var modelo2 = new tbPantallasPorRoles()
                 {
                     Pant_Id = pantalla,
-                    Rol_Id = role,
-                    PaRo_Modificacion = 1,
-                    PaRo_FechaModificacion = DateTime.Now
+                    Rol_Id = RolId,
+                    PaRo_Creacion = 1,
+                    PaRo_FechaCreacion = DateTime.Now
                 };
 
                 var msj = _accesoServices.InsertarPantallasPorRol(modelo2);
