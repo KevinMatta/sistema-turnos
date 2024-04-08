@@ -40,5 +40,31 @@ namespace Sistema_Turnos.Services
                 throw;
             }
         }
+
+        public async Task<ServiceResult> CrearTurnoEmpleado(TurnosPorEmpleadoViewModel item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Post<TurnosPorEmpleadoViewModel, ServiceResult>(req =>
+                {
+                    req.Path = $"/API/TurnosPorEmpleado/Crear";
+                    req.Content = item;
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
     }
 }

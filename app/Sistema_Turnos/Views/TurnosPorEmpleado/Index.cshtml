@@ -48,7 +48,7 @@
             dateClick: function (info) {
                 var todayStr = new Date().toISOString().slice(0, 10);
                 if (info.dateStr >= todayStr) {
-                    console.log('Date: ' + info.dateStr);
+                    localStorage.setItem("fechaInicio", info.dateStr);
                     $('#crearModal').modal('show');
                 }
             },

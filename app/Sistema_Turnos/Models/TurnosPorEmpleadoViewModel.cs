@@ -39,5 +39,9 @@ namespace Sistema_Turnos.Models
         public string start { get; set; }
         [NotMapped]
         public string end { get; set; }
+
+        [NotMapped]
+        public string TuEm_HoraEntrada { get; set; }
+        public string TuEm_HoraSalida { get; set; }
     }
 }
