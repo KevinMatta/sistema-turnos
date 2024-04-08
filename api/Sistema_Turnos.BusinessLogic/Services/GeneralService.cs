@@ -9,13 +9,9 @@ namespace Sistema_Turnos.BusinessLogic.Services
     public class GeneralService
     {
         private readonly DepartamentoRepository _departamentoRepository1;
-        //private readonly RolRepository _RolRepository;
-        //private readonly PantallaRepository _pantallaRepository;
         public GeneralService(DepartamentoRepository departamentoRepository)
         {
             _departamentoRepository1 = departamentoRepository;
-            ////_RolRepository = RolRepository;
-            ////_pantallaRepository = pantallaRepository;
         }
 
         #region Estado 

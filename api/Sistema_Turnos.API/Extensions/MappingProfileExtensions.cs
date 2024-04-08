@@ -13,6 +13,7 @@ namespace Sistema_Turnos.API.Extensions
         public MappingProfileExtensions()
         {
             CreateMap<DepartamentoViewModel, tbEstados>().ReverseMap();
+            CreateMap<PantallaViewModel, tbPantallas>().ReverseMap();
         }
     }
 }

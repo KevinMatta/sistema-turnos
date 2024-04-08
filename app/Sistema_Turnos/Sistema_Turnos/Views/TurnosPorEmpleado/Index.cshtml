@@ -1,0 +1,44 @@
+﻿ @model IEnumerable<Sistema_Turnos.Models.TurnosPorEmpleadoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-header ">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Calendario</h3>
+        <button type="button" class="btn btn-primary animation-on-hover btn-sm" data-toggle="modal" data-target="#crearModal"> <i class="tim-icons icon-simple-add"></i> Nuevo</button>
+    </div>
+</div>
+
+<div class="card-body">
+    <div id="calendar" style="color: white;"></div>
+
+</div>
+
+<script src="~/assets/js/core/bootstrap.min.js"></script>
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script src="~/assets/js/plugins/index.global.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            dayMaxEventRows: 2,
+            height: 500,
+            themeSystem: 'bootstrap',
+            events: @Html.Raw(Json.Serialize(Model))
+        });
+        calendar.render();
+    });
+</script>
+<style>
+    #calendar {
+        color: white;
+    }
+
+    .fc-popover-header, .fc-popover-title {
+        color: black;
+    }
+</style>

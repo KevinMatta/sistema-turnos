@@ -1,0 +1,29 @@
+.modal-black {
+  
+  .modal-content {
+    background-color: $black-color;
+    *:not(i) {
+      color: $white-color;
+    }
+
+    
+  .modal-header,
+  .modal-footer,
+  .modal-body {
+    border: none;
+    border-color: $black-color;
+  }
+
+} 
+}
+.modal:not(.modal-black) {
+  .modal-content {
+    color: $black-color;
+  }
+
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: right;
+}

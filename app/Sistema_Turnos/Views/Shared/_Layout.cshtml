@@ -50,7 +50,7 @@
                         <div class="collapse" id="access">
                             <ul class="nav pl-4">
                                 <li>
-                                    <a href="registro.html">
+                                    <a asp-controller="Rol" asp-action="Index">
                                         <span class="sidenav-normal"> Rol </span>
                                     </a>
                                 </li>
@@ -211,7 +211,11 @@
     <script src="~/assets/js/core/popper.min.js"></script>
     <script src="~/assets/js/core/bootstrap.min.js"></script>
     <script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
     <!--  Notifications Plugin    -->
     <script src="../assets/js/plugins/bootstrap-notify.js"></script>
@@ -244,100 +248,100 @@
 
 
     @*<script>
-        $(document).ready(function () {
+            $(document).ready(function () {
 
-            @if (TempData["Notificaciones"] != null)
-            {
+                @if (TempData["Notificaciones"] != null)
+                {
 
+                }
+
+            // Verificar si se ha accedido a la pantalla de Departamentos
+            var pantallaDepartamentos = '@TempData["PantallaDepartamentos"]';
+            var Agregar = '@TempData["Agregar"]';
+            var Eliminar = '@TempData["Eliminar"]';
+            var Editar = '@TempData["Editar"]';
+
+            if (Eliminar == 'True') {
+                pantallaDepartamentos = false;
+                // Mostrar la notificación
+                $.notify({
+                    icon: "tim-icons icon-alert-circle-exc",
+                    message: "<b>Exito</b> @TempData["Mensaje"]"
+                }, {
+                    type: 'info',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
             }
 
-        // Verificar si se ha accedido a la pantalla de Departamentos
-        var pantallaDepartamentos = '@TempData["PantallaDepartamentos"]';
-        var Agregar = '@TempData["Agregar"]';
-        var Eliminar = '@TempData["Eliminar"]';
-        var Editar = '@TempData["Editar"]';
+             if (Eliminar == 'False') {
+                pantallaDepartamentos = false;
+                // Mostrar la notificación
+                $.notify({
+                    icon: "tim-icons icon-alert-circle-exc",
+                    message: "<b>Error</b> @TempData["Mensaje"]"
+                }, {
+                    type: 'danger',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
 
-        if (Eliminar == 'True') {
-            pantallaDepartamentos = false;
-            // Mostrar la notificación
-            $.notify({
-                icon: "tim-icons icon-alert-circle-exc",
-                message: "<b>Exito</b> @TempData["Mensaje"]"
-            }, {
-                type: 'info',
-                timer: 1000,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                }
-            });
-        }
+            if (Editar == 'True') {
+                pantallaDepartamentos = false;
+                // Mostrar la notificación
+                $.notify({
+                    icon: "tim-icons icon-alert-circle-exc",
+                    message: "<b>Exito</b> Se edito el registro con exito"
+                }, {
+                    type: 'info',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
 
-         if (Eliminar == 'False') {
-            pantallaDepartamentos = false;
-            // Mostrar la notificación
-            $.notify({
-                icon: "tim-icons icon-alert-circle-exc",
-                message: "<b>Error</b> @TempData["Mensaje"]"
-            }, {
-                type: 'danger',
-                timer: 1000,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                }
-            });
-        }
+            if (Agregar == 'True') {
+                pantallaDepartamentos = false;
+                // Mostrar la notificación
+                $.notify({
+                    icon: "tim-icons icon-alert-circle-exc",
+                    message: "<b>Agregado</b> Se agregaron los datos con exito"
+                }, {
+                    type: 'info',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
 
-        if (Editar == 'True') {
-            pantallaDepartamentos = false;
-            // Mostrar la notificación
-            $.notify({
-                icon: "tim-icons icon-alert-circle-exc",
-                message: "<b>Exito</b> Se edito el registro con exito"
-            }, {
-                type: 'info',
-                timer: 1000,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                }
-            });
-        }
+            if (pantallaDepartamentos == 'True') {
+                // Mostrar la notificación
+                $.notify({
+                    icon: "tim-icons icon-check-2",
+                    message: "<b>Bienvenido</b> a la Pantalla de Departamentos"
+                }, {
+                    type: 'success',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
 
-        if (Agregar == 'True') {
-            pantallaDepartamentos = false;
-            // Mostrar la notificación
-            $.notify({
-                icon: "tim-icons icon-alert-circle-exc",
-                message: "<b>Agregado</b> Se agregaron los datos con exito"
-            }, {
-                type: 'info',
-                timer: 1000,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                }
-            });
-        }
-
-        if (pantallaDepartamentos == 'True') {
-            // Mostrar la notificación
-            $.notify({
-                icon: "tim-icons icon-check-2",
-                message: "<b>Bienvenido</b> a la Pantalla de Departamentos"
-            }, {
-                type: 'success',
-                timer: 1000,
-                placement: {
-                    from: 'top',
-                    align: 'right'
-                }
-            });
-        }
-
-    });
-    </script>*@
+        });
+        </script>*@
     <script>
         $(document).ready(function () {
 

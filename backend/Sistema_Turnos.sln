@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34301.259
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sistema_Turnos.API", "Sistema_Turnos.API\Sistema_Turnos.API.csproj", "{4B1F7EC3-3F9B-4D38-BE92-271C682E48E5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{22439B06-A1D5-454D-8795-49FBC20E34D3} = {22439B06-A1D5-454D-8795-49FBC20E34D3}
+		{445FAECC-6FEE-4474-95AF-6763FFB052B9} = {445FAECC-6FEE-4474-95AF-6763FFB052B9}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sistema_Turnos.DataAccess", "Sistema_Turnos.DataAccess\Sistema_Turnos.DataAccess.csproj", "{CA0FFBE3-EA07-4FCB-B242-9E7C2FA88337}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9FC1AA47-FA36-4EEF-B693-D1FF7C20A458} = {9FC1AA47-FA36-4EEF-B693-D1FF7C20A458}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sistema_Turnos.Entities", "Sistema_Turnos.Entities\Sistema_Turnos.Entities.csproj", "{9FC1AA47-FA36-4EEF-B693-D1FF7C20A458}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sistema_Turnos.BusinessLogic", "Sistema_Turnos.BusinessLogic\Sistema_Turnos.BusinessLogic.csproj", "{22439B06-A1D5-454D-8795-49FBC20E34D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CA0FFBE3-EA07-4FCB-B242-9E7C2FA88337} = {CA0FFBE3-EA07-4FCB-B242-9E7C2FA88337}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sistema_Turnos.Common", "Sistema_Turnos.Common\Sistema_Turnos.Common.csproj", "{445FAECC-6FEE-4474-95AF-6763FFB052B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B1F7EC3-3F9B-4D38-BE92-271C682E48E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B1F7EC3-3F9B-4D38-BE92-271C682E48E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B1F7EC3-3F9B-4D38-BE92-271C682E48E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B1F7EC3-3F9B-4D38-BE92-271C682E48E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0FFBE3-EA07-4FCB-B242-9E7C2FA88337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0FFBE3-EA07-4FCB-B242-9E7C2FA88337}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0FFBE3-EA07-4FCB-B242-9E7C2FA88337}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0FFBE3-EA07-4FCB-B242-9E7C2FA88337}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC1AA47-FA36-4EEF-B693-D1FF7C20A458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC1AA47-FA36-4EEF-B693-D1FF7C20A458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC1AA47-FA36-4EEF-B693-D1FF7C20A458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC1AA47-FA36-4EEF-B693-D1FF7C20A458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22439B06-A1D5-454D-8795-49FBC20E34D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22439B06-A1D5-454D-8795-49FBC20E34D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22439B06-A1D5-454D-8795-49FBC20E34D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22439B06-A1D5-454D-8795-49FBC20E34D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445FAECC-6FEE-4474-95AF-6763FFB052B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445FAECC-6FEE-4474-95AF-6763FFB052B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445FAECC-6FEE-4474-95AF-6763FFB052B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445FAECC-6FEE-4474-95AF-6763FFB052B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1EDD5DB8-213E-46F3-AFD6-B9F3A311951B}
+	EndGlobalSection
+EndGlobal

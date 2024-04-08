@@ -1,0 +1,42 @@
+﻿@model Sistema_Turnos.Models.DepartamentoViewModel
+
+<div class="card-body">
+    <form asp-action="@ViewData["ViewName"]" asp-controller="Departamento">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label asp-for="Esta_Descripcion" class="control-label"></label>
+                    <input id="Descripcion" asp-for="Esta_Descripcion" name="Descripcion" class="form-control" />
+                    <span asp-validation-for="Esta_Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group" hidden>
+                <div class="col-sm-12">
+                    <label asp-for="Esta_Id" class="control-label"></label>
+                    <input id="id" name="id" asp-for="Esta_Id" class="form-control" />
+                    <span asp-validation-for="Esta_Id" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input asp-controller="Departamento" asp-action="Edit" type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-dark">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

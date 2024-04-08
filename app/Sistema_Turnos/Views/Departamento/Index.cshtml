@@ -162,28 +162,32 @@
             }
         });
 
-    });
 
-    $(".editar-depa").click(function () {
-        var id = $(this).data("depa-id");
-        var url = "https://localhost:44363/API/Departamento/FillDepartamentos/" + id;
-        fetch(url).then(function (result) {
-            if (result.ok) {
-                return result.json();
-            }
-        }).then(function (data) {
-            console.log(data.data);
-            var datos = data.data[0]
-            var id = datos.esta_Id
-            var descripcion = datos.esta_Descripcion;
-            console.log(descripcion);
-            $("#id").val(id);
-            $("#Descripcion").val(descripcion);
+        $(".editar-depa").click(function () {
+            var id = $(this).data("depa-id");
+            var url = "https://localhost:44363/API/Departamento/FillDepartamentos/" + id;
 
+            console.log("Id: " + id);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.data);
+                    var datos = data.data[0];
+                    var id = datos.esta_Id;
+                    var descripcion = datos.esta_Descripcion;
+                    console.log(descripcion);
+                    $("#id").val(id);
+                    $("#Descripcion").val(descripcion);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
         });
-    
+
+
     });
-
-
-
 </script>

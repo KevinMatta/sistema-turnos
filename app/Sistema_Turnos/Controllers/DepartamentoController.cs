@@ -46,9 +46,9 @@ namespace Sistema_Turnos.Controllers
         {
             try
             {
+                var list = await _departamentoServicios.CrearDepartamento(item);
                 item.Esta_Creacion = 1;
                 item.Esta_FechaCreacion = DateTime.Now;
-                var list = await _departamentoServicios.CrearDepartamento(item);
                 string[] notificaciones = new string[4];
                 notificaciones[0] = "tim-icons icon-alert-circle-exc";
                 notificaciones[1] = "Agregado";
@@ -138,7 +138,6 @@ namespace Sistema_Turnos.Controllers
                     TempData["Notificaciones"] = notificaciones;
                 }
                 return RedirectToAction("Index");
-                //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
             catch (Exception ex)
             {
@@ -146,18 +145,29 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        // GET: DepartamentosController/DetailsDepartamentos
+
         public async Task<IActionResult> Details(string Esta_Id)
         {
-            try
+            var response = await _departamentoServicios.DetallesDepartamento(Esta_Id);
+            if (response.Success)
             {
 
-                var list = await _departamentoServicios.DetallesDepartamento(Esta_Id);
-                return View(list.Data);
-            }
-            catch (Exception ex)
+                var data = response.Data as IEnumerable<DepartamentoViewModel>;
+
+            foreach (var item in data)
             {
-                return RedirectToAction("Index", "Home");
+                    var descripcion = item.Esta_Descripcion;
+                    var id = item.Esta_Id;
+            }
+
+            return View(response.Data); 
+
+            }
+
+            else
+            {
+
+                return RedirectToAction("Index", "Departamento");
             }
         }
 

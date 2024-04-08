@@ -32,6 +32,7 @@ namespace Sistema_Turnos
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddControllersWithViews();
             services.AddScoped<DepartamentoService>();
+            services.AddScoped<RolService>();
             services.AddScoped<TurnosPorEmpleadoService>();
         }
 

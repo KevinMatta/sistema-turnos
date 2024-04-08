@@ -1,0 +1,42 @@
+﻿@model Sistema_Turnos.Models.DepartamentoViewModel
+@{ 
+    ViewData["Title"] = "tbEstados".Substring(2);
+    ViewData["ViewName"] = "_Create".Substring(1);
+}
+<div class="card-body">
+    <form asp-action="@ViewData["ViewName"]">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6 pr-1">
+                <div class="form-group">
+                    <label asp-for="Esta_Id" class="control-label"></label>
+                    <input asp-for="Esta_Id" id="estaid" class="form-control" />
+                    <span asp-validation-for="Esta_Id" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 pr-1">
+                <div class="form-group">
+                    <label asp-for="Esta_Descripcion" class="control-label"></label>
+                    <input asp-for="Esta_Descripcion" id="estado" class="form-control" />
+                    <span asp-validation-for="Esta_Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input type="submit" value="Crear" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-danger">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
