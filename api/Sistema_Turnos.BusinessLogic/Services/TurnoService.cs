@@ -11,10 +11,46 @@ namespace Sistema_Turnos.BusinessLogic.Services
     public class TurnoService
     {
         private readonly TurnosPorEmpleadoRepository _turnosPorEmpleadoRepository;
-        public TurnoService(TurnosPorEmpleadoRepository turnosPorEmpleadoRepository)
+        private readonly TurnoRepository _turnoRepository;
+        private readonly EmpleadoRepository _empleadoRepository;
+        public TurnoService(TurnosPorEmpleadoRepository turnosPorEmpleadoRepository, TurnoRepository turnoRepository, EmpleadoRepository empleadoRepository)
         {
             _turnosPorEmpleadoRepository = turnosPorEmpleadoRepository;
+            _turnoRepository = turnoRepository;
+            _empleadoRepository = empleadoRepository;
         }
+
+        #region Empleados
+        public ServiceResult ListEmpleados()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Turnos
+        public ServiceResult ListTurnos()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _turnoRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+        #endregion
 
         #region TurnosPorEmpleado
         public ServiceResult ListTurnoEmpleado()

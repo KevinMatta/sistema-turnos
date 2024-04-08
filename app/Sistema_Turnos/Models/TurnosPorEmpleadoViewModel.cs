@@ -12,10 +12,14 @@ namespace Sistema_Turnos.Models
         [Display(Name = "Id")]
         public int TuEm_Id { get; set; }
         [Display(Name = "Fecha Inicio")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public DateTime TuEm_FechaInicio { get; set; }
         [Display(Name = "Turno Id")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public int Turn_Id { get; set; }
-        [Display(Name = "Empleado Id")]
+        [Display(Name = "Empleado")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "El campo {0} solo acepta números.")]
         public int Empl_Id { get; set; }
         [Display(Name = "Estado")]
         public bool? TuEm_Estado { get; set; }
@@ -33,5 +37,7 @@ namespace Sistema_Turnos.Models
         public string title { get; set; }
         [NotMapped]
         public string start { get; set; }
+        [NotMapped]
+        public string end { get; set; }
     }
 }

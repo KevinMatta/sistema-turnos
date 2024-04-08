@@ -33,6 +33,8 @@ namespace Sistema_Turnos
             services.AddControllersWithViews();
             services.AddScoped<DepartamentoService>();
             services.AddScoped<TurnosPorEmpleadoService>();
+            services.AddScoped<TurnoService>();
+            services.AddScoped<EmpleadoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

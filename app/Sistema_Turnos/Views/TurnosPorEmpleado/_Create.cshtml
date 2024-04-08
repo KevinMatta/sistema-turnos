@@ -1,0 +1,130 @@
+﻿@model Sistema_Turnos.Models.TurnosPorEmpleadoViewModel
+
+
+<form asp-action="Create">
+    <div class="modal-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" name="TuEm_FechaInicio" />
+        <div class="row">
+            <div class="col-md-6 pr-1">
+                <div class="form-group">
+                    <label asp-for="Empl_Id" class="control-label"></label>
+                    <input type="text" id="empleado" name="Empl_Id" class="form-control" placeholder="Identidad" list="suggestions">
+                    <span asp-validation-for="Empl_Id" class="text-danger"></span>
+                    <datalist id="suggestions">
+                        @*<option value="Black" />
+        <option value="Red" />
+        <option value="Green" />
+        <option value="Blue" />
+        <option value="White" />*@
+
+                        @foreach (var item in ViewBag.ListaEmpleados)
+                        {
+                            <option value="@item.Pers_Identidad"></option>
+                        }
+                    </datalist>
+                    
+                </div>
+            </div>
+            <div class="col-md-6 pl-1">
+                <div class="form-group">
+                    <label asp-for="Turn_Id" class="control-label"></label>
+                    <input type="text" id="turno" name="Turn_Id"  class="form-control" placeholder="Turno" list="sugerencia" />
+                    <datalist id="sugerencia">
+                        @foreach (var item in ViewBag.ListaTurnos)
+                        {
+                            <option value="@item.Turn_Descripcion"></option>
+                        }
+                        @*<option >Turno A</option>
+        <option >Turno B</option>
+        <option >Turno C</option>*@
+                    </datalist>
+
+                    <span asp-validation-for="Turn_Id" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 pr-1">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" id="nombre" class="form-control" placeholder="Nombre" readonly>
+
+                </div>
+            </div>
+            <div class="col-md-6 pl-1">
+                <div class="form-group">
+                    <label>Horario</label>
+                    <input type="text" id="horario" class="form-control" placeholder="Horario" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+    $('#empleado').change(function () {
+        var seleccion = $(this).val();
+
+        var empleados = {};
+        @foreach (var item in ViewBag.ListaEmpleados)
+        {
+            <text>
+            empleados['@item.Pers_Identidad'] = '@item.Nombre';
+            </text>
+        }
+
+        // Obtener el nombre correspondiente a la identidad seleccionada
+        var nombre = empleados[seleccion];
+        $('#nombre').val(nombre);
+    });
+    //$('#empleado').change(function () {
+    //    var seleccion = $(this).val();
+
+    //    var empleados = {
+    //        'Black': 'Empleado A',
+    //        'Red': 'Empleado B',
+    //        'Green': 'Empleado C',
+    //        'Blue': 'Empleado D',
+    //        'White': 'Empleado E'
+    //    };
+
+    //    $('#nombre').val(empleados[seleccion]);
+    //});
+
+    $('#turno').change(function () {
+        var seleccion = $(this).val();
+
+        var turnos = {};
+        @foreach (var item in ViewBag.ListaTurnos)
+        {
+            <text>
+            turnos['@item.Turn_Descripcion'] = '@item.Turn_HoraEntrada - @item.Turn_HoraSalida';
+            </text>
+        }
+
+        var horario = empleados[seleccion];
+
+        $('#horario').val(horario);
+    });
+
+    //con datalist
+    //$('#turno').change(function () {
+    //    var seleccion = $(this).val();
+
+    //    var horarios = {
+    //        'Turno A': '07:00 - 15:00',
+    //        'Turno B': '15:00 - 23:00',
+    //        'Turno C': '23:00 - 07:00'
+    //    };
+
+    //    $('#horario').val(horarios[seleccion]);
+    //});
+
+
+</script>

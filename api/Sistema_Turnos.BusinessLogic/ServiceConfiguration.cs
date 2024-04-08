@@ -14,6 +14,8 @@ namespace Sistema_Turnos.BusinessLogic.Services
         {
             service.AddScoped<DepartamentoRepository>();
             service.AddScoped<TurnosPorEmpleadoRepository>();
+            service.AddScoped<TurnoRepository>();
+            service.AddScoped<EmpleadoRepository>();
 
             Sistemas_TurnosContext.BuildConnectionString(conn);
         }
@@ -21,6 +23,8 @@ namespace Sistema_Turnos.BusinessLogic.Services
         {
             service.AddScoped<GeneralService>();
             service.AddScoped<TurnoService>();
+            service.AddScoped<TurnoRepository>();
+            service.AddScoped<EmpleadoRepository>();
         }
     }
 }

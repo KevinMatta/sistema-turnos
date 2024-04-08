@@ -15,6 +15,14 @@ namespace Sistema_Turnos.DataAccess.Repository
         public static string Estad_Llenar = "[Gene].[sp_Estados_llenar]";
         #endregion
 
+        #region Empleados
+        public static string Empl_Listar = "[Turn].[sp_Empleados_listar]";
+        #endregion
+
+        #region Turnos
+        public static string Turn_Listar = "[Turn].[sp_Turnos_listar]";
+        #endregion
+
         #region TurnosPorEmpleado
         public static string TuEm_Listar = "[Turn].[sp_TurnosPorEmpleados_listar]";
         public static string TuEm_Buscar = "[Turn].[sp_TurnosPorEmpleados_buscar]";

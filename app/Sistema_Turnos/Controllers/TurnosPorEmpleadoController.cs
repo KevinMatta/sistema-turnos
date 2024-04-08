@@ -11,17 +11,27 @@ namespace Sistema_Turnos.Controllers
     public class TurnosPorEmpleadoController : Controller
     {
         public TurnosPorEmpleadoService _turnosPorEmpleadoService;
-        public TurnosPorEmpleadoController(TurnosPorEmpleadoService turnosPorEmpleadoService)
+        public TurnoService _turnoService;
+        public EmpleadoService _empleadoService;
+        public TurnosPorEmpleadoController(TurnosPorEmpleadoService turnosPorEmpleadoService, TurnoService turnoService, EmpleadoService empleadoService)
         {
             _turnosPorEmpleadoService = turnosPorEmpleadoService;
+            _turnoService = turnoService;
+            _empleadoService = empleadoService;
         }
         [HttpGet("ListTurnosEmpleados")]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var model = new List<TurnosPorEmpleadoViewModel>();
                 var list = await _turnosPorEmpleadoService.TurnosPorEmpleadoList();
+
+                var empleados = await _empleadoService.EmpleadosList();
+                var turnos = await _turnoService.TurnosList();
+
+                ViewBag.ListaEmpleados = empleados.Data;
+                ViewBag.ListaTurnos = turnos.Data;
+
                 return View(list.Data);
             }
             catch (Exception ex)

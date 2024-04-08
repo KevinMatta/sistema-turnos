@@ -1,4 +1,4 @@
-﻿ @model IEnumerable<Sistema_Turnos.Models.TurnosPorEmpleadoViewModel>
+﻿@model IEnumerable<Sistema_Turnos.Models.TurnosPorEmpleadoViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,7 +8,6 @@
 <div class="card-header ">
     <div class="d-flex justify-content-between">
         <h3 class="card-title">Calendario</h3>
-        <button type="button" class="btn btn-primary animation-on-hover btn-sm" data-toggle="modal" data-target="#crearModal"> <i class="tim-icons icon-simple-add"></i> Nuevo</button>
     </div>
 </div>
 
@@ -17,18 +16,42 @@
 
 </div>
 
-<script src="~/assets/js/core/bootstrap.min.js"></script>
+<!-- Modal -->
+<div class="modal fade modal-black" id="crearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <i class="tim-icons icon-simple-remove"></i>
+                </button>
+            </div>
+            @Html.Partial("_Create", new Sistema_Turnos.Models.TurnosPorEmpleadoViewModel());
+
+        </div>
+    </div>
+</div>
+
 <script src="~/assets/js/core/jquery.min.js"></script>
-<script src="~/assets/js/plugins/index.global.min.js"></script>
+<script src="~/assets/js/plugins/index.global.js"></script>
 <script>
     $(document).ready(function () {
+        @*console.log(@Html.Raw(Json.Serialize(Model)))*@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             dayMaxEventRows: 2,
             height: 500,
-            themeSystem: 'bootstrap',
-            events: @Html.Raw(Json.Serialize(Model))
+            selectable: true,
+            locale: 'es',
+            events: @Html.Raw(Json.Serialize(Model)),
+            dateClick: function (info) {
+                var todayStr = new Date().toISOString().slice(0, 10);
+                if (info.dateStr >= todayStr) {
+                    console.log('Date: ' + info.dateStr);
+                    $('#crearModal').modal('show');
+                }
+            },
         });
         calendar.render();
     });
