@@ -21,6 +21,7 @@ namespace Sistema_Turnos.Controllers
         }
 
         [HttpGet("RolListado")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
             try
@@ -36,6 +37,7 @@ namespace Sistema_Turnos.Controllers
         }
 
         [HttpGet("CreatePantalla")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Create()
         {
             try
@@ -73,6 +75,7 @@ namespace Sistema_Turnos.Controllers
         }
 
         [HttpGet("UpdateRol")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Edit(int Rol_Id)
         {
             try

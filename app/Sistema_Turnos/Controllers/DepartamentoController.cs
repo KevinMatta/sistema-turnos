@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sistema_Turnos.Models;
@@ -15,19 +16,54 @@ namespace Sistema_Turnos.Controllers
     public class DepartamentoController : Controller
     {
         public DepartamentoService _departamentoServicios;
-        public DepartamentoController(DepartamentoService departamentoServicios)
+        public RolService _rolService;
+        public DepartamentoController(DepartamentoService departamentoServicios, RolService rolService)
         {
             _departamentoServicios = departamentoServicios;
+            _rolService = rolService;
         }
         // GET: DepartamentosController
+
+        [HttpGet("Departamento/Listado")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var model = new List<DepartamentoViewModel>();
-                var list = await _departamentoServicios.ObtenerDepartamentoList();
-                return View(list.Data);
+                string rol = HttpContext.Session.GetString("roles");
+
+                if(rol == "0")
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                else 
+                {
+                    int valor = 0;
+                    var url = await _rolService.ValidarUrl(2, int.Parse(rol));
+                    var validarurl = url.Data as IEnumerable<RolViewModel>;
+
+                    foreach (var item in validarurl)
+                    {
+                        int? rol_id = item.Rol_Id;
+                        valor = 1;
+                    }
+
+                    if(valor == 1)
+                    {
+                        var model = new List<DepartamentoViewModel>();
+                        var list = await _departamentoServicios.ObtenerDepartamentoList();
+                        return View(list.Data);
+                    }
+
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                }
             }
+
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Home");

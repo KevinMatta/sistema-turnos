@@ -125,6 +125,20 @@ namespace Sistema_Turnos.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbRoles> ValidarUrl(int Pant_Id, int Rol_Id)
+        {
+            string sql = ScriptsBaseDeDatos.Validar_Url;
+
+            List<tbRoles> result = new List<tbRoles>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { Pant_Id, Rol_Id };
+                result = db.Query<tbRoles>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
         public IEnumerable<tbRoles> findObtenerId(string Rol, int usuario_creacion, DateTime fecha_creacion)
         {
             string sql = ScriptsBaseDeDatos.Rol_ObtenerId;

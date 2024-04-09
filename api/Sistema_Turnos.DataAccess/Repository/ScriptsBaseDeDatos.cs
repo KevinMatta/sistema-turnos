@@ -17,6 +17,7 @@ namespace Sistema_Turnos.DataAccess.Repository
             public static string Rol_Obtener = "[Acce].[sp_Roles_obtener]";
             public static string Rol_Llenar = "[Gene].[sp_Estados_llenar]";
             public static string Rol_ObtenerId = "Acce.sp_Roles_obtenerid";
+            public static string Validar_Url = "Acce.sp_ValidarUrl";
 
             #endregion
 

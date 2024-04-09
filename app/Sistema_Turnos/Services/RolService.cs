@@ -118,6 +118,32 @@ namespace Sistema_Turnos.Services
             }
         }
 
+        public async Task<ServiceResult> ValidarUrl(int Pant_Id, int Rol_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Get<IEnumerable<RolViewModel>, IEnumerable<RolViewModel>>(req =>
+                {
+                    req.Path = $"API/Rol/ValidarUrl?Pant_Id={Pant_Id}&Rol_Id={Rol_Id}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    // Aquí deberías devolver directamente el objeto DepartamentoViewModel
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
         public async Task<ServiceResult> EliminarRol(int Rol_Id)
         {
             var result = new ServiceResult();

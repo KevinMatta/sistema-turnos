@@ -30,12 +30,16 @@ namespace Sistema_Turnos.Controllers
         }
 
         [AllowAnonymous]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Login(string Usuario, string Contrasenia)
         {
             string usuario = "";
             int ? idrol = 0;
 
-            if(Usuario != null && Contrasenia != null ) {
+            int num = 0;
+            HttpContext.Session.SetString("roles", num.ToString());
+
+            if (Usuario != null && Contrasenia != null ) {
                 int x = 0;
 
                 int? rol;
@@ -52,7 +56,7 @@ namespace Sistema_Turnos.Controllers
                     foreach (var item in listsss)
                     {
                         HttpContext.Session.SetString("Usua_Id", item.Usua_Id.ToString());
-                        HttpContext.Session.SetString("rolesssss", item.Rol_Id.ToString());
+                        HttpContext.Session.SetString("roles", item.Rol_Id.ToString());
                         HttpContext.Session.SetString("Usuario", item.Usua_Nombre.ToString());
                         pantallasPorRol.Add(item.Pant_Descripcion);
                         if (item.Pant_Descripcion != null)
@@ -94,6 +98,14 @@ namespace Sistema_Turnos.Controllers
             return Ok(list.Data);
         }
 
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult CerrarSesion()
+        {
+            int num = 0;
+            HttpContext.Session.SetString("roles", num.ToString());
+            return View("Login");
+        }
+
         public async Task<IActionResult> ValidarClave(string Contrasenia)
         {
             var list = await _usuarioService.ValidarClave(Contrasenia);
@@ -101,6 +113,7 @@ namespace Sistema_Turnos.Controllers
             return Ok(list.Data);
         }
 
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
             return View();

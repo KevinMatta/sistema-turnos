@@ -32,6 +32,13 @@ namespace Sistema_Turnos.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ValidarUrl")]
+        public IActionResult ValidarUrl(int Pant_Id, int Rol_Id)
+        {
+            var list = _accesoServices.ValidarUrl(Pant_Id, Rol_Id);
+            return Ok(list);
+        }
+
         [HttpGet("CreatePantalla")]
         public IActionResult Create()
         {
@@ -170,6 +177,7 @@ namespace Sistema_Turnos.API.Controllers
         [HttpDelete("DeleteRol")]
         public IActionResult Delete(int Rol_id)
         {
+            _accesoServices.EliminarPantallaPorRol(Rol_id);
             var list = _accesoServices.EliminarRol(Rol_id);
             return Ok(list);
         }

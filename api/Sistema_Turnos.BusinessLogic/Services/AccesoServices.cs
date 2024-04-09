@@ -140,6 +140,20 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ValidarUrl(int Pant_Id, int Rol_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _rolesRepository.ValidarUrl(Pant_Id, Rol_Id);
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
         public IEnumerable<tbPantallasPorRoles> ObtenerPantallasPorRol(int id)
         {
             try
