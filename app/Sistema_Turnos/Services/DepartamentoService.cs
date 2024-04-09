@@ -169,6 +169,32 @@ namespace Sistema_Turnos.Services
             }
         }
 
+        public async Task<ServiceResult> ObtenerEstadooo(string Esta_Descripcion)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Get<IEnumerable<DepartamentoViewModel>, IEnumerable<DepartamentoViewModel>>(req =>
+                {
+                    req.Path = $"API/Departamento/ObetenerEstado?Esta_Descripcion={Esta_Descripcion}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    // Aquí deberías devolver directamente el objeto DepartamentoViewModel
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
 
     }
 }

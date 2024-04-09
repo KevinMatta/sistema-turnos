@@ -112,12 +112,26 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
-        public ServiceResult ObtenerId(string Rol, int usuario_creacion, DateTime fecha_creacion)
+        public ServiceResult ObtenerId(int usuario_creacion, DateTime fecha_creacion)
         {
             var result = new ServiceResult();
             try
             {
-                var lost = _rolesRepository.findObtenerId(Rol, usuario_creacion, fecha_creacion);
+                var lost = _rolesRepository.findObtenerId(usuario_creacion, fecha_creacion);
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ObtenerRol(string Rol_Descripcion)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _rolesRepository.ObtenerRol(Rol_Descripcion);
                 return result.Ok(lost);
             }
             catch (Exception ex)

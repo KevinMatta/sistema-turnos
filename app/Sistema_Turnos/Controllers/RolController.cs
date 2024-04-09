@@ -26,7 +26,6 @@ namespace Sistema_Turnos.Controllers
         {
             try
             {
-                var model = new List<RolViewModel>();
                 var list = await _rolService.ObtenerRolList();
                 return View(list.Data);
             }

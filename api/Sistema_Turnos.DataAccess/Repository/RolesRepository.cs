@@ -139,7 +139,7 @@ namespace Sistema_Turnos.DataAccess.Repository
             }
         }
 
-        public IEnumerable<tbRoles> findObtenerId(string Rol, int usuario_creacion, DateTime fecha_creacion)
+        public IEnumerable<tbRoles> findObtenerId(int usuario_creacion, DateTime fecha_creacion)
         {
             string sql = ScriptsBaseDeDatos.Rol_ObtenerId;
 
@@ -147,7 +147,21 @@ namespace Sistema_Turnos.DataAccess.Repository
 
             using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
             {
-                var parameters = new { Rol, usuario_creacion , fecha_creacion };
+                var parameters = new {usuario_creacion , fecha_creacion };
+                result = db.Query<tbRoles>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
+        public IEnumerable<tbRoles> ObtenerRol(string Rol_Descripcion)
+        {
+            string sql = ScriptsBaseDeDatos.Rol_Obtener_Rol;
+
+            List<tbRoles> result = new List<tbRoles>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { Rol_Descripcion };
                 result = db.Query<tbRoles>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
                 return result;
             }
@@ -187,7 +201,7 @@ namespace Sistema_Turnos.DataAccess.Repository
             using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
             {
                 var parameter = new DynamicParameters();
-                parameter.Add("@Rol_Id", item.Rol_Descripcion);
+                parameter.Add("@Rol_Id", item.Rol_Id);
                 parameter.Add("@Rol_Descripcion", item.Rol_Descripcion);
                 parameter.Add("@Rol_Modificacion", item.Rol_Modificacion);
                 parameter.Add("@Rol_FechaModificacion", item.Rol_FechaModificacion);

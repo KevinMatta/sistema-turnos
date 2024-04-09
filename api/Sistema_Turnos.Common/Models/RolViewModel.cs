@@ -25,5 +25,8 @@ namespace Sistema_Turnos.Common.Models
 
         [NotMapped]
         public int Resultado { get; set; }
+
+        [NotMapped]
+        public string Nul { get; set; }
     }
 }

@@ -29,8 +29,8 @@ namespace Sistema_Turnos.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [AllowAnonymous]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(string Usuario, string Contrasenia)
         {
             string usuario = "";
@@ -116,7 +116,16 @@ namespace Sistema_Turnos.Controllers
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
-            return View();
+            string rol = HttpContext.Session.GetString("roles");
+
+            if (rol == "0")
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()

@@ -50,48 +50,62 @@ namespace Sistema_Turnos.API.Controllers
         public IActionResult Create([FromBody] FormData formData)
         {
             string txtRol = formData.txtRol;
-            List<int> pantallasSeleccionadas = formData.pantallasSeleccionadas;
 
-            try { 
+            var r = _accesoServices.ObtenerRol(txtRol);
+            var rr = r.Data as IEnumerable<tbRoles>;
 
-            var modelo = new tbRoles()
+            if (rr.ToList().Count > 0)
             {
-                Rol_Descripcion = txtRol,
-                Rol_Creacion = 1, // Aquí va la sesión del ID del usuario
-                Rol_FechaCreacion = DateTime.Now
-            };
-
-            var list = _accesoServices.InsertarRol(modelo);
-
-            var id = _accesoServices.ObtenerId(txtRol, modelo.Rol_Creacion, modelo.Rol_FechaCreacion);
-
-            var rol = id.Data;
-
-            int rolid = 0;
-
-            foreach (var item in rol)
-            {
-                rolid = item.Rol_Id;
+                return Ok("https://localhost:44363/API/Rol/CreatePantalla");
             }
 
-            foreach (var pantalla in pantallasSeleccionadas)
+            else
             {
-                var modelo2 = new tbPantallasPorRoles()
+                List<int> pantallasSeleccionadas = formData.pantallasSeleccionadas;
+
+                try
                 {
-                    Pant_Id = pantalla,
-                    Rol_Id = rolid,
-                    PaRo_Creacion = 1,
-                    PaRo_FechaCreacion = DateTime.Now
-                };
 
-                var msj = _accesoServices.InsertarPantallasPorRol(modelo2);
-            }
-                return Ok(list);
-            }
-            catch {
-                
-              return Ok();
+                    var modelo = new tbRoles()
+                    {
+                        Rol_Descripcion = txtRol,
+                        Rol_Creacion = 1, // Aquí va la sesión del ID del usuario
+                        Rol_FechaCreacion = DateTime.Now
+                    };
 
+                    var list = _accesoServices.InsertarRol(modelo);
+
+                    var id = _accesoServices.ObtenerId(modelo.Rol_Creacion, modelo.Rol_FechaCreacion);
+
+                    var rol = id.Data;
+
+                    int rolid = 0;
+
+                    foreach (var item in rol)
+                    {
+                        rolid = item.Rol_Id;
+                    }
+
+                    foreach (var pantalla in pantallasSeleccionadas)
+                    {
+                        var modelo2 = new tbPantallasPorRoles()
+                        {
+                            Pant_Id = pantalla,
+                            Rol_Id = rolid,
+                            PaRo_Creacion = 1,
+                            PaRo_FechaCreacion = DateTime.Now
+                        };
+
+                        var msj = _accesoServices.InsertarPantallasPorRol(modelo2);
+                    }
+                    return Ok(list);
+                }
+                catch
+                {
+
+                    return Ok();
+
+                }
             }
         }
 
@@ -139,13 +153,14 @@ namespace Sistema_Turnos.API.Controllers
 
             var rol = new tbRoles()
             {
+                Rol_Id = formData.Rol_Id,
                 Rol_Descripcion = formData.txtRol,
                 Rol_Modificacion = 1, //debe ir el usuario que lo modifico con una sesion
                 Rol_FechaModificacion = DateTime.Now,
 
             };
 
-            var id = _accesoServices.ObtenerId(formData.txtRol, (int)rol.Rol_Modificacion, (DateTime)rol.Rol_FechaModificacion);
+            var id = _accesoServices.ObtenerId( (int)rol.Rol_Modificacion, (DateTime)rol.Rol_FechaModificacion);
             var role = id.Data;
             int RolId = 0;
             foreach (var item in role)
@@ -153,7 +168,16 @@ namespace Sistema_Turnos.API.Controllers
                 RolId = item.Rol_Id; 
             }
 
-            _accesoServices.ActualizarRol(rol);
+            var Rol = new tbRoles()
+            {
+                Rol_Id = RolId,
+                Rol_Descripcion = formData.txtRol,
+                Rol_Modificacion = 1, //debe ir el usuario que lo modifico con una sesion
+                Rol_FechaModificacion = DateTime.Now,
+
+            };
+
+            _accesoServices.ActualizarRol(Rol);
             _accesoServices.EliminarPantallaPorRol(RolId);
 
 

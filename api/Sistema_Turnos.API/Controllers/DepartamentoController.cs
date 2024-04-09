@@ -84,5 +84,12 @@ namespace Sistema_Turnos.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ObetenerEstado")]
+        public IActionResult ObtenerEstado(string Esta_Descripcion)
+        {
+            var list = _generalService.ObtenerEsta(Esta_Descripcion);
+            return Ok(list);
+        }
+
     }
 }

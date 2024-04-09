@@ -70,6 +70,7 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
 
@@ -86,31 +87,48 @@
     $('#btnAgregar').click(function () {
         var rol = $('#txtRol').val();
 
-        var pantallasSeleccionadas = [];
-        console.log(rol)
-        $('.pantalla-checkbox:checked').each(function () {
-            pantallasSeleccionadas.push($(this).val());
-        });
-        var formData = {
-            Rol_Id: 0,
-            txtRol: rol,
-            pantallasSeleccionadas: pantallasSeleccionadas,
-        };
+        if (rol != null) {
+            var pantallasSeleccionadas = [];
+            console.log(rol)
+            $('.pantalla-checkbox:checked').each(function () {
+                pantallasSeleccionadas.push($(this).val());
+            });
+            var formData = {
+                Rol_Id: 0,
+                txtRol: rol,
+                pantallasSeleccionadas: pantallasSeleccionadas,
+            };
 
-        console.log(formData)
+            console.log(formData)
 
-        $.ajax({
-            url: 'https://localhost:44363/API/Rol/UpdateRol/',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            success: function (response) {
-                window.location.href = 'RolListado';
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
+            $.ajax({
+                url: 'https://localhost:44363/API/Rol/UpdateRol/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    window.location.href = 'RolListado';
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        else
+        {
+            $.notify({
+                icon: "tim-icons icon-bell-55",
+                message: "<b>Advertencia</b> El rol es un campo requerido"
+            }, {
+                type: 'warning',
+                timer: 1000,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                }
+            });
+        }
     });
 
 </script>

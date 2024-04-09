@@ -111,20 +111,17 @@
 
             if (!codigo) {
                 event.preventDefault();
-                if (!estado) {
-                    event.preventDefault();
-                    $.notify({
-                        icon: "tim-icons icon-bell-55",
-                        message: "<b>Advertencia</b> El codigo es un campo requerido"
-                    }, {
-                        type: 'warning',
-                        timer: 1000,
-                        placement: {
-                            from: 'top',
-                            align: 'right'
-                        }
-                    });
-                }
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> El codigo es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
             }
 
             if (!estado) {

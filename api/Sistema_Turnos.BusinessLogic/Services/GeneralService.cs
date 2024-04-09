@@ -121,6 +121,21 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ObtenerEsta(string Esta_Descripcion)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _departamentoRepository1.ObtenerEstado(Esta_Descripcion);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
         #endregion
     }
 }

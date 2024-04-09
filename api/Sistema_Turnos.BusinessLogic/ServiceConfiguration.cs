@@ -17,6 +17,7 @@ namespace Sistema_Turnos.BusinessLogic.Services
             service.AddScoped<RolesRepository>();
             service.AddScoped<PantallaRepository>();
             service.AddScoped<UsuarioRepository>();
+            service.AddScoped<MunicipioRepository>();
 
             Sistemas_TurnosContext.BuildConnectionString(conn);
         }

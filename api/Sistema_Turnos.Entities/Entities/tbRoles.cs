@@ -28,6 +28,9 @@ namespace Sistema_Turnos.Entities.Entities
         [NotMapped]
         public List<tbPantallas> pantallas { get; set; }
 
+        [NotMapped]
+        public string Nul { get; set; }
+
         public virtual tbUsuarios Rol_CreacionNavigation { get; set; }
         public virtual tbUsuarios Rol_ModificacionNavigation { get; set; }
         public virtual ICollection<tbPantallasPorRoles> tbPantallasPorRoles { get; set; }

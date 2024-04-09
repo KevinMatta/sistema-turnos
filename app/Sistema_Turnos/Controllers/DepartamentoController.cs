@@ -82,17 +82,65 @@ namespace Sistema_Turnos.Controllers
         {
             try
             {
-                var list = await _departamentoServicios.CrearDepartamento(item);
-                item.Esta_Creacion = 1;
-                item.Esta_FechaCreacion = DateTime.Now;
-                string[] notificaciones = new string[4];
-                notificaciones[0] = "tim-icons icon-alert-circle-exc";
-                notificaciones[1] = "Agregado";
-                notificaciones[2] = "Se agregaron los datos con exito";
-                notificaciones[3] = "info";
-                TempData["Notificaciones"] = notificaciones;
+                int codigo = 0;
+                int depto = 0;
+                string codigo_depa = item.Esta_Id;
+                string Esta_Descripcion = item.Esta_Descripcion;
 
-                return RedirectToAction("Index");
+                var response = await _departamentoServicios.DetallesDepartamento(codigo_depa);
+                var listtt = await _departamentoServicios.ObtenerEstadooo(Esta_Descripcion);
+
+                var depaname = response.Data as IEnumerable<DepartamentoViewModel>;
+                var depaid = response.Data as IEnumerable<DepartamentoViewModel>;
+
+                if (depaid.ToList().Count > 0 && depaname.ToList().Count > 0)
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Error";
+                    notificaciones[2] = "Ya existe un departamento con ese codigo y ese nombre";
+                    notificaciones[3] = "danger";
+                    TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index");
+                }
+
+                if (depaname.ToList().Count > 0)
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Error";
+                    notificaciones[2] = "Ya existe un departamento con ese nombre";
+                    notificaciones[3] = "danger";
+                    TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index");
+                }
+
+                if(depaid.ToList().Count > 0)
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Error";
+                    notificaciones[2] = "Ya existe un departamento con ese codigo";
+                    notificaciones[3] = "danger";
+                    TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index");
+                }
+
+                else 
+                {
+                    item.Esta_Creacion = 1;
+                    item.Esta_FechaCreacion = DateTime.Now;
+                    var list = await _departamentoServicios.CrearDepartamento(item);
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Agregado";
+                    notificaciones[2] = "Se agregaron los datos con exito";
+                    notificaciones[3] = "info";
+                    TempData["Notificaciones"] = notificaciones;
+
+                    return RedirectToAction("Index", "Departamento");
+                }
+
                 //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
             catch (Exception ex)
