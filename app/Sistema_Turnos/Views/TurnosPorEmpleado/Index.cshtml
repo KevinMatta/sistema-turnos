@@ -47,7 +47,7 @@
             events: @Html.Raw(Json.Serialize(Model)),
             dateClick: function (info) {
                 var todayStr = new Date().toISOString().slice(0, 10);
-                if (info.dateStr >= todayStr) {
+                if (info.dateStr > todayStr) {
                     localStorage.setItem("fechaInicio", info.dateStr);
                     $('#crearModal').modal('show');
                 }

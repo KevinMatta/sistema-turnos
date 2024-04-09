@@ -60,58 +60,6 @@
 
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
-    var ListaEmpleados = @Html.Raw(Json.Serialize(ViewBag.ListaEmpleados));
-    var ListaTurnos = @Html.Raw(Json.Serialize(ViewBag.ListaTurnos));
-    var ListaTurnoEmpleado = @Html.Raw(Json.Serialize(ViewBag.ListaTurnoEmpleado));
-
-    /*console.log(ListaEmpleados)*/
-    //console.log(ListaTurnos)
-    console.log(ListaTurnoEmpleado)
-
-    function filtrarEmpleados(fechaSeleccionada) {
-        fechaSeleccionada = new Date(fechaSeleccionada);
-        var diaAnterior = new Date(fechaSeleccionada);
-        var diaSiguiente = new Date(fechaSeleccionada);
-
-        diaAnterior.setDate(diaAnterior.getDate() - 1);
-        diaSiguiente.setDate(diaSiguiente.getDate() + 1);
-
-        console.log("Fecha seleccionada:", fechaSeleccionada);
-        console.log("Dia anterior:", diaAnterior);
-        console.log("Dia siguiente:", diaSiguiente);
-
-        return ListaEmpleados.filter(function (empleado) {
-            var turnoDiaAnterior = ListaTurnoEmpleado.find(function (turno) {
-                var fechaTurno = new Date(turno.start.split('T')[0]);
-                return turno.empl_Id === empleado.empl_Id &&
-                    fechaTurno.toDateString() === diaAnterior.toDateString() &&
-                    turno.turn_Id === 3;
-            });
-
-            var turnoDiaSiguiente = ListaTurnoEmpleado.find(function (turno) {
-                var fechaTurno = new Date(turno.start.split('T')[0]);
-                return turno.empl_Id === empleado.empl_Id &&
-                    fechaTurno.toDateString() === diaSiguiente.toDateString() &&
-                    turno.turn_Id === 3;
-            });
-
-            console.log("Turno del día anterior:", turnoDiaAnterior);
-            console.log("Turno del día siguiente:", turnoDiaSiguiente);
-
-            return !turnoDiaAnterior || !turnoDiaSiguiente;
-        });
-    }
-
-    function actualizarListaEmpleados(empleadosFiltrados) {
-        var datalist = $('#suggestions');
-
-        datalist.empty();
-
-        empleadosFiltrados.forEach(function (empleado) {
-            datalist.append('<option value="' + empleado.pers_Identidad + '">');
-        });
-    }
-
 
     //actualizar el localStorage
     $('#FechaInicio').val(localStorage.getItem("fechaInicio"));
@@ -126,9 +74,9 @@
 
     const localStorageSetHandler = function (e) {
         $('#FechaInicio').val(e.value)
-        var empleadosFiltrados = filtrarEmpleados(e.value);
-        console.log(empleadosFiltrados)
-        actualizarListaEmpleados(empleadosFiltrados);
+        //var empleadosFiltrados = filtrarEmpleados(e.value);
+        //console.log(empleadosFiltrados)
+        //actualizarListaEmpleados(empleadosFiltrados);
     };
     document.addEventListener("itemInserted", localStorageSetHandler, false);
 
