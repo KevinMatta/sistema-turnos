@@ -31,6 +31,7 @@ namespace Sistema_Turnos.Controllers
 
                 ViewBag.ListaEmpleados = empleados.Data;
                 ViewBag.ListaTurnos = turnos.Data;
+                ViewBag.ListaTurnoEmpleado = list.Data;
 
                 return View(list.Data);
             }

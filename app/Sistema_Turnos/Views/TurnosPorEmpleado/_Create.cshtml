@@ -1,25 +1,5 @@
 ﻿@model Sistema_Turnos.Models.TurnosPorEmpleadoViewModel
 
-@*@{
-    DateTime fechaSeleccionada = DateTime.Now;
-
-    // Filtrar la lista de empleados basándose en la fecha seleccionada y el último turno
-    var empleadosFiltrados = new List<EmpleadoViewModel>();
-    foreach (var empleado in ViewBag.ListaEmpleados)
-    {
-        var turnoAnterior = Model.FirstOrDefault(t => t.Empl_Id == empleado.Empl_Id &&
-                                                        t.TuEm_FechaInicio.Date == fechaSeleccionada.AddDays(-1).Date &&
-                                                        t.Turn_Id == 3);
-
-
-        if (turnoAnterior == null)
-        {
-            empleadosFiltrados.Add(empleado);
-        }
-    }
-}*@
-
-
 <form asp-action="Create">
     <div class="modal-body">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -80,28 +60,81 @@
 
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
+    var ListaEmpleados = @Html.Raw(Json.Serialize(ViewBag.ListaEmpleados));
+    var ListaTurnos = @Html.Raw(Json.Serialize(ViewBag.ListaTurnos));
+    var ListaTurnoEmpleado = @Html.Raw(Json.Serialize(ViewBag.ListaTurnoEmpleado));
+
+    /*console.log(ListaEmpleados)*/
+    //console.log(ListaTurnos)
+    console.log(ListaTurnoEmpleado)
+
+    function filtrarEmpleados(fechaSeleccionada) {
+        fechaSeleccionada = new Date(fechaSeleccionada);
+        var diaAnterior = new Date(fechaSeleccionada);
+        var diaSiguiente = new Date(fechaSeleccionada);
+
+        diaAnterior.setDate(diaAnterior.getDate() - 1);
+        diaSiguiente.setDate(diaSiguiente.getDate() + 1);
+
+        console.log("Fecha seleccionada:", fechaSeleccionada);
+        console.log("Dia anterior:", diaAnterior);
+        console.log("Dia siguiente:", diaSiguiente);
+
+        return ListaEmpleados.filter(function (empleado) {
+            var turnoDiaAnterior = ListaTurnoEmpleado.find(function (turno) {
+                var fechaTurno = new Date(turno.start.split('T')[0]);
+                return turno.empl_Id === empleado.empl_Id &&
+                    fechaTurno.toDateString() === diaAnterior.toDateString() &&
+                    turno.turn_Id === 3;
+            });
+
+            var turnoDiaSiguiente = ListaTurnoEmpleado.find(function (turno) {
+                var fechaTurno = new Date(turno.start.split('T')[0]);
+                return turno.empl_Id === empleado.empl_Id &&
+                    fechaTurno.toDateString() === diaSiguiente.toDateString() &&
+                    turno.turn_Id === 3;
+            });
+
+            console.log("Turno del día anterior:", turnoDiaAnterior);
+            console.log("Turno del día siguiente:", turnoDiaSiguiente);
+
+            return !turnoDiaAnterior || !turnoDiaSiguiente;
+        });
+    }
+
+    function actualizarListaEmpleados(empleadosFiltrados) {
+        var datalist = $('#suggestions');
+
+        datalist.empty();
+
+        empleadosFiltrados.forEach(function (empleado) {
+            datalist.append('<option value="' + empleado.pers_Identidad + '">');
+        });
+    }
+
+
+    //actualizar el localStorage
     $('#FechaInicio').val(localStorage.getItem("fechaInicio"));
-
     const originalSetItem = localStorage.setItem;
-
     localStorage.setItem = function (key, value) {
         const event = new Event('itemInserted');
-
         event.value = value;
         event.key = key;
-
         document.dispatchEvent(event);
-
         originalSetItem.apply(this, arguments);
     };
 
     const localStorageSetHandler = function (e) {
         $('#FechaInicio').val(e.value)
+        var empleadosFiltrados = filtrarEmpleados(e.value);
+        console.log(empleadosFiltrados)
+        actualizarListaEmpleados(empleadosFiltrados);
     };
-
     document.addEventListener("itemInserted", localStorageSetHandler, false);
 
 
+
+    //rellenar otros campos
     $('#empleado').change(function () {
         var seleccion = $(this).val();
 
@@ -115,7 +148,6 @@
             </text>
         }
 
-        // Obtener el nombre correspondiente a la identidad seleccionada
         var nombre = empleados[seleccion];
         var id = empleadosID[seleccion];
         $('#nombre').val(nombre);
