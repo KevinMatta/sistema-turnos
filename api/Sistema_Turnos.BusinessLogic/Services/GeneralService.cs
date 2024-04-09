@@ -9,9 +9,11 @@ namespace Sistema_Turnos.BusinessLogic.Services
     public class GeneralService
     {
         private readonly DepartamentoRepository _departamentoRepository1;
-        public GeneralService(DepartamentoRepository departamentoRepository)
+        private readonly MunicipioRepository _municipioRepository;
+        public GeneralService(DepartamentoRepository departamentoRepository, MunicipioRepository municipioRepository)
         {
             _departamentoRepository1 = departamentoRepository;
+            _municipioRepository = municipioRepository;
         }
 
         #region Estado 
@@ -137,5 +139,101 @@ namespace Sistema_Turnos.BusinessLogic.Services
         }
 
         #endregion
+
+        #region Municipio
+        public ServiceResult ListMunicipio()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.List();
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarMunicipio(tbCiudades item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.Insert(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarMunicipio(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.EliminarMunicipio(id);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarMunicipio(tbCiudades item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.Update(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListMunic(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _municipioRepository.List(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        #endregion
+
     }
 }

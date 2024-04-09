@@ -31,5 +31,8 @@ namespace Sistema_Turnos.Common.Models
 
         [NotMapped]
         public string Pant_Descripcion { get; set; }
+
+        [NotMapped]
+        public string rol { get; set; }
     }
 }

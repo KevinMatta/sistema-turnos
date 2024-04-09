@@ -110,6 +110,26 @@ namespace Sistema_Turnos.DataAccess.Repository
                 public static string Emple_Obtener = "[Turn].[sp_Empleados_buscar] ";
                 //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
                 //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
+        #endregion
+
+                #region Hospitales
+                public static string Hospi_Insertar = "[Turn].[sp_Hospitales_crear]";
+                public static string Hospi_Listar = "[Turn].[sp_Empleados_listar]";
+                public static string Hospi_Eliminar = "[Turn].[sp_Hospitales_eliminar]";
+                public static string Hospi_Actualizar = "[Turn].[sp_Hospitales_editar]";
+                public static string Hospi_Obtener = "[Turn].[sp_Empleados_buscar] ";
+                //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
+                //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
+        #endregion
+
+                #region Hospitales
+                public static string Turno_Insertar = "[Turn].[sp_Turnos_crear]";
+                public static string Turno_Listar = "[Turn].[sp_Turnos_listar]";
+                public static string Turno_Eliminar = "[Turn].[sp_Turnos_eliminar]";
+                public static string Turno_Actualizar = "[Turn].[sp_Turnos_editar]";
+                public static string Turno_Obtener = "[Turn].[sp_Turnos_buscar]  ";
+                //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
+                //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
                 #endregion
 
         #endregion

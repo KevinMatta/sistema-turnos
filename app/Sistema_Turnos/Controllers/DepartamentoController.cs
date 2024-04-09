@@ -90,16 +90,16 @@ namespace Sistema_Turnos.Controllers
                 var response = await _departamentoServicios.DetallesDepartamento(codigo_depa);
                 var listtt = await _departamentoServicios.ObtenerEstadooo(Esta_Descripcion);
 
-                var depaname = response.Data as IEnumerable<DepartamentoViewModel>;
+                var depaname = listtt.Data as IEnumerable<DepartamentoViewModel>;
                 var depaid = response.Data as IEnumerable<DepartamentoViewModel>;
 
                 if (depaid.ToList().Count > 0 && depaname.ToList().Count > 0)
                 {
                     string[] notificaciones = new string[4];
-                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
-                    notificaciones[1] = "Error";
+                    notificaciones[0] = "tim-icons icon-bell-55";
+                    notificaciones[1] = "Advertencia";
                     notificaciones[2] = "Ya existe un departamento con ese codigo y ese nombre";
-                    notificaciones[3] = "danger";
+                    notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
                     return RedirectToAction("Index");
                 }
@@ -107,10 +107,10 @@ namespace Sistema_Turnos.Controllers
                 if (depaname.ToList().Count > 0)
                 {
                     string[] notificaciones = new string[4];
-                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
-                    notificaciones[1] = "Error";
+                    notificaciones[0] = "tim-icons icon-bell-55";
+                    notificaciones[1] = "Advertencia";
                     notificaciones[2] = "Ya existe un departamento con ese nombre";
-                    notificaciones[3] = "danger";
+                    notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
                     return RedirectToAction("Index");
                 }
@@ -118,10 +118,10 @@ namespace Sistema_Turnos.Controllers
                 if(depaid.ToList().Count > 0)
                 {
                     string[] notificaciones = new string[4];
-                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
-                    notificaciones[1] = "Error";
+                    notificaciones[0] = "tim-icons icon-bell-55";
+                    notificaciones[1] = "Advertencia";
                     notificaciones[2] = "Ya existe un departamento con ese codigo";
-                    notificaciones[3] = "danger";
+                    notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
                     return RedirectToAction("Index");
                 }
@@ -206,10 +206,10 @@ namespace Sistema_Turnos.Controllers
                 if (hola == "Error al realizar la operacion.") 
                 {
                     string[] notificaciones = new string[4];
-                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[0] = "tim-icons icon-bell-55";
                     notificaciones[1] = "Error";
                     notificaciones[2] = "Ocurrio un error al eliminar el departamento";
-                    notificaciones[3] = "danger";
+                    notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
                 }
                 else

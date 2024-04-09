@@ -14,6 +14,7 @@ namespace Sistema_Turnos.API.Extensions
         {
             CreateMap<DepartamentoViewModel, tbEstados>().ReverseMap();
             CreateMap<PantallaViewModel, tbPantallas>().ReverseMap();
+            CreateMap<MunicipioViewModel, tbCiudades>().ReverseMap();
         }
     }
 }

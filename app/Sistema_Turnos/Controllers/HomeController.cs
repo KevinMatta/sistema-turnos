@@ -58,6 +58,7 @@ namespace Sistema_Turnos.Controllers
                         HttpContext.Session.SetString("Usua_Id", item.Usua_Id.ToString());
                         HttpContext.Session.SetString("roles", item.Rol_Id.ToString());
                         HttpContext.Session.SetString("Usuario", item.Usua_Nombre.ToString());
+                        HttpContext.Session.SetString("rol", item.rol);
                         pantallasPorRol.Add(item.Pant_Descripcion);
                         if (item.Pant_Descripcion != null)
                         {

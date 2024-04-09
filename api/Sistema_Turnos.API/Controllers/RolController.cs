@@ -56,7 +56,7 @@ namespace Sistema_Turnos.API.Controllers
 
             if (rr.ToList().Count > 0)
             {
-                return Ok("https://localhost:44363/API/Rol/CreatePantalla");
+                return RedirectToAction("https://localhost:44302/CreatePantalla");
             }
 
             else

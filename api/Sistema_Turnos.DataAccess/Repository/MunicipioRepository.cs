@@ -17,7 +17,7 @@ namespace Sistema_Turnos.DataAccess.Repository
             throw new NotImplementedException();
         }
 
-        public RequestStatus EliminarDepartamento(string id)
+        public RequestStatus EliminarMunicipio(string id)
         {
             string sql = ScriptsBaseDeDatos.Munic_Eliminar;
             using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))

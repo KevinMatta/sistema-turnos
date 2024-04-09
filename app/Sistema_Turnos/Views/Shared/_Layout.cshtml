@@ -122,7 +122,7 @@
                                 @if (pantallas != null && pantallas.Contains("Municipios") || pantallas.Contains("Admin"))
                                 {
                                     <li>
-                                        <a href="">
+                                        <a asp-controller="Municipio" asp-action="Index">
                                             <span class="sidenav-normal"> Municipios </span>
                                         </a>
                                     </li>
@@ -219,7 +219,7 @@
                             <!-- alinea el texto a la derecha -->
                             <li class="nav-item">
                                 <p>@Context.Session.GetString("Usuario")</p>
-                                <p class="float-right">@*@{Rol}*@</p>
+                                <p class="float-right">@Context.Session.GetString("rol")</p>
                             </li>
                             <li class="dropdown nav-item">
                                 <a href="" class="dropdown-toggle nav-link" data-toggle="dropdown">
