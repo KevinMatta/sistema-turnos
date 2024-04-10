@@ -17,6 +17,7 @@ namespace Sistema_Turnos.API.Extensions
             CreateMap<MunicipioViewModel, tbCiudades>().ReverseMap();
             CreateMap<CargoViewModel, tbCargos>().ReverseMap();
             CreateMap<EstadoCivilViewModel, tbEstadosCiviles>().ReverseMap();
+            CreateMap<UsuarioViewModel, tbUsuarios>().ReverseMap();
 
         }
     }

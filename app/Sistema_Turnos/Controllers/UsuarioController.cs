@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Turnos.Models;
 using Sistema_Turnos.Services;
 using System;
@@ -9,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace Sistema_Turnos.Controllers
 {
-    public class CargoController : Controller
+    public class UsuarioController : Controller
     {
-        public readonly CargoService _cargoService;
+        public readonly UsuarioService _usuarioService;
         public RolService _rolService;
-        public CargoController(CargoService cargoService, RolService rolService)
+        public UsuarioController(UsuarioService usuarioService, RolService rolService)
         {
+            _usuarioService = usuarioService;
             _rolService = rolService;
-            _cargoService = cargoService;
         }
 
-        [HttpGet("Cargo/Listado")]
+        [HttpGet("Usuario/Listado")]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
@@ -44,11 +45,16 @@ namespace Sistema_Turnos.Controllers
                         valor = 1;
                     }
 
-                    if (valor == 1 || HttpContext.Session.GetString("rol") == "Administrador") 
+                    if (valor == 1 || HttpContext.Session.GetString("rol") == "Administrador")
                     {
+                        var listarol = await _rolService.ObtenerRolList();
+                        var roles = listarol.Data as IEnumerable<RolViewModel>;
+                        var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
+                        role.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+                        ViewBag.Rol = role;
 
-                        var model = new List<CargoViewModel>();
-                        var list = await _cargoService.ObtenerCargoList();
+                        var model = new List<UsuarioViewModel>();
+                        var list = await _usuarioService.ObtenerUsuarioList();
                         return View(list.Data);
                     }
 
@@ -72,18 +78,21 @@ namespace Sistema_Turnos.Controllers
             return View();
         }
 
-        // POST: MunicipioController/CreateDepartamentos
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CargoViewModel item)
+        public async Task<IActionResult> Create(UsuarioViewModel item)
         {
+            var listarol = await _rolService.ObtenerRolList();
+            var roles = listarol.Data as IEnumerable<RolViewModel>;
+            var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
+            role.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+            ViewBag.Rol = role;
 
             try
             {
-                string cargo = item.Carg_Descripcion;
-                item.Carg_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
-                item.Carg_FechaCreacion = DateTime.Now;
-                var list = await _cargoService.CrearCargo(item);
+                item.Usua_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                item.Usua_FechaCreacion = DateTime.Now;
+                var list = await _usuarioService.CrearUsuario(item);
                 string[] notificaciones = new string[4];
                 notificaciones[0] = "tim-icons icon-alert-circle-exc";
                 notificaciones[1] = "Agregado";
@@ -91,7 +100,7 @@ namespace Sistema_Turnos.Controllers
                 notificaciones[3] = "info";
                 TempData["Notificaciones"] = notificaciones;
 
-                return RedirectToAction("Index", "Cargo");
+                return RedirectToAction("Index", "Usuario");
 
                 //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
@@ -101,31 +110,29 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        [HttpGet("Cargo/Edit{id}")]
+        [HttpGet("Usuario/Edit{id}")]
         public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                var model = await _cargoService.ObtenerCargo(id);
+                var model = await _usuarioService.ObtenerUsuario(id);
                 return Json(model.Data);
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Cargo");
+                return RedirectToAction("Index", "Usuario");
             }
         }
 
-        [HttpPost("Cargo/Edit")]
-        public async Task<IActionResult> Edit(CargoViewModel item, int Carg_Id, string Carg_Descripcion)
+        [HttpPost("Usuario/Edit")]
+        public async Task<IActionResult> Edit(UsuarioViewModel item)
         {
 
             try
             {
-                item.Carg_Id = Carg_Id;
-                item.Carg_Descripcion = Carg_Descripcion;
-                item.Carg_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                item.Usua_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 //item.Ciud_FechaModificacion = DateTime.Now;
-                var result = await _cargoService.EditarCargo(item);
+                var result = await _usuarioService.EditarUsuario(item);
                 if (result.Success)
                 {
                     string[] notificaciones = new string[4];
@@ -134,30 +141,30 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "Se edito el registro con exito";
                     notificaciones[3] = "info";
                     TempData["Notificaciones"] = notificaciones;
-                    return RedirectToAction("Index", "Cargo");
+                    return RedirectToAction("Index", "Usuario");
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Cargo");
+                    return RedirectToAction("Index", "Usuario");
                 }
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Cargo");
+                return RedirectToAction("Index", "Usuario");
                 throw;
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int Carg_Id, int Carg_Modificacion,DateTime Carg_FechaModificacion)
-        { 
+        public async Task<IActionResult> Delete(int Usua_Id, int Usua_Modificacion, DateTime Usua_FechaModificacion)
+        {
             try
             {
-                Carg_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
-                Carg_FechaModificacion = DateTime.Now;
+                Usua_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                Usua_FechaModificacion = DateTime.Now;
 
-                var list = await _cargoService.EliminarCargo(Carg_Id, Carg_Modificacion, Carg_FechaModificacion);
+                var list = await _usuarioService.EliminarUsuario(Usua_Id, Usua_Modificacion, Usua_FechaModificacion);
                 var hola = list.Message;
                 if (hola == "Error al realizar la operacion.")
                 {
@@ -177,40 +184,48 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[3] = "info";
                     TempData["Notificaciones"] = notificaciones;
                 }
-                return RedirectToAction("Index", "Cargo");
+                return RedirectToAction("Index", "Usuario");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Cargo");
+                return RedirectToAction("Index", "Usuario");
             }
         }
 
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Details(int Carg_Id)
+        public async Task<IActionResult> Restablecer(int Usua_Id, string Usua_Clave, int Usua_Modificacion, DateTime Usua_FechaModificacion)
         {
-            string rol = HttpContext.Session.GetString("roles");
-
-            if (rol == "0")
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                var response = await _cargoService.DetallesCargo(Carg_Id);
+                Usua_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                Usua_FechaModificacion = DateTime.Now;
 
-                if (response.Success)
+                var list = await _usuarioService.Restablecer(Usua_Id, Usua_Clave, Usua_Modificacion, Usua_FechaModificacion);
+                var hola = list.Message;
+                if (hola == "Error al realizar la operacion.")
                 {
-
-                    return View(response.Data);
-
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-bell-55";
+                    notificaciones[1] = "Error";
+                    notificaciones[2] = "Ocurrio un error al actualizar la clave";
+                    notificaciones[3] = "warning";
+                    TempData["Notificaciones"] = notificaciones;
                 }
-
                 else
                 {
-
-                    return RedirectToAction("Index", "Cargo");
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Exito";
+                    notificaciones[2] = "Se actualizo la clave con exito";
+                    notificaciones[3] = "info";
+                    TempData["Notificaciones"] = notificaciones;
                 }
+                return RedirectToAction("Index", "Usuario");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Usuario");
             }
         }
+
     }
 }

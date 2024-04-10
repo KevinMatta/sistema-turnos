@@ -15,7 +15,6 @@ namespace Sistema_Turnos.Controllers
     public class RolController : Controller
     {
         public RolService _rolService;
-        private object httpClient;
 
         public RolController(RolService rolService)
         {

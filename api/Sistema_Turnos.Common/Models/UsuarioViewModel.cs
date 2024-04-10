@@ -34,5 +34,7 @@ namespace Sistema_Turnos.Common.Models
 
         [NotMapped]
         public string rol { get; set; }
+        [NotMapped]
+        public string Rol_Descripcion { get; set; }
     }
 }

@@ -102,7 +102,6 @@ namespace Sistema_Turnos.DataAccess.Repository
                 parameter.Add("@Rol_id", dbType: DbType.Int32, direction: ParameterDirection.Output); // Agrega el parámetro de salida
 
                 db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
-
                 int Rol_id = parameter.Get<int>("@Rol_id"); // Obtén el nuevo ID del parámetro de salida
 
                 string mensaje = (Rol_id > 0) ? "exito" : "error";

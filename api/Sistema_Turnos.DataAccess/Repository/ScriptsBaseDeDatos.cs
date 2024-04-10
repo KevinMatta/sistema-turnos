@@ -32,20 +32,26 @@ namespace Sistema_Turnos.DataAccess.Repository
 
                 public static string Panta_Listar = "[Acce].[sp_Pantallas_listar]";
 
-                #endregion
+        #endregion
 
                 #region Usuario
+                public static string Usua_Insertar = "[Acce].[sp_Usuarios_crear]";
+                public static string Usua_Listar = "[Acce].[sp_Usuarios_listar]";
+                public static string Usua_Eliminar = "[Acce].[sp_Usuarios_eliminar]";
+                public static string Usua_Actualizar = "[Acce].[sp_Usuarios_editar]";
+                public static string Usua_Obtener = "[Acce].[sp_Usuarios_obtener]";
                 public static string Usua_Login = "[Acce].[SP_Usuarios_InicioSesion]";
                 public static string Usua_usuario = "Acce.sp_Usuarios_validarusuario";
                 public static string Usua_clave = "Acce.sp_Usuarios_validarclave";
-            #endregion
+                public static string Usua_restablecer = "Acce.sp_Usuarios_RestablecerClave";
+                #endregion
 
         #endregion
 
         #region General
 
-                #region Departamentos
-                public static string Estad_Insertar = "[Gene].[sp_Estados_crear]";
+        #region Departamentos
+        public static string Estad_Insertar = "[Gene].[sp_Estados_crear]";
                 public static string Estad_Listar = "[Gene].[sp_Estados_listar]";
                 public static string Estad_Eliminar = "[Gene].[sp_Estados_eliminar]";
                 public static string Estad_Actualizar = "[Gene].[sp_Estados_editar]";

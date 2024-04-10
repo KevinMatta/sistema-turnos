@@ -49,7 +49,7 @@ namespace Sistema_Turnos.Controllers
                         valor = 1;
                     }
 
-                    if(valor == 1)
+                    if(valor == 1 || HttpContext.Session.GetString("rol") == "Administrador")
                     {
                         var model = new List<DepartamentoViewModel>();
                         var list = await _departamentoServicios.ObtenerDepartamentoList();
