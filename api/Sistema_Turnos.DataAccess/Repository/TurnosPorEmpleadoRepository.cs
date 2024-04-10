@@ -37,13 +37,15 @@ namespace Sistema_Turnos.DataAccess.Repository
             throw new NotImplementedException();
         }
 
-        public tbTurnosPorEmpleados find(int? id)
+        public IEnumerable<tbTurnosPorEmpleados> buscar(int? id)
         {
             string sql = ScriptsBaseDeDatos.TuEm_Buscar;
+            List<tbTurnosPorEmpleados> result = new List<tbTurnosPorEmpleados>();
             using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
             {
                 var parameters = new {TuEm_Id = id};
-                return db.QueryFirstOrDefault<tbTurnosPorEmpleados>(sql, parameters, commandType: CommandType.StoredProcedure);  
+                result = db.Query<tbTurnosPorEmpleados>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
             }
         }
 
@@ -99,6 +101,11 @@ namespace Sistema_Turnos.DataAccess.Repository
                 return new RequestStatus { CodeStatus = result, MessageStatus = mensaje };
 
             }
+        }
+
+        public tbTurnosPorEmpleados find(int? id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

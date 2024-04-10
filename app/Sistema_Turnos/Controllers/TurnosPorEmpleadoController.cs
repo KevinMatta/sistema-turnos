@@ -133,21 +133,20 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        [HttpPost("TurnosPorEmpleado/Editar")]
-        public async Task<IActionResult> Editar([FromBody] int TuEm_Id, [FromBody] DateTime TuEm_FechaInicio, [FromBody] int Empl_Id)
+        [HttpPost("TurnosPorEmpleado/Editar/{TuEm_Id}/{TuEm_FechaInicio}/{Empl_Id}")]
+        public async Task<IActionResult> Editar(int TuEm_Id, DateTime TuEm_FechaInicio, int Empl_Id)
         {
             try
             {
                 var item = new TurnosPorEmpleadoViewModel();
                 item.TuEm_Id = TuEm_Id;
-                item.TuEm_FechaInicio = TuEm_FechaInicio;                
-                if (string.IsNullOrEmpty(Empl_Id.ToString()))
-                {
-                    var x = await _turnosPorEmpleadoService.BuscarTurnoEmpleado(TuEm_Id);
-                    var datalist = x.Data as List<TurnosPorEmpleadoViewModel>;
-                    item.Empl_Id = datalist[0].Empl_Id;
-                    item.Turn_Id = datalist[0].Turn_Id;
-                }
+                item.TuEm_FechaInicio = TuEm_FechaInicio;
+                item.Empl_Id = Empl_Id;
+                //var x = await _turnosPorEmpleadoService.BuscarTurnoEmpleado(TuEm_Id);
+                //item.Empl_Id = x.Data;
+                //var datalist = x.Data as List<TurnosPorEmpleadoViewModel>;
+                //item.Empl_Id = datalist[0].Empl_Id;
+
 
                 var listaTurnosEmpleado = new List<TurnosPorEmpleadoViewModel>();
                 var listaTurnosEmpleadoResponse = await _turnosPorEmpleadoService.TurnosPorEmpleadoList();
@@ -214,7 +213,7 @@ namespace Sistema_Turnos.Controllers
                     TempData["Notificaciones"] = notificaciones;
                 }
 
-
+                if(false)
                 {
                     //listo para insertar
                     item.TuEm_Modificacion = 1;

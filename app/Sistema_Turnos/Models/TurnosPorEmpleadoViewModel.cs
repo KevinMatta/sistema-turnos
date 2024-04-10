@@ -21,6 +21,8 @@ namespace Sistema_Turnos.Models
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El campo {0} solo acepta números.")]
         public int Empl_Id { get; set; }
+        public string TuEm_HoraEntrada { get; set; }
+        public string TuEm_HoraSalida { get; set; }
         [Display(Name = "Estado")]
         public bool? TuEm_Estado { get; set; }
         [Display(Name = "Usuario Creacion")]
@@ -34,14 +36,15 @@ namespace Sistema_Turnos.Models
 
         //campos extras
         [NotMapped]
+        public int groupId { get; set; }
+        [NotMapped]
+        public int id { get; set; }
+        [NotMapped]
         public string title { get; set; }
         [NotMapped]
         public string start { get; set; }
         [NotMapped]
         public string end { get; set; }
 
-        [NotMapped]
-        public string TuEm_HoraEntrada { get; set; }
-        public string TuEm_HoraSalida { get; set; }
     }
 }

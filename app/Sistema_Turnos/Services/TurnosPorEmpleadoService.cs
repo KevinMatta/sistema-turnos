@@ -72,9 +72,9 @@ namespace Sistema_Turnos.Services
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Post<TurnosPorEmpleadoViewModel, ServiceResult>(req =>
+                var response = await _api.Get<TurnosPorEmpleadoViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"/API/TurnosPorEmpleado/Buscar?TuEm_Id={item}";
+                    req.Path = $"/API/TurnosPorEmpleado/Buscar/{item}";
                     //req.Content = item;
                 });
                 if (!response.Success)

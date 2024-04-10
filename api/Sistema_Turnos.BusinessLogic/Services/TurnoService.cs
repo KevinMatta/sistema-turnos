@@ -135,7 +135,7 @@ namespace Sistema_Turnos.BusinessLogic.Services
             var result = new ServiceResult();
             try
             {
-                var list = _turnosPorEmpleadoRepository.find(id);
+                var list = _turnosPorEmpleadoRepository.buscar(id);
                 return result.Ok(list);
             }
             catch (Exception ex)

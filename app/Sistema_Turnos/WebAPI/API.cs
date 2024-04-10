@@ -50,6 +50,7 @@ namespace Sistema_Turnos.WebAPI
             catch (Exception ex)
             {
                 result.Success = false;
+
                 result.Message = Helpers.GetMessage(ex);
             }
             return result;

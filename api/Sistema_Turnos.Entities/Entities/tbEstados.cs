@@ -27,6 +27,7 @@ namespace Sistema_Turnos.Entities.Entities
 
         [NotMapped]
         public string usua_modi { get; set; }
+
         public virtual tbUsuarios Esta_CreacionNavigation { get; set; }
         public virtual tbUsuarios Esta_ModificacionNavigation { get; set; }
         public virtual ICollection<tbCiudades> tbCiudades { get; set; }

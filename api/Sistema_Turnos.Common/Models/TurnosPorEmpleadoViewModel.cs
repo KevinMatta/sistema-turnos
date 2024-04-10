@@ -13,6 +13,8 @@ namespace Sistema_Turnos.Common.Models
         public DateTime TuEm_FechaInicio { get; set; }
         public int Turn_Id { get; set; }
         public int Empl_Id { get; set; }
+        public string TuEm_HoraEntrada { get; set; }
+        public string TuEm_HoraSalida { get; set; }
         public bool? TuEm_Estado { get; set; }
         public int TuEm_Creacion { get; set; }
         public DateTime TuEm_FechaCreacion { get; set; }
@@ -20,6 +22,10 @@ namespace Sistema_Turnos.Common.Models
         public DateTime? TuEm_FechaModificacion { get; set; }
 
         //campos extras
+        [NotMapped]
+        public int groupId { get; set; }
+        [NotMapped]
+        public int id { get; set; }
         [NotMapped]
         public string title { get; set; }
         [NotMapped]
