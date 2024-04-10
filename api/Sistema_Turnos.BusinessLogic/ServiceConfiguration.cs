@@ -18,6 +18,8 @@ namespace Sistema_Turnos.BusinessLogic.Services
             service.AddScoped<PantallaRepository>();
             service.AddScoped<UsuarioRepository>();
             service.AddScoped<MunicipioRepository>();
+            service.AddScoped<CargoRepository>();
+            service.AddScoped<EstadoCivilRepository>();
 
             Sistemas_TurnosContext.BuildConnectionString(conn);
         }

@@ -58,7 +58,10 @@ namespace Sistema_Turnos.Controllers
                         HttpContext.Session.SetString("Usua_Id", item.Usua_Id.ToString());
                         HttpContext.Session.SetString("roles", item.Rol_Id.ToString());
                         HttpContext.Session.SetString("Usuario", item.Usua_Nombre.ToString());
-                        HttpContext.Session.SetString("rol", item.rol);
+                        if (item.rol != null)
+                        {
+                            HttpContext.Session.SetString("rol", item.rol);
+                        }
                         pantallasPorRol.Add(item.Pant_Descripcion);
                         if (item.Pant_Descripcion != null)
                         {
@@ -71,8 +74,9 @@ namespace Sistema_Turnos.Controllers
                         rol = item.Rol_Id;
                     }
 
-                    if (loginlist.Usua_IsAdmin == true)
+                    if (loginlist.Usua_Administrador == "Si")
                     {
+                        HttpContext.Session.SetString("rol", "Administrador");
                         pantallasPorRol.Add("Admin");
                         Claim.Add(new Claim(ClaimTypes.Role, "Admin"));
                     }

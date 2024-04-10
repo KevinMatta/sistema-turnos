@@ -95,7 +95,7 @@
                                 @if (pantallas != null && pantallas.Contains("Cargos") || pantallas.Contains("Admin"))
                                 {
                                     <li>
-                                        <a asp-controller="Departamento" asp-action="Index">
+                                        <a asp-controller="Cargo" asp-action="Index">
                                             <span class="sidenav-normal"> Cargos </span>
                                         </a>
                                     </li>
@@ -113,7 +113,7 @@
                                 @if (pantallas != null && pantallas.Contains("Estados Civiles") || pantallas.Contains("Admin"))
                                 {
                                     <li>
-                                        <a href="">
+                                        <a asp-controller="EstadoCivil" asp-action="Index">
                                             <span class="sidenav-normal"> Estado Civil </span>
                                         </a>
                                     </li>

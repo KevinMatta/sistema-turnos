@@ -73,7 +73,7 @@ namespace Sistema_Turnos.Services
             {
                 var response = await _api.Get<IEnumerable<MunicipioViewModel>, MunicipioViewModel>(req =>
                 {
-                    req.Path = $"API/Municipio/FillCiudad/{Ciud_Id}";
+                    req.Path = $"API/Municipio/FillMunicipio/{Ciud_Id}";
                 });
                 if (!response.Success)
                 {
@@ -98,7 +98,7 @@ namespace Sistema_Turnos.Services
             {
                 var response = await _api.Put<MunicipioViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"API/Departamento/UpdateDepartamentos";
+                    req.Path = $"API/Municipio/UpdateMunicipio";
                     req.Content = item;
                 });
                 if (!response.Success)
@@ -117,6 +117,55 @@ namespace Sistema_Turnos.Services
             }
         }
 
+        public async Task<ServiceResult> EliminarMunicipio(string Ciud_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Delete<MunicipioViewModel, ServiceResult>(req =>
+                {
+                    req.Path = $"API/Municipio/FillMunicipio/{Ciud_Id}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
 
+        public async Task<ServiceResult> DetallesMunicipio(string Ciud_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Get<IEnumerable<MunicipioViewModel>, IEnumerable<MunicipioViewModel>>(req =>
+                {
+                    req.Path = $"API/Municipio/FillMunicipio/{Ciud_Id}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    // Aquí deberías devolver directamente el objeto DepartamentoViewModel
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
     }
 }

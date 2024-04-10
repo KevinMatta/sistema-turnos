@@ -128,7 +128,7 @@ namespace Sistema_Turnos.Controllers
 
                 else 
                 {
-                    item.Esta_Creacion = 1;
+                    item.Esta_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id")) ;
                     item.Esta_FechaCreacion = DateTime.Now;
                     var list = await _departamentoServicios.CrearDepartamento(item);
                     string[] notificaciones = new string[4];
@@ -170,7 +170,7 @@ namespace Sistema_Turnos.Controllers
             {
                 item.Esta_Id = id;
                 item.Esta_Descripcion = Descripcion;
-                item.Esta_Modificacion = 1;
+                item.Esta_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 item.Esta_FechaModificacion = DateTime.Now;
                 var result = await _departamentoServicios.EditarDepartamento(item);
                 if (result.Success)
@@ -229,30 +229,30 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Details(string Esta_Id)
         {
-            var response = await _departamentoServicios.DetallesDepartamento(Esta_Id);
-            if (response.Success)
+            string rol = HttpContext.Session.GetString("roles");
+
+            if (rol == "0")
             {
-
-                var data = response.Data as IEnumerable<DepartamentoViewModel>;
-
-            foreach (var item in data)
-            {
-                    var descripcion = item.Esta_Descripcion;
-                    var fecha = item.Esta_FechaCreacion;
-                    var id = item.Esta_Id;
+                return RedirectToAction("Login", "Home");
             }
-
-            return View(response.Data); 
-
-            }
-
             else
             {
+                var response = await _departamentoServicios.DetallesDepartamento(Esta_Id);
+                if (response.Success)
+                {
 
-                return RedirectToAction("Index", "Departamento");
+                    return View(response.Data);
+
+                }
+
+                else
+                {
+
+                    return RedirectToAction("Index", "Departamento");
+                }
             }
         }
 

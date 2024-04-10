@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
+using Sistema_Turnos.Clases;
+using Microsoft.AspNetCore.Http;
 
 namespace Sistema_Turnos.Controllers
 {
@@ -77,6 +79,8 @@ namespace Sistema_Turnos.Controllers
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Edit(int Rol_Id)
         {
+            HttpContext.Session.SetString("rolll", Rol_Id.ToString());
+
             try
             {
                 var apiUrl = "https://localhost:44363/API/Rol/UpdateRol?Rol_id=" + Rol_Id; // URL de tu API

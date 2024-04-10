@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Turnos.Models;
 using Sistema_Turnos.Services;
 using System;
@@ -10,18 +9,17 @@ using System.Threading.Tasks;
 
 namespace Sistema_Turnos.Controllers
 {
-    public class MunicipioController : Controller
+    public class CargoController : Controller
     {
-        public DepartamentoService _departamentoServicios;
-        public MunicipioService _municipioService;
+        public readonly CargoService _cargoService;
         public RolService _rolService;
-        public MunicipioController(MunicipioService municipioService, RolService rolService, DepartamentoService departamentoService)
+        public CargoController(CargoService cargoService, RolService rolService)
         {
-            _municipioService = municipioService;
             _rolService = rolService;
-            _departamentoServicios = departamentoService;
+            _cargoService = cargoService;
         }
-        [HttpGet("Municipio/Listado")]
+
+        [HttpGet("Cargo/Listado")]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
@@ -37,7 +35,7 @@ namespace Sistema_Turnos.Controllers
                 else
                 {
                     int valor = 0;
-                    var url = await _rolService.ValidarUrl(3, int.Parse(rol));
+                    var url = await _rolService.ValidarUrl(7, int.Parse(rol));
                     var validarurl = url.Data as IEnumerable<RolViewModel>;
 
                     foreach (var item in validarurl)
@@ -48,16 +46,9 @@ namespace Sistema_Turnos.Controllers
 
                     if (valor == 1)
                     {
-                        var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
 
-                        var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-
-                        var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-                        depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-                        ViewBag.Departamentos = depa;
-
-                        var model = new List<DepartamentoViewModel>();
-                        var list = await _municipioService.ObtenerMunicipioList();
+                        var model = new List<CargoViewModel>();
+                        var list = await _cargoService.ObtenerCargoList();
                         return View(list.Data);
                     }
 
@@ -84,20 +75,15 @@ namespace Sistema_Turnos.Controllers
         // POST: MunicipioController/CreateDepartamentos
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MunicipioViewModel item)
+        public async Task<IActionResult> Create(CargoViewModel item)
         {
-            var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
-            var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-            var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-            depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-            ViewBag.Departamentos = depa;
 
             try
             {
-                string depasss = item.Esta_Id;
-                item.Ciud_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
-                item.Ciud_FechaCreacion = DateTime.Now;
-                var list = await _municipioService.CrearMunicipio(item);
+                string cargo = item.Carg_Descripcion;
+                item.Carg_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                item.Carg_FechaCreacion = DateTime.Now;
+                var list = await _cargoService.CrearCargo(item);
                 string[] notificaciones = new string[4];
                 notificaciones[0] = "tim-icons icon-alert-circle-exc";
                 notificaciones[1] = "Agregado";
@@ -105,7 +91,7 @@ namespace Sistema_Turnos.Controllers
                 notificaciones[3] = "info";
                 TempData["Notificaciones"] = notificaciones;
 
-                return RedirectToAction("Index", "Municipio");
+                return RedirectToAction("Index", "Cargo");
 
                 //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
@@ -115,42 +101,31 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        [HttpGet("Municipio/Edit{id}")]
-        public async Task<IActionResult> Edit(string id)
+        [HttpGet("Cargo/Edit{id}")]
+        public async Task<IActionResult> Edit(int id)
         {
-            var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
-            var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-            var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-            depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-            ViewBag.Departamentos = depa;
             try
             {
-                var model = await _municipioService.ObtenerMunicipio(id);
+                var model = await _cargoService.ObtenerCargo(id);
                 return Json(model.Data);
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Cargo");
             }
         }
 
-        [HttpPost("Municipio/Edit")]
-        public async Task<IActionResult> Edit(MunicipioViewModel item, string Descripcion, string id, string departamento)
+        [HttpPost("Cargo/Edit")]
+        public async Task<IActionResult> Edit(CargoViewModel item, int Carg_Id, string Carg_Descripcion)
         {
-            var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
-            var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-            var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-            depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-            ViewBag.Departamentos = depa;
 
             try
             {
-                item.Esta_Id = departamento;
-                item.Ciud_Id = id;
-                item.Ciud_Descripcion = Descripcion;
-                item.Ciud_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                item.Carg_Id = Carg_Id;
+                item.Carg_Descripcion = Carg_Descripcion;
+                item.Carg_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 //item.Ciud_FechaModificacion = DateTime.Now;
-                var result = await _municipioService.EditarMunicipio(item);
+                var result = await _cargoService.EditarCargo(item);
                 if (result.Success)
                 {
                     string[] notificaciones = new string[4];
@@ -159,34 +134,37 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "Se edito el registro con exito";
                     notificaciones[3] = "info";
                     TempData["Notificaciones"] = notificaciones;
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Cargo");
                 }
                 else
                 {
-                    return View("Index", item);
+                    return RedirectToAction("Index", "Cargo");
                 }
             }
             catch (Exception ex)
             {
-                return View(item);
+                return RedirectToAction("Index", "Cargo");
                 throw;
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete([FromForm] string Ciud_Id)
-        {
+        public async Task<IActionResult> Delete(int Carg_Id, int Carg_Modificacion,DateTime Carg_FechaModificacion)
+        { 
             try
             {
-                var list = await _municipioService.EliminarMunicipio(Ciud_Id);
+                Carg_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                Carg_FechaModificacion = DateTime.Now;
+
+                var list = await _cargoService.EliminarCargo(Carg_Id, Carg_Modificacion, Carg_FechaModificacion);
                 var hola = list.Message;
                 if (hola == "Error al realizar la operacion.")
                 {
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-bell-55";
                     notificaciones[1] = "Error";
-                    notificaciones[2] = "Ocurrio un error al eliminar el departamento";
+                    notificaciones[2] = "Ocurrio un error al eliminar el cargo";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
                 }
@@ -195,20 +173,20 @@ namespace Sistema_Turnos.Controllers
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-alert-circle-exc";
                     notificaciones[1] = "Exito";
-                    notificaciones[2] = "Se elimino el departamento con exito";
+                    notificaciones[2] = "Se elimino el cargo con exito";
                     notificaciones[3] = "info";
                     TempData["Notificaciones"] = notificaciones;
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Cargo");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Cargo");
             }
         }
 
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Details(string Ciud_Id)
+        public async Task<IActionResult> Details(int Carg_Id)
         {
             string rol = HttpContext.Session.GetString("roles");
 
@@ -218,7 +196,7 @@ namespace Sistema_Turnos.Controllers
             }
             else
             {
-                var response = await _municipioService.DetallesMunicipio(Ciud_Id);
+                var response = await _cargoService.DetallesCargo(Carg_Id);
 
                 if (response.Success)
                 {
@@ -230,10 +208,9 @@ namespace Sistema_Turnos.Controllers
                 else
                 {
 
-                    return RedirectToAction("Index", "Municipio");
+                    return RedirectToAction("Index", "Cargo");
                 }
             }
         }
-
     }
 }

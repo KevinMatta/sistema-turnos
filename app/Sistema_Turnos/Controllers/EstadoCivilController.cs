@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Turnos.Models;
 using Sistema_Turnos.Services;
 using System;
@@ -10,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace Sistema_Turnos.Controllers
 {
-    public class MunicipioController : Controller
+    public class EstadoCivilController : Controller
     {
-        public DepartamentoService _departamentoServicios;
-        public MunicipioService _municipioService;
+        private readonly EstadoCivilService _estadoCivilService;
         public RolService _rolService;
-        public MunicipioController(MunicipioService municipioService, RolService rolService, DepartamentoService departamentoService)
+
+        public EstadoCivilController(EstadoCivilService estadoCivilService, RolService rolService)
         {
-            _municipioService = municipioService;
+            _estadoCivilService = estadoCivilService;
             _rolService = rolService;
-            _departamentoServicios = departamentoService;
         }
-        [HttpGet("Municipio/Listado")]
+
+        [HttpGet("EstadoCivil/Listado")]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
@@ -37,7 +36,7 @@ namespace Sistema_Turnos.Controllers
                 else
                 {
                     int valor = 0;
-                    var url = await _rolService.ValidarUrl(3, int.Parse(rol));
+                    var url = await _rolService.ValidarUrl(8, int.Parse(rol));
                     var validarurl = url.Data as IEnumerable<RolViewModel>;
 
                     foreach (var item in validarurl)
@@ -48,16 +47,9 @@ namespace Sistema_Turnos.Controllers
 
                     if (valor == 1)
                     {
-                        var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
 
-                        var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-
-                        var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-                        depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-                        ViewBag.Departamentos = depa;
-
-                        var model = new List<DepartamentoViewModel>();
-                        var list = await _municipioService.ObtenerMunicipioList();
+                        var model = new List<EstadoCivilViewModel>();
+                        var list = await _estadoCivilService.ObtenerEstadoCivilList();
                         return View(list.Data);
                     }
 
@@ -81,23 +73,17 @@ namespace Sistema_Turnos.Controllers
             return View();
         }
 
-        // POST: MunicipioController/CreateDepartamentos
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MunicipioViewModel item)
+        public async Task<IActionResult> Create(EstadoCivilViewModel item)
         {
-            var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
-            var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-            var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-            depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-            ViewBag.Departamentos = depa;
 
             try
             {
-                string depasss = item.Esta_Id;
-                item.Ciud_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
-                item.Ciud_FechaCreacion = DateTime.Now;
-                var list = await _municipioService.CrearMunicipio(item);
+                string cargo = item.EsCi_Descripcion;
+                item.EsCi_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                item.EsCi_FechaCreacion = DateTime.Now;
+                var list = await _estadoCivilService.CrearEstadoCivil(item);
                 string[] notificaciones = new string[4];
                 notificaciones[0] = "tim-icons icon-alert-circle-exc";
                 notificaciones[1] = "Agregado";
@@ -105,7 +91,7 @@ namespace Sistema_Turnos.Controllers
                 notificaciones[3] = "info";
                 TempData["Notificaciones"] = notificaciones;
 
-                return RedirectToAction("Index", "Municipio");
+                return RedirectToAction("Index", "EstadoCivil");
 
                 //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
@@ -115,42 +101,31 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        [HttpGet("Municipio/Edit{id}")]
-        public async Task<IActionResult> Edit(string id)
+        [HttpGet("EstadoCivil/Edit{id}")]
+        public async Task<IActionResult> Edit(int id)
         {
-            var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
-            var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-            var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-            depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-            ViewBag.Departamentos = depa;
             try
             {
-                var model = await _municipioService.ObtenerMunicipio(id);
+                var model = await _estadoCivilService.ObtenerEstadoCivil(id);
                 return Json(model.Data);
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "EstadoCivil");
             }
         }
 
-        [HttpPost("Municipio/Edit")]
-        public async Task<IActionResult> Edit(MunicipioViewModel item, string Descripcion, string id, string departamento)
+        [HttpPost("EstadoCivil/Edit")]
+        public async Task<IActionResult> Edit(EstadoCivilViewModel item, int EsCi_Id, string EsCi_Descripcion)
         {
-            var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
-            var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
-            var depa = depto.ToList().Select(x => new SelectListItem { Text = x.Esta_Descripcion, Value = x.Esta_Id.ToString() }).ToList();
-            depa.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-            ViewBag.Departamentos = depa;
 
             try
             {
-                item.Esta_Id = departamento;
-                item.Ciud_Id = id;
-                item.Ciud_Descripcion = Descripcion;
-                item.Ciud_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                item.EsCi_Id = EsCi_Id;
+                item.EsCi_Descripcion = EsCi_Descripcion;
+                item.EsCi_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 //item.Ciud_FechaModificacion = DateTime.Now;
-                var result = await _municipioService.EditarMunicipio(item);
+                var result = await _estadoCivilService.EditarEstadoCivil(item);
                 if (result.Success)
                 {
                     string[] notificaciones = new string[4];
@@ -159,34 +134,37 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "Se edito el registro con exito";
                     notificaciones[3] = "info";
                     TempData["Notificaciones"] = notificaciones;
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "EstadoCivil");
                 }
                 else
                 {
-                    return View("Index", item);
+                    return RedirectToAction("Index", "EstadoCivil");
                 }
             }
             catch (Exception ex)
             {
-                return View(item);
+                return RedirectToAction("Index", "EstadoCivil");
                 throw;
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete([FromForm] string Ciud_Id)
+        public async Task<IActionResult> Delete(int EsCi_Id, int EsCi_Modificacion, DateTime EsCi_FechaModificacion)
         {
             try
             {
-                var list = await _municipioService.EliminarMunicipio(Ciud_Id);
+                EsCi_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                EsCi_FechaModificacion = DateTime.Now;
+
+                var list = await _estadoCivilService.EliminarEstadoCivil(EsCi_Id, EsCi_Modificacion, EsCi_FechaModificacion);
                 var hola = list.Message;
                 if (hola == "Error al realizar la operacion.")
                 {
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-bell-55";
                     notificaciones[1] = "Error";
-                    notificaciones[2] = "Ocurrio un error al eliminar el departamento";
+                    notificaciones[2] = "Ocurrio un error al eliminar el estado civil";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
                 }
@@ -195,20 +173,20 @@ namespace Sistema_Turnos.Controllers
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-alert-circle-exc";
                     notificaciones[1] = "Exito";
-                    notificaciones[2] = "Se elimino el departamento con exito";
+                    notificaciones[2] = "Se elimino el estado civil con exito";
                     notificaciones[3] = "info";
                     TempData["Notificaciones"] = notificaciones;
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "EstadoCivil");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "EstadoCivil");
             }
         }
 
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> Details(string Ciud_Id)
+        public async Task<IActionResult> Details(int EsCi_Id)
         {
             string rol = HttpContext.Session.GetString("roles");
 
@@ -218,7 +196,7 @@ namespace Sistema_Turnos.Controllers
             }
             else
             {
-                var response = await _municipioService.DetallesMunicipio(Ciud_Id);
+                var response = await _estadoCivilService.DetallesEstadoCivil(EsCi_Id);
 
                 if (response.Success)
                 {
@@ -230,7 +208,7 @@ namespace Sistema_Turnos.Controllers
                 else
                 {
 
-                    return RedirectToAction("Index", "Municipio");
+                    return RedirectToAction("Index", "EstadoCivil");
                 }
             }
         }

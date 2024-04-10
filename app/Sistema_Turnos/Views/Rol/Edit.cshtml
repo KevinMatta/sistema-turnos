@@ -86,6 +86,7 @@
 
     $('#btnAgregar').click(function () {
         var rol = $('#txtRol').val();
+        var idrol = $('txtidrol').val();
 
         if (rol != null) {
             var pantallasSeleccionadas = [];
@@ -94,7 +95,7 @@
                 pantallasSeleccionadas.push($(this).val());
             });
             var formData = {
-                Rol_Id: 0,
+                Rol_Id: @Model.Rol_Id,
                 txtRol: rol,
                 pantallasSeleccionadas: pantallasSeleccionadas,
             };

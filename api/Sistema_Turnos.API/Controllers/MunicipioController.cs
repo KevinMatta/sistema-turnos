@@ -47,7 +47,7 @@ namespace Sistema_Turnos.API.Controllers
             return Ok(list);
         }
 
-        [HttpGet("FillCiudad/{id}")]
+        [HttpGet("FillMunicipio/{id}")]
 
         public IActionResult Llenar(string id)
         {
@@ -56,7 +56,7 @@ namespace Sistema_Turnos.API.Controllers
             return Json(list);
         }
 
-        [HttpPut("UpdateCiudad")]
+        [HttpPut("UpdateMunicipio")]
         public IActionResult Update(MunicipioViewModel item)
         {
             var model = _mapper.Map<tbCiudades>(item);
@@ -64,10 +64,18 @@ namespace Sistema_Turnos.API.Controllers
             {
                 Ciud_Id = item.Ciud_Id,
                 Ciud_Descripcion = item.Ciud_Descripcion,
-                //Esta_Modificacion = 1,
-                //Esta_FechaModificacion = DateTime.Now,
+                Esta_Id = item.Esta_Id,
+                Ciud_Modificacion = item.Ciud_Modificacion,
+                Ciud_FechaModificacion = DateTime.Now,
             };
             var list = _generalService.ActualizarMunicipio(modelo);
+            return Ok(list);
+        }
+
+        [HttpDelete("DeleteMunicipio")]
+        public IActionResult Delete(string Ciud_Id)
+        {
+            var list = _generalService.EliminarMunicipio(Ciud_Id);
             return Ok(list);
         }
 

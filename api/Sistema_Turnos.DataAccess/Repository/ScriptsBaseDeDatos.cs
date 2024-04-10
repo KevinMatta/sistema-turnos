@@ -44,7 +44,7 @@ namespace Sistema_Turnos.DataAccess.Repository
 
         #region General
 
-                #region Estados
+                #region Departamentos
                 public static string Estad_Insertar = "[Gene].[sp_Estados_crear]";
                 public static string Estad_Listar = "[Gene].[sp_Estados_listar]";
                 public static string Estad_Eliminar = "[Gene].[sp_Estados_eliminar]";
@@ -76,10 +76,10 @@ namespace Sistema_Turnos.DataAccess.Repository
 
                 #region EstadosCiviles
                 public static string Estci_Insertar = "[Gene].[sp_EstadosCiviles_crear]";
-                public static string Estci_Listar = "[Gene].[sp_EstadosCiviles_editar]";
-                public static string Estci_Eliminar = "[Gene].[sp_Cargos_eliminar]";
-                public static string Estci_Actualizar = "[Gene].[sp_Cargos_editar]";
-                public static string Estci_Obtener = "[Gene].[sp_Cargos_obtener]";
+                public static string Estci_Listar = "[Gene].[sp_EstadosCiviles_listar]";
+                public static string Estci_Eliminar = "[Gene].[sp_EstadosCiviles_eliminar]";
+                public static string Estci_Actualizar = "[Gene].[sp_EstadosCiviles_editar]";
+                public static string Estci_Obtener = "[Gene].[sp_EstadosCiviles_obtener]";
                 //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
                 //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
                 #endregion

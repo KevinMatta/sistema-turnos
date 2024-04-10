@@ -122,8 +122,8 @@ namespace Sistema_Turnos.DataAccess.Repository
                 parameter.Add("@Ciud_Id", item.Ciud_Id);
                 parameter.Add("@Esta_Id", item.Esta_Id);
                 parameter.Add("@Ciud_Descripcion", item.Ciud_Descripcion);
-                parameter.Add("@Ciud_Creacion", item.Ciud_Creacion);
-                parameter.Add("@Ciud_FechaCreacion", item.Ciud_FechaCreacion);
+                parameter.Add("@Ciud_Modificacion", item.Ciud_Modificacion);
+                parameter.Add("@Ciud_FechaModificacion", item.Ciud_FechaModificacion);
 
                 var result = db.Execute(sql, parameter, commandType: CommandType.StoredProcedure);
                 string mensaje = (result == 1) ? "exito" : "error";

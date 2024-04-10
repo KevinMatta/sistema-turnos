@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Sistema_Turnos.API.Clases;
 using Sistema_Turnos.Entities.Entities;
 using Sistema_Turnos.Common.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Sistema_Turnos.API.Controllers
 {
@@ -110,7 +111,7 @@ namespace Sistema_Turnos.API.Controllers
         }
 
         [HttpGet("UpdateRol")]
-        public IActionResult Update(int Rol_id)
+        public IActionResult Edit(int Rol_id)
         {
             var PantallasPorRol = _accesoServices.ObtenerPantallasPorRol(Rol_id);
             var Pantallas = _accesoServices.ListPantalla();
@@ -126,6 +127,7 @@ namespace Sistema_Turnos.API.Controllers
                 rolid = item.Rol_Id;
                 NombreRol = item.Rol_Descripcion;
             }
+
 
             var pantallasSeleccionadas = PantallasPorRol.Select(p => (int)p.Pant_Id).ToList();
 
@@ -161,16 +163,11 @@ namespace Sistema_Turnos.API.Controllers
             };
 
             var id = _accesoServices.ObtenerId( (int)rol.Rol_Modificacion, (DateTime)rol.Rol_FechaModificacion);
-            var role = id.Data;
-            int RolId = 0;
-            foreach (var item in role)
-            {
-                RolId = item.Rol_Id; 
-            }
+            var role = id.Data as IEnumerable<tbRoles>;
 
             var Rol = new tbRoles()
             {
-                Rol_Id = RolId,
+                Rol_Id = formData.Rol_Id,
                 Rol_Descripcion = formData.txtRol,
                 Rol_Modificacion = 1, //debe ir el usuario que lo modifico con una sesion
                 Rol_FechaModificacion = DateTime.Now,
@@ -178,7 +175,7 @@ namespace Sistema_Turnos.API.Controllers
             };
 
             _accesoServices.ActualizarRol(Rol);
-            _accesoServices.EliminarPantallaPorRol(RolId);
+            _accesoServices.EliminarPantallaPorRol(formData.Rol_Id);
 
 
             foreach (var pantalla in formData.pantallasSeleccionadas)
@@ -186,7 +183,7 @@ namespace Sistema_Turnos.API.Controllers
                 var modelo2 = new tbPantallasPorRoles()
                 {
                     Pant_Id = pantalla,
-                    Rol_Id = RolId,
+                    Rol_Id = formData.Rol_Id,
                     PaRo_Creacion = 1,
                     PaRo_FechaCreacion = DateTime.Now
                 };

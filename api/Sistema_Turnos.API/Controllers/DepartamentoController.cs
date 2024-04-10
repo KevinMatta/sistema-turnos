@@ -70,8 +70,8 @@ namespace Sistema_Turnos.API.Controllers
             {
                 Esta_Id = item.Esta_Id,
                 Esta_Descripcion = item.Esta_Descripcion,
-                //Esta_Modificacion = 1,
-                //Esta_FechaModificacion = DateTime.Now,
+                Esta_Modificacion = item.Esta_Modificacion,
+                Esta_FechaModificacion = item.Esta_FechaModificacion,
             };
             var list = _generalService.ActualizarEstado(modelo);
             return Ok(list);
