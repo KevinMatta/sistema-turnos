@@ -76,7 +76,8 @@ namespace Sistema_Turnos.Controllers
 
                     if (loginlist.Usua_Administrador == "Si")
                     {
-                        HttpContext.Session.SetString("rol", "Administrador");
+                        string admin = "admin";
+                        HttpContext.Session.SetString("IsAdmin", admin);
                         pantallasPorRol.Add("Admin");
                         Claim.Add(new Claim(ClaimTypes.Role, "Admin"));
                     }

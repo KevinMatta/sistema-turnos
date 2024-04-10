@@ -36,21 +36,23 @@ namespace Sistema_Turnos.Controllers
                 else
                 {
                     int valor = 0;
-                    var url = await _rolService.ValidarUrl(7, int.Parse(rol));
-                    var validarurl = url.Data as IEnumerable<RolViewModel>;
-
-                    foreach (var item in validarurl)
+                    if(rol != "") 
                     {
-                        int? rol_id = item.Rol_Id;
-                        valor = 1;
+                        var url = await _rolService.ValidarUrl(4, int.Parse(rol));
+                        var validarurl = url.Data as IEnumerable<RolViewModel>;
+                        foreach (var item in validarurl)
+                        {
+                            int? rol_id = item.Rol_Id;
+                            valor = 1;
+                        }
                     }
 
-                    if (valor == 1 || HttpContext.Session.GetString("rol") == "Administrador")
+                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "admin")
                     {
                         var listarol = await _rolService.ObtenerRolList();
                         var roles = listarol.Data as IEnumerable<RolViewModel>;
                         var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
-                        role.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+                        role.Insert(0, new SelectListItem { Text = "Seleccione", Value = null });
                         ViewBag.Rol = role;
 
                         var model = new List<UsuarioViewModel>();
@@ -80,16 +82,17 @@ namespace Sistema_Turnos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UsuarioViewModel item)
+        public async Task<IActionResult> Create(UsuarioViewModel item, bool txtadmin)
         {
             var listarol = await _rolService.ObtenerRolList();
             var roles = listarol.Data as IEnumerable<RolViewModel>;
             var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
-            role.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+            role.Insert(0, new SelectListItem { Text = "Seleccione", Value = null });
             ViewBag.Rol = role;
 
             try
             {
+                item.Usua_IsAdmin = txtadmin;
                 item.Usua_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 item.Usua_FechaCreacion = DateTime.Now;
                 var list = await _usuarioService.CrearUsuario(item);
@@ -125,14 +128,29 @@ namespace Sistema_Turnos.Controllers
         }
 
         [HttpPost("Usuario/Edit")]
-        public async Task<IActionResult> Edit(UsuarioViewModel item)
+        public async Task<IActionResult> Edit(UsuarioViewModel item, int iddd, bool txtadmin)
         {
 
             try
             {
                 item.Usua_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
+                item.Usua_Id = iddd;
+                item.Usua_IsAdmin = txtadmin;
+
+                if (item.Usua_IsAdmin == true)
+                {
+                    item.Rol_Id = null;
+                }
+
+                if (item.Rol_Id != null)
+                {
+                    item.Usua_IsAdmin = false;
+                }
+
                 //item.Ciud_FechaModificacion = DateTime.Now;
                 var result = await _usuarioService.EditarUsuario(item);
+                txtadmin = false;
+                item.Rol_Id = null;
                 if (result.Success)
                 {
                     string[] notificaciones = new string[4];

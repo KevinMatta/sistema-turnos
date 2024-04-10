@@ -152,6 +152,7 @@ namespace Sistema_Turnos.DataAccess.Repository
                 var parameter = new DynamicParameters();
                 parameter.Add("@Usua_Id", item.Usua_Id);
                 parameter.Add("@Usua_Usuario", item.Usua_Usuario);
+                parameter.Add("@Usua_IsAdmin", item.Usua_IsAdmin);
                 parameter.Add("@Rol_Id", item.Rol_Id);
                 parameter.Add("@Usua_Modificacion", item.Usua_Modificacion);
                 parameter.Add("@Usua_FechaModificacion", item.Usua_FechaModificacion);

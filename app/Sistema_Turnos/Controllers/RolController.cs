@@ -27,8 +27,38 @@ namespace Sistema_Turnos.Controllers
         {
             try
             {
-                var list = await _rolService.ObtenerRolList();
-                return View(list.Data);
+                string rol = HttpContext.Session.GetString("roles");
+
+                if (rol == "0")
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                else
+                {
+                    int valor = 0;
+                    if (rol != "")
+                    {
+                        var url = await _rolService.ValidarUrl(4, int.Parse(rol));
+                        var validarurl = url.Data as IEnumerable<RolViewModel>;
+                        foreach (var item in validarurl)
+                        {
+                            int? rol_id = item.Rol_Id;
+                            valor = 1;
+                        }
+                    }
+
+                    if(valor == 1 || HttpContext.Session.GetString("rol") == "Administrador")
+                    {
+                        var list = await _rolService.ObtenerRolList();
+                        return View(list.Data);
+                    }
+
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
             }
             catch (Exception ex)
             {

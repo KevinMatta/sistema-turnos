@@ -29,9 +29,6 @@ namespace Sistema_Turnos.Models
         public string Usua_Nombre { get; set; }
 
         [NotMapped]
-        public byte[] Usua_Contrasenia { get; set; }
-
-        [NotMapped]
         public string Usua_Administrador { get; set; }
 
         [NotMapped]

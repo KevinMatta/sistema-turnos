@@ -23,7 +23,11 @@
                     @Html.DisplayNameFor(model => model.Usua_Usuario)
                 </th>
                 <th class="text-center">
-                    @Html.DisplayNameFor(model => model.Usua_Clave)
+                    @{
+                        string clave = "clave";
+                        @Html.DisplayNameFor(model => clave)
+
+                    }
                 </th>
                 <th class="text-center">
                     @Html.DisplayNameFor(model => model.Usua_IsAdmin)
@@ -79,6 +83,22 @@
     </table>
 </div>
 
+<div class="modal fade modal-black" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Editar Usuario</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Edit", new Sistema_Turnos.Models.UsuarioViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade modal-black" id="crearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content ">
@@ -95,11 +115,11 @@
     </div>
 </div>
 
-@*<div class="modal fade modal-black" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal-black" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content ">
             <div class="modal-header" style="margin-block-end:-3%;">
-                <h4 class="modal-title" id="exampleModalLabel">Eliminar Estado Civil</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Eliminar Usuario</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -109,7 +129,7 @@
             </div>
         </div>
     </div>
-</div>*@
+</div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
@@ -118,7 +138,7 @@
 
         $(".editar-depa").click(function () {
             var id = $(this).data("depa-id");
-            var url = "https://localhost:44363/API/EstadoCivil/FillEstadosCiviles/" + id;
+            var url = "https://localhost:44363/API/Usuario/FillUsuarios/" + id;
 
             console.log("Id: " + id);
 
@@ -129,9 +149,27 @@
                 success: function (data) {
                     console.log(data.data);
                     var datos = data.data[0];
-                    var estci = datos.esCi_Descripcion;
+                    var usuario = datos.usua_Usuario;
+                    var id = datos.usua_Id;
+                    var rolid = datos.rol_Id;
+                    var admin = datos.usua_IsAdmin;
+                    $("#usua").val(usuario);
                     $("#iddd").val(id);
-                    $("#estci").val(estci);
+                    $("#rolidddd").val(rolid);
+                    $("#txtadmin").val(admin);
+                    console.log("Rol: " + rolid);
+                    console.log("Usuario: " + usuario);
+                    console.log("ID: " + id);
+                    console.log("Admin: " + admin);
+                    if (admin == true) {
+                        $("#checkbox").attr("checked", true);
+                        $("#rolid").hide();
+                    }
+                    else {
+                        $("#checkbox").attr("checked", false);
+
+                        $("#rolid").show();
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error(xhr.responseText);

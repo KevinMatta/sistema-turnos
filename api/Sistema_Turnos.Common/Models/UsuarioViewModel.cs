@@ -11,7 +11,7 @@ namespace Sistema_Turnos.Common.Models
     {
         public int Usua_Id { get; set; }
         public string Usua_Usuario { get; set; }
-        public byte[] Usua_Clave { get; set; }
+        public string Usua_Clave { get; set; }
         public int? Rol_Id { get; set; }
         public bool? Usua_IsAdmin { get; set; }
         public bool? Usua_Estado { get; set; }
@@ -22,9 +22,6 @@ namespace Sistema_Turnos.Common.Models
 
         [NotMapped]
         public string Usua_Nombre { get; set; }
-
-        [NotMapped]
-        public byte[] Usua_Contrasenia { get; set; }
 
         [NotMapped]
         public string Usua_Administrador { get; set; }

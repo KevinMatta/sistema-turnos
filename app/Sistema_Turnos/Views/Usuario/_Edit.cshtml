@@ -1,10 +1,5 @@
 ﻿@model Sistema_Turnos.Models.UsuarioViewModel
 
-@{
-    ViewData["Title"] = "tbCiudades".Substring(2);
-    ViewData["ViewName"] = "_Create".Substring(1);
-}
-
 
 <style>
     option:hover {
@@ -119,7 +114,6 @@
             transform: translate(0);
             opacity: 1;
         }
-
 </style>
 
 <div class="card-body">
@@ -129,45 +123,45 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label asp-for="Usua_Usuario" class="control-label"></label>
-                    <input asp-for="Usua_Usuario" class="form-control" />
+                    <input asp-for="Usua_Usuario" id="usua" class="form-control" />
                     <span asp-validation-for="Usua_Usuario" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label asp-for="Usua_Clave" class="control-label"></label>
-                    <input asp-for="Usua_Clave" class="form-control" />
-                    <span asp-validation-for="Usua_Clave" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-sm-6" style="margin-left: -3%">
                 <div class="form-group text-center">
                     <input asp-for="Usua_IsAdmin" id="txtadmin" name="txtadmin" class="form-control" hidden />
                     <label asp-for="Usua_IsAdmin" class="control-label"></label>
                     <div class="checkbox-wrapper-26">
-                        <input type="checkbox" class="chequear" id="_checkbox-26" name="checkboxxx">
-                        <label for="_checkbox-26">
+                        <input type="checkbox" class="chequear" id="checkbox" name="checkboxxx">
+                        <label for="checkbox">
                             <div class="tick_mark"></div>
                         </label>
                     </div>
                     <span asp-validation-for="Usua_IsAdmin" class="text-danger"></span>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <div id="rolidddddd">
+                    <div id="rolid">
                         <label asp-for="Rol_Id" class="control-label"></label>
-                        <select asp-for="Rol_Id" style="background-color:#222a42;  " class="form-control" asp-items="ViewBag.Rol"></select>
+                        <select asp-for="Rol_Id" id="rolidddd" style="background-color:#222a42;  " class="form-control" asp-items="ViewBag.Rol"></select>
                     </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" hidden>
+                    <label asp-for="Usua_Id" class="control-label"></label>
+                    <input asp-for="Usua_Id" id="iddd" name="iddd" class="form-control" />
+                    <span asp-validation-for="Usua_Id" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <input type="submit" value="Crear" class="btn btn-primary" />
+                    <input asp-controller="Usuario" asp-action="Edit" type="submit" value="Editar" class="btn btn-primary" />
                 </div>
             </div>
             <div class="col-sm-4">
@@ -179,24 +173,29 @@
     </form>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
 <script>
     $(document).ready(function () {
         var saber = 0;
 
-        $('#_checkbox-26').change(function () {
-            if ($('#_checkbox-26').is(':checked')) {
-                $('#rolidddddd').hide();
+        $('#checkbox').change(function () {
+            if ($('#checkbox').is(':checked')) {
+                $('#rolid').hide();
                 $('#txtadmin').val(true);
+                console.log("Validadop");
             }
 
-            else {
+            else{
                 $('#txtadmin').val(false);
-                $('#rolidddddd').show();
+                $('#rolid').show();
+                console.log("Invalido");
+
             }
-            console.log("hola");
 
         });
 
@@ -204,7 +203,3 @@
 
     });
 </script>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

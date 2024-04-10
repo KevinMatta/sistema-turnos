@@ -62,3 +62,31 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var saber = 0;
+        $('.chequear:checked').each(function () {
+            $("#rolid").attr("hidden");
+            $("#rolid").addClass("collapse");
+
+            saber = 15;
+
+        });
+
+        if ($("#checkboxxx").is(":checked"))
+        {
+
+            $("#rolid").attr("hidden", true);
+
+            var uno = 1;
+            $("#txtadmin").val(uno);
+        }
+
+        console.log(saber);
+
+    });
+</script>
