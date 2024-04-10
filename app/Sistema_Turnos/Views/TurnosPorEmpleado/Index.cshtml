@@ -21,7 +21,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content ">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Crear</h5>
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>
@@ -34,22 +34,80 @@
 
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script src="~/assets/js/plugins/index.global.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     $(document).ready(function () {
         @*console.log(@Html.Raw(Json.Serialize(Model)))*@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prevYear,prev,next,nextYear today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,listDay'
+            },
+            views: {
+                listDay: { buttonText: 'Dia' },
+                dayGridWeek: { buttonText: 'Semana' },
+                dayGridMonth: { buttonText: 'Mes' },
+            },
             initialView: 'dayGridMonth',
             dayMaxEventRows: 2,
             height: 500,
             selectable: true,
             locale: 'es',
             events: @Html.Raw(Json.Serialize(Model)),
+            editable: true,
             dateClick: function (info) {
                 var todayStr = new Date().toISOString().slice(0, 10);
                 if (info.dateStr > todayStr) {
                     localStorage.setItem("fechaInicio", info.dateStr);
+                    $('#exampleModalLabel').text(info.dateStr);
                     $('#crearModal').modal('show');
+                }
+            },
+            eventDrop: function (info) {
+                var todayStr = new Date().toISOString().slice(0, 10);
+                var formattedDate = moment(info.event.start).format('YYYY-MM-DD');
+                if (todayStr > info.oldEvent.start) {
+                    info.revert();
+                }
+                else if (formattedDate > todayStr) {
+                    console.log('Evento movido a la fecha:', formattedDate);
+                    //fetch('/TurnosPorEmpleado/Editar', {
+                    //    method: 'POST',
+                    //    headers: {
+                    //        'Content-Type': 'application/json'
+                    //    },
+                    //    body: JSON.stringify({ TuEm_Id: info.event.id, TuEm_FechaInicio: info.event.start })
+                    //})
+                    //    .then(response => {
+                    //        if (!response.ok) {
+                    //            throw new Error('Hubo un problema al actualizar el evento');
+                    //        }
+                    //        return response.json();
+                    //    })
+                    //    .then(data => {
+                    //        console.log(data.message);
+                    //        window.location.reload();
+                    //    })
+                    //    .catch(error => {
+                    //        console.error(error);
+                    //    });
+                    $.ajax({
+                        url: '/TurnosPorEmpleado/Editar',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ TuEm_Id: info.event.id, TuEm_FechaInicio: info.event.start }),
+                        success: function (data) {
+                            console.log('Solicitud exitosa', data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error en la solicitud', error);
+                        }
+                    });
+                }
+                else {
+                    info.revert();
                 }
             },
         });

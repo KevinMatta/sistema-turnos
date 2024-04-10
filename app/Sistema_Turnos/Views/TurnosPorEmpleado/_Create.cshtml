@@ -1,6 +1,6 @@
 ﻿@model Sistema_Turnos.Models.TurnosPorEmpleadoViewModel
 
-<form asp-action="Create">
+<form id="formulario" asp-action="Create">
     <div class="modal-body">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input id="FechaInicio" type="hidden" name="TuEm_FechaInicio" value="" />
@@ -58,6 +58,9 @@
     </div>
 </form>
 
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
 
@@ -74,6 +77,8 @@
 
     const localStorageSetHandler = function (e) {
         $('#FechaInicio').val(e.value)
+        console.log(e.value)
+
         //var empleadosFiltrados = filtrarEmpleados(e.value);
         //console.log(empleadosFiltrados)
         //actualizarListaEmpleados(empleadosFiltrados);
