@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_Turnos.Models;
 using Sistema_Turnos.Services;
@@ -13,27 +14,61 @@ namespace Sistema_Turnos.Controllers
         public TurnosPorEmpleadoService _turnosPorEmpleadoService;
         public TurnoService _turnoService;
         public EmpleadoService _empleadoService;
-        public TurnosPorEmpleadoController(TurnosPorEmpleadoService turnosPorEmpleadoService, TurnoService turnoService, EmpleadoService empleadoService)
+        public RolService _rolService;
+        public TurnosPorEmpleadoController(TurnosPorEmpleadoService turnosPorEmpleadoService, TurnoService turnoService, EmpleadoService empleadoService, RolService rolService)
         {
             _turnosPorEmpleadoService = turnosPorEmpleadoService;
             _turnoService = turnoService;
             _empleadoService = empleadoService;
+            _rolService = rolService;
         }
         [HttpGet("ListTurnosEmpleados")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var list = await _turnosPorEmpleadoService.TurnosPorEmpleadoList();
+                string rol = HttpContext.Session.GetString("roles");
 
-                var empleados = await _empleadoService.EmpleadosList();
-                var turnos = await _turnoService.TurnosList();
+                if (rol == "0")
+                {
+                    return RedirectToAction("Login", "Home");
+                }
 
-                ViewBag.ListaEmpleados = empleados.Data;
-                ViewBag.ListaTurnos = turnos.Data;
-                ViewBag.ListaTurnoEmpleado = list.Data;
+                else
+                {
+                    int valor = 0;
+                    if (rol != "")
+                    {
+                        var url = await _rolService.ValidarUrl(11, int.Parse(rol));
+                        var validarurl = url.Data as IEnumerable<RolViewModel>;
+                        foreach (var item in validarurl)
+                        {
+                            int? rol_id = item.Rol_Id;
+                            valor = 1;
+                        }
+                    }
 
-                return View(list.Data);
+                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                    {
+                        var list = await _turnosPorEmpleadoService.TurnosPorEmpleadoList();
+
+                        var empleados = await _empleadoService.EmpleadosList();
+                        var turnos = await _turnoService.TurnosList();
+
+                        ViewBag.ListaEmpleados = empleados.Data;
+                        ViewBag.ListaTurnos = turnos.Data;
+                        ViewBag.ListaTurnoEmpleado = list.Data;
+
+                        return View(list.Data);
+                    }
+
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                }
             }
             catch (Exception ex)
             {
@@ -271,9 +306,40 @@ namespace Sistema_Turnos.Controllers
         }
 
         [HttpGet("TurnosEmpleaodos/Graficos")]
-        public IActionResult Graficos()
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task <IActionResult> Graficos()
         {
-            return View();
+            string rol = HttpContext.Session.GetString("roles");
+
+            if (rol == "0")
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                int valor = 0;
+                if (rol != "")
+                {
+                    var url = await _rolService.ValidarUrl(13, int.Parse(rol));
+                    var validarurl = url.Data as IEnumerable<RolViewModel>;
+                    foreach (var item in validarurl)
+                    {
+                        int? rol_id = item.Rol_Id;
+                        valor = 1;
+                    }
+                }
+
+                if(valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                {
+                    return View();
+                }
+
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+            }
         }
 
     }

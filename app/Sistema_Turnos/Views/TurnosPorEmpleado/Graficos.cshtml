@@ -5,6 +5,8 @@
 }
 
 <link rel="stylesheet" href="~/assets/css/apexcharts.css">
+<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
 <div class="card-body">
     <h1>Graficos</h1>
     <div id="chart"></div>
@@ -30,7 +32,7 @@
             <button id="btnAgregar" type="button" class="btn btn-primary">Guardar</button>
         </div>
         <div class="col-sm-3">
-            <button id="btnRegresar" type="button" class="btn btn-primary">Regresar</button>
+            <button id="btnRegresar" type="button" class="btn btn-dark">Regresar</button>
         </div>
     </div>
 
@@ -51,6 +53,7 @@
                 type: 'GET',
                 contentType: 'application/json',
                 data: JSON.stringify,
+                cache: false,
                 success: function (response) {
 
                     console.log(response.data);
@@ -99,7 +102,6 @@
                             }
                         }
                     };
-
                     var chart = new ApexCharts(document.querySelector("#chart"), options);
                     chart.render();
 
@@ -107,10 +109,14 @@
                 error: function (xhr, status, error) {
                     console.error(error);
                 }
+
             });
         });
 
         $('#btnRegresar').click(function () {
+            window.location.href = window.location.href + '?nocache=' + new Date().getTime();
+            $('#fechainicio').val("");
+            $('#fechafin').val("");
             $('#chart').hide();
             $('#fechas').show();
         });
