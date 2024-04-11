@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Graficos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/assets/css/apexcharts.css">
+<div class="card-body">
+    <h1>Graficos</h1>
+    <div id="chart"></div>
+    <div class="row" id="fechas">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label">Fecha Inicio</label>
+                <input type="date" id="fechainicio" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label">Fecha Fin</label>
+                <input type="date" id="fechafin" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <button id="btnAgregar" type="button" class="btn btn-primary">Guardar</button>
+        </div>
+        <div class="col-sm-3">
+            <button id="btnRegresar" type="button" class="btn btn-primary">Regresar</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/apexcharts.min.js"></script>
+    <script>
+
+        $('#btnAgregar').click(function () {
+
+            $('#fechas').hide();
+            $('#chart').show();
+
+            var fechainicio = $('#fechainicio').val();
+            var fechafin = $('#fechafin').val();
+
+            $.ajax({
+                url: 'https://localhost:44363/API/TurnosPorEmpleado/ContarTurnosEmpleados/' + fechainicio + '/' + fechafin,
+                type: 'GET',
+                contentType: 'application/json',
+                data: JSON.stringify,
+                success: function (response) {
+
+                    console.log(response.data);
+
+                    const descripciones = response.data.map(item => item.turn_Descripcion);
+                    const conteos = response.data.map(item => item.conteo);
+
+                    console.log("descripcion: " + descripciones);
+                    console.log("conteos: " + conteos);
+
+                    var colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#00D9E9', '#FF66C3', '#FF34B3'];
+
+                    var options = {
+                        series: [{
+                            data: conteos
+                        }],
+                        chart: {
+                            height: 350,
+                            type: 'bar',
+                            events: {
+                                click: function (chart, w, e) {
+                                    // console.log(chart, w, e)
+                                }
+                            }
+                        },
+                        colors: colors,
+                        plotOptions: {
+                            bar: {
+                                columnWidth: '45%',
+                                distributed: true,
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        legend: {
+                            show: false
+                        },
+                        xaxis: {
+                            categories: descripciones,
+                            labels: {
+                                style: {
+                                    colors: colors,
+                                    fontSize: '12px'
+                                }
+                            }
+                        }
+                    };
+
+                    var chart = new ApexCharts(document.querySelector("#chart"), options);
+                    chart.render();
+
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $('#btnRegresar').click(function () {
+            $('#chart').hide();
+            $('#fechas').show();
+        });
+
+    </script>
+</div>
+
+

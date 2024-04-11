@@ -269,5 +269,12 @@ namespace Sistema_Turnos.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        [HttpGet("TurnosEmpleaodos/Graficos")]
+        public IActionResult Graficos()
+        {
+            return View();
+        }
+
     }
 }
