@@ -141,7 +141,7 @@
                     </li>
                 }
 
-                @if (pantallas != null && pantallas.Contains("Roles") || pantallas.Contains("Admin") || pantallas.Contains("Usuarios"))
+                @if (pantallas != null && pantallas.Contains("Empleados") || pantallas.Contains("Admin") || pantallas.Contains("Calendario") || pantallas.Contains("Hospitales") || pantallas.Contains("Turnos") || pantallas.Contains("Graficos"))
                 {
                     <li>
                         <a data-toggle="collapse" href="#turnos" aria-expanded="false" aria-controls="turnos">
@@ -152,7 +152,7 @@
 
                         <div class="collapse" id="turnos">
                             <ul class="nav pl-4">
-                                @if (pantallas != null && pantallas.Contains("Empleados") || pantallas.Contains("Admin"))
+                                @if (pantallas != null && pantallas.Contains("Empleados") || pantallas.Contains("Admin") )
                                 {
                                     <li>
                                         <a asp-controller="TurnosPorEmpleado" asp-action="Index">
@@ -187,7 +187,17 @@
                                         </a>
                                     </li>
                                 }
-                                </ul>
+
+                                @if (pantallas != null && pantallas.Contains("Graficos") || pantallas.Contains("Admin"))
+                                {
+                                    <li>
+                                        <a asp-controller="TurnosPorEmpleado" asp-action="Graficos">
+                                            <span class="sidenav-normal"> Graficos </span>
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
                         </div>
                     </li>
                 }

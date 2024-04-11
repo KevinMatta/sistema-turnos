@@ -143,6 +143,21 @@ namespace Sistema_Turnos.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult ContarTurnos(string FechaInicio, string FechaFin)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _turnosPorEmpleadoRepository.ContarTurnos(FechaInicio, FechaFin);
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
         #endregion
     }
 }

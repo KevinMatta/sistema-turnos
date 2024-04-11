@@ -65,6 +65,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     $(document).ready(function () {
+
+        $('#crearModal form').submit(function (event) {
+            var empleado = $('#empleado').val();
+            var Turn_Id = $('#Turn_Id').val();
+
+            console.log("Turnos: " + Turn_Id)
+
+            if (!empleado) {
+                event.preventDefault();
+                $('#txtempleado').show();
+            }
+
+            if (Turn_Id ==  "") {
+                event.preventDefault();
+                $('#txturnos').show();
+                console.log("Turan: " + Turn_Id)
+            }
+
+        });
+
         @*console.log(@Html.Raw(Json.Serialize(Model)))*@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {

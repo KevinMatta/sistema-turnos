@@ -144,7 +144,7 @@
         <div class="row">
             <div class="col-sm-6" style="margin-left: -3%">
                 <div class="form-group text-center">
-                    <input asp-for="Usua_IsAdmin" id="txtadmin" name="txtadmin" class="form-control" hidden />
+                    <input asp-for="Usua_IsAdmin" id="txtadmin1" name="txtadmin" class="form-control" value="" hidden />
                     <label asp-for="Usua_IsAdmin" class="control-label"></label>
                     <div class="checkbox-wrapper-26">
                         <input type="checkbox" class="chequear" id="_checkbox-26" name="checkboxxx">
@@ -189,11 +189,11 @@
         $('#_checkbox-26').change(function () {
             if ($('#_checkbox-26').is(':checked')) {
                 $('#rolidddddd').hide();
-                $('#txtadmin').val(true);
+                $('#txtadmin1').val(true);
             }
 
             else {
-                $('#txtadmin').val(false);
+                $('#txtadmin1').val(false);
                 $('#rolidddddd').show();
             }
             console.log("hola");
