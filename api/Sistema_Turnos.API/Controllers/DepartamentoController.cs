@@ -31,6 +31,13 @@ namespace Sistema_Turnos.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("ListadoDepartamentosCiudades")]
+        public IActionResult DepartamentosConCiudades()
+        {
+            var data = _generalService.ListadoDepartamentosCiudades();
+            return Ok( data );
+        }
+
         [HttpPost("CreateDepartamentos")]
         public IActionResult Insert(DepartamentoViewModel item)
         {

@@ -14,7 +14,7 @@
 
 <div class="card-body ">
     <table class="table tablesorter table-hover table-striped" id="tabla">
-        <thead class=" text-primary">
+        @*<thead class=" text-primary">
             <tr>
                 <th class="text-center">
                     @Html.DisplayNameFor(model => model.Esta_Id)
@@ -40,13 +40,23 @@
                     </td>
                     <td class="text-right">
                         <button class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></button>
-                        @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
+
                         <a href="@Url.Action("Details", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
                         <a asp-route-id="@item.Esta_Id" asp-controller="Departamento" asp-action="Delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID('@item.Esta_Id')">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
                     </td>
                     <td></td>
                 </tr>
             }
+        </tbody>*@
+        <thead>
+            <tr>
+                <th></th>
+                <th>@Html.DisplayNameFor(model => model.Esta_Id)</th>
+                <th>@Html.DisplayNameFor(model => model.Esta_Descripcion)</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
         </tbody>
     </table>
 </div>
@@ -99,11 +109,92 @@
     </div>
 </div>
 
+
+<style>
+    td.details-control::after {
+        content: "▶";
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control::after {
+        content: "▼";
+        cursor: pointer;
+    }
+</style>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
 
     $(document).ready(function () {
+
+        $.ajax({
+            url: '/Departamento/DepartamentoCiudades',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log(response.data);
+                var table = $('#tabla').DataTable({
+                    "data": response.data,
+                    "columns": [{
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
+                    }, {
+                        "data": "esta_Id"
+                    }, {
+                        "data": "esta_Descripcion"
+                    },{
+                        "data": null,
+                        "render": function (data, type, row) {
+                        return `
+                                <a > Editar</a>
+                                <a > Detalle</a>
+                                <a >Eliminar</a>
+                                `;
+                        }
+                     }],
+
+                    //"createdRow": function (row, data, dataIndex) {
+
+                    //    if (data.tbCiudades && data.tbCiudades.length > 0) {
+                    //        $(row).find("td:eq(0)").addClass('details-control');
+                    //    }
+                    //}
+
+                });
+
+                //$('#tabla tbody').on('click', 'td.details-control', function () {
+                //    var tr = $(this).closest('tr');
+                //    var row = table.row(tr);
+
+                //    if (row.child.isShown()) {
+                //        row.child.hide();
+                //        tr.removeClass('shown');
+                //    } else {
+                //        row.child(format(row.data())).show();
+                //        tr.addClass('shown');
+                //    }
+                //});
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+
+    function format(d) {
+        let fila = '';
+        d.tbCiudades.forEach(function (ciudad) {
+            fila += '<div class="row"><div class="col-md-1 pl-3">' + ciudad.ciud_Id + '</div><div class="col-md-1">' + ciudad.ciud_Descripcion + '</div></div>';
+        })
+        return '<div class="container-sm">' +
+            '<div class="row">' +
+            '<div class="col-md-1 pl-3">ID</div>' +
+            '<div class="col-md-1">Ciudad</div>' +
+            fila +
+            '</div>';
+    }
+
 
         $('#crearModal form').submit(function (event) {
             var codigo = $('#estaid').val();
@@ -186,5 +277,5 @@
         });
 
 
-    });
+   /* });*/
 </script>

@@ -58,10 +58,11 @@ namespace Sistema_Turnos.DataAccess.Repository
                 public static string Estad_Obtener = "[Gene].[sp_Estados_obtener]";
                 public static string Estad_Llenar = "[Gene].[sp_Estados_llenar]";
                 public static string Estad_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
-                #endregion
+                public static string Estad_ListaDepartamentoCiudades = "[Gene].[sp_EstadosCiudades_listar]";
+        #endregion
 
-                #region Municipios
-                public static string Munic_Insertar = "[Gene].[sp_Ciudades_crear]";
+        #region Municipios
+        public static string Munic_Insertar = "[Gene].[sp_Ciudades_crear]";
                 public static string Munic_Listar = "[Gene].[sp_Ciudades_listar]";
                 public static string Munic_Eliminar = "[Gene].[sp_Ciudades_eliminar]";
                 public static string Munic_Actualizar = "[Gene].[sp_Ciudades_editar]";

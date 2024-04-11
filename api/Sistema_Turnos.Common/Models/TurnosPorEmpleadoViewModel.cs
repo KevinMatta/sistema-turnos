@@ -32,5 +32,6 @@ namespace Sistema_Turnos.Common.Models
         public string start { get; set; }
         [NotMapped]
         public string end { get; set; }
+
     }
 }
