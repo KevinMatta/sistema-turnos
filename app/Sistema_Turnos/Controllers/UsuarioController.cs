@@ -52,7 +52,7 @@ namespace Sistema_Turnos.Controllers
                         var listarol = await _rolService.ObtenerRolList();
                         var roles = listarol.Data as IEnumerable<RolViewModel>;
                         var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
-                        role.Insert(0, new SelectListItem { Text = "Seleccione", Value = null });
+                        role.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
                         ViewBag.Rol = role;
 
                         var model = new List<UsuarioViewModel>();
@@ -84,17 +84,22 @@ namespace Sistema_Turnos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UsuarioViewModel item, bool txtadmin)
         {
-            var listarol = await _rolService.ObtenerRolList();
-            var roles = listarol.Data as IEnumerable<RolViewModel>;
-            var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
-            role.Insert(0, new SelectListItem { Text = "Seleccione", Value = null });
-            ViewBag.Rol = role;
-
             try
             {
                 item.Usua_IsAdmin = txtadmin;
                 item.Usua_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 item.Usua_FechaCreacion = DateTime.Now;
+
+                if (item.Usua_IsAdmin == true)
+                {
+                    item.Rol_Id = null;
+                }
+
+                if (item.Rol_Id != null)
+                {
+                    item.Usua_IsAdmin = false;
+                }
+
                 var list = await _usuarioService.CrearUsuario(item);
                 string[] notificaciones = new string[4];
                 notificaciones[0] = "tim-icons icon-alert-circle-exc";

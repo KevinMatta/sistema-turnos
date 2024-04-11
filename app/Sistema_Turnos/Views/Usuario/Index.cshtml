@@ -136,6 +136,124 @@
 <script>
     $(document).ready(function () {
 
+
+        $('#editarModal form').submit(function (event) {
+            var usuario = $('#usua').val();
+            var isadmin = $('#checkbox').val();
+            var rol = $('#rolidddd').val();
+            console.log(usuario)
+            console.log(rol)
+            console.log(isadmin)
+
+
+            if (!usuario) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> El usuario es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!$('#checkbox').is(':checked')) {
+                console.log("Hola: " + $('#checkbox').is(':checked'))
+                console.log("Roo:" + rol)
+                if (rol == "1" || rol == null && $('#checkbox').is(':checked') == false) {
+                    console.log("hola");
+                    console.log("Juanito alimana")
+                    event.preventDefault();
+                    $.notify({
+                        icon: "tim-icons icon-bell-55",
+                        message: "<b>Advertencia</b> Ingrese un rol o si es admin"
+                    }, {
+                        type: 'warning',
+                        timer: 1000,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        }
+                    });
+                }
+            }
+
+            if ($('#checkbox').is(':checked')) {
+                $('#txtadmin').val(true);
+            }
+
+        });
+
+        $('#crearModal form').submit(function (event) {
+            var usuario = $('#Usua_Usuario').val();
+            var clave = $('#Usua_Clave').val();
+            var isadmin = $('#_checkbox-26').val();
+            var rol = $('#Rol_Id').val();
+            console.log(usuario)
+            console.log(rol)
+
+
+            if (!usuario) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> El usuario es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!clave) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La clave es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!$('#_checkbox-26').is(':checked')) {
+                console.log($('#_checkbox-26').is(':checked'))
+                console.log(rol)
+                if (rol == "1" && !$('#_checkbox-26').is(':checked')) {
+                    console.log("hola");
+                    event.preventDefault();
+                    $.notify({
+                        icon: "tim-icons icon-bell-55",
+                        message: "<b>Advertencia</b> Ingrese un rol o si es admin"
+                    }, {
+                        type: 'warning',
+                        timer: 1000,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        }
+                    });
+                }
+            }
+
+            if ($('#_checkbox-26').is(':checked')) {
+                $('#txtadmin1').val(true);
+            }
+
+
+        });
+
         $(".editar-depa").click(function () {
             var id = $(this).data("depa-id");
             var url = "https://localhost:44363/API/Usuario/FillUsuarios/" + id;

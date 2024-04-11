@@ -75,5 +75,13 @@ namespace Sistema_Turnos.API.Controllers
             var list = _turnoService.BuscarTurnoEmpleado(id);
             return Ok(list);
         }
+
+        [HttpGet("ContarTurnosEmpleados/{FechaInicio}/{FechaFin}")]
+        public IActionResult ContarTurnos(string FechaInicio, string FechaFin)
+        {
+            var list = _turnoService.ContarTurnos(FechaInicio, FechaFin);
+            return Ok(list);
+        }
+
     }
 }

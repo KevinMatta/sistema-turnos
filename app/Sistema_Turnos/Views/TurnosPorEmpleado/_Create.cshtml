@@ -10,6 +10,9 @@
                     <label asp-for="Empl_Id" class="control-label"></label>
                     <input id="Empl_Id" type="hidden" name="Empl_Id" value="" />
                     <input type="text" id="empleado" class="form-control" placeholder="Identidad" list="suggestions">
+                    <div class="mb-5" id="txtempleado">
+                        <label class="control-label" style="color:red;">El empleado es requerido</label>
+                    </div>
                     <span asp-validation-for="Empl_Id" class="text-danger"></span>
                     <datalist id="suggestions">
                         @foreach (var item in ViewBag.ListaEmpleados)
@@ -25,6 +28,9 @@
                     <label asp-for="Turn_Id" class="control-label"></label>
                     <input id="Turn_Id" type="hidden" name="Turn_Id" value="" />
                     <input type="text" id="turno" class="form-control" placeholder="Turno" list="sugerencia" />
+                    <div class="mb-5" id="txturnos">
+                        <label class="control-label" style="color:red;">El turno es requerido</label>
+                    </div>
                     <datalist id="sugerencia">
                         @foreach (var item in ViewBag.ListaTurnos)
                         {
@@ -41,7 +47,6 @@
                 <div class="form-group">
                     <label>Nombre</label>
                     <input type="text" id="nombre" class="form-control" placeholder="Nombre" readonly>
-
                 </div>
             </div>
             <div class="col-md-6 pl-1">
@@ -54,7 +59,7 @@
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Guardar</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" id="btnRegresar" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
     </div>
 </form>
 
@@ -63,6 +68,25 @@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
+
+    $(document).ready(function () {
+        $('#txtempleado').hide();
+        $('#txturnos').hide();
+
+        if (!empleado) {
+            $('#txtempleado').show();
+        }
+
+        if (Turn_Id == "") {
+            $('#txturnos').show();
+            console.log("Turan: " + Turn_Id)
+        }
+    });
+
+    $('#btnRegresar').click(function () {
+        window.location.href = window.location.href + '?nocache=' + new Date().getTime();
+
+    });
 
     //actualizar el localStorage
     $('#FechaInicio').val(localStorage.getItem("fechaInicio"));
