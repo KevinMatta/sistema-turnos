@@ -9,7 +9,7 @@ namespace Sistema_Turnos.DataAccess.Repository
         public IEnumerable<T> List();
         public RequestStatus Insert(T item);
         public RequestStatus Update(T item);
-        public RequestStatus Delete(int? id);
+        public RequestStatus Delete(T item);
         public T Details(int? id);
         public T find(int? id);
     }
