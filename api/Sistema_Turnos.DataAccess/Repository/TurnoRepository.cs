@@ -12,7 +12,8 @@ namespace Sistema_Turnos.DataAccess.Repository
 {
     public class TurnoRepository : IRepository<tbTurnos>
     {
-        public RequestStatus Delete(int? id)
+
+        public RequestStatus Delete(tbTurnos item)
         {
             throw new NotImplementedException();
         }
