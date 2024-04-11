@@ -105,5 +105,10 @@ namespace Sistema_Turnos.DataAccess.Repository
         {
             throw new NotImplementedException();
         }
+
+        public RequestStatus Delete(tbTurnosPorEmpleados item)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

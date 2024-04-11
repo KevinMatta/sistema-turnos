@@ -12,7 +12,7 @@ namespace Sistema_Turnos.DataAccess.Repository
 {
     public class EmpleadoRepository : IRepository<tbEmpleados>
     {
-        public RequestStatus Delete(int? id)
+        public RequestStatus Delete(tbEmpleados item)
         {
             throw new NotImplementedException();
         }
