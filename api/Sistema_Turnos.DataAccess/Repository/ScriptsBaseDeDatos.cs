@@ -125,10 +125,10 @@ namespace Sistema_Turnos.DataAccess.Repository
 
                 #region Hospitales
                 public static string Hospi_Insertar = "[Turn].[sp_Hospitales_crear]";
-                public static string Hospi_Listar = "[Turn].[sp_Empleados_listar]";
+                public static string Hospi_Listar = "[Turn].[sp_Hospitales_listar]";
                 public static string Hospi_Eliminar = "[Turn].[sp_Hospitales_eliminar]";
                 public static string Hospi_Actualizar = "[Turn].[sp_Hospitales_editar]";
-                public static string Hospi_Obtener = "[Turn].[sp_Empleados_buscar] ";
+                public static string Hospi_Obtener = "[Turn].[sp_Hospitales_obtener]";
                 //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
                 //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
                 #endregion

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Sistema_Turnos.Models.HospitalViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-header ">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Hospitales</h3>
+        <button type="button" class="btn btn-primary animation-on-hover btn-sm" data-toggle="modal" data-target="#crearModal"> <i class="tim-icons icon-simple-add"></i> Nuevo</button>
+    </div>
+</div>
+
+<div class="card-body ">
+    <table class="table tablesorter table-hover table-striped" id="tabla">
+        <thead class=" text-primary">
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Hosp_Id)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Hosp_Descripcion)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Hosp_Direccion)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Ciud_Descripcion)
+                </th>
+                <th class="text-right">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Hosp_Id)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Hosp_Descripcion)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Hosp_Direccion)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Ciud_Descripcion)
+                </td>
+                <td class="text-right">
+                    <button class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Hosp_Id">Editar <i class="tim-icons icon-pencil"></i></button>
+                    @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
+                    <a href="@Url.Action("Details", "Hospital", new { id = item.Hosp_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
+                    <a asp-route-id="@item.Hosp_Id" asp-controller="Departamento" asp-action="Delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID(@item.Hosp_Id)">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
