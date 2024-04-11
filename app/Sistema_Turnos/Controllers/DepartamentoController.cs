@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sistema_Turnos.Models;
@@ -15,19 +16,56 @@ namespace Sistema_Turnos.Controllers
     public class DepartamentoController : Controller
     {
         public DepartamentoService _departamentoServicios;
-        public DepartamentoController(DepartamentoService departamentoServicios)
+        public RolService _rolService;
+        public DepartamentoController(DepartamentoService departamentoServicios, RolService rolService)
         {
             _departamentoServicios = departamentoServicios;
+            _rolService = rolService;
         }
         // GET: DepartamentosController
+
+        [HttpGet("Departamento/Listado")]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var model = new List<DepartamentoViewModel>();
-                var list = await _departamentoServicios.ObtenerDepartamentoList();
-                return View(list.Data);
+                string rol = HttpContext.Session.GetString("roles");
+
+                if(rol == "0")
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                else 
+                {
+                    int valor = 0;
+                    if (rol != "")
+                    {
+                        var url = await _rolService.ValidarUrl(2, int.Parse(rol));
+                        var validarurl = url.Data as IEnumerable<RolViewModel>;
+                        foreach (var item in validarurl)
+                        {
+                            int? rol_id = item.Rol_Id;
+                            valor = 1;
+                        }
+                    }
+
+                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                    {
+                        var model = new List<DepartamentoViewModel>();
+                        var list = await _departamentoServicios.ObtenerDepartamentoList();
+                        return View(list.Data);
+                    }
+
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                }
             }
+
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "Home");
@@ -46,17 +84,65 @@ namespace Sistema_Turnos.Controllers
         {
             try
             {
-                item.Esta_Creacion = 1;
-                item.Esta_FechaCreacion = DateTime.Now;
-                var list = await _departamentoServicios.CrearDepartamento(item);
-                string[] notificaciones = new string[4];
-                notificaciones[0] = "tim-icons icon-alert-circle-exc";
-                notificaciones[1] = "Agregado";
-                notificaciones[2] = "Se agregaron los datos con exito";
-                notificaciones[3] = "info";
-                TempData["Notificaciones"] = notificaciones;
+                int codigo = 0;
+                int depto = 0;
+                string codigo_depa = item.Esta_Id;
+                string Esta_Descripcion = item.Esta_Descripcion;
 
-                return RedirectToAction("Index");
+                var response = await _departamentoServicios.DetallesDepartamento(codigo_depa);
+                var listtt = await _departamentoServicios.ObtenerEstadooo(Esta_Descripcion);
+
+                var depaname = listtt.Data as IEnumerable<DepartamentoViewModel>;
+                var depaid = response.Data as IEnumerable<DepartamentoViewModel>;
+
+                if (depaid.ToList().Count > 0 && depaname.ToList().Count > 0)
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-bell-55";
+                    notificaciones[1] = "Advertencia";
+                    notificaciones[2] = "Ya existe un departamento con ese codigo y ese nombre";
+                    notificaciones[3] = "warning";
+                    TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index");
+                }
+
+                if (depaname.ToList().Count > 0)
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-bell-55";
+                    notificaciones[1] = "Advertencia";
+                    notificaciones[2] = "Ya existe un departamento con ese nombre";
+                    notificaciones[3] = "warning";
+                    TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index");
+                }
+
+                if(depaid.ToList().Count > 0)
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-bell-55";
+                    notificaciones[1] = "Advertencia";
+                    notificaciones[2] = "Ya existe un departamento con ese codigo";
+                    notificaciones[3] = "warning";
+                    TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index");
+                }
+
+                else 
+                {
+                    item.Esta_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id")) ;
+                    item.Esta_FechaCreacion = DateTime.Now;
+                    var list = await _departamentoServicios.CrearDepartamento(item);
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Agregado";
+                    notificaciones[2] = "Se agregaron los datos con exito";
+                    notificaciones[3] = "info";
+                    TempData["Notificaciones"] = notificaciones;
+
+                    return RedirectToAction("Index", "Departamento");
+                }
+
                 //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
             catch (Exception ex)
@@ -86,7 +172,7 @@ namespace Sistema_Turnos.Controllers
             {
                 item.Esta_Id = id;
                 item.Esta_Descripcion = Descripcion;
-                item.Esta_Modificacion = 1;
+                item.Esta_Modificacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 item.Esta_FechaModificacion = DateTime.Now;
                 var result = await _departamentoServicios.EditarDepartamento(item);
                 if (result.Success)
@@ -122,10 +208,10 @@ namespace Sistema_Turnos.Controllers
                 if (hola == "Error al realizar la operacion.") 
                 {
                     string[] notificaciones = new string[4];
-                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[0] = "tim-icons icon-bell-55";
                     notificaciones[1] = "Error";
                     notificaciones[2] = "Ocurrio un error al eliminar el departamento";
-                    notificaciones[3] = "danger";
+                    notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
                 }
                 else
@@ -138,7 +224,6 @@ namespace Sistema_Turnos.Controllers
                     TempData["Notificaciones"] = notificaciones;
                 }
                 return RedirectToAction("Index");
-                //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
             }
             catch (Exception ex)
             {
@@ -146,18 +231,30 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        // GET: DepartamentosController/DetailsDepartamentos
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Details(string Esta_Id)
         {
-            try
-            {
+            string rol = HttpContext.Session.GetString("roles");
 
-                var list = await _departamentoServicios.DetallesDepartamento(Esta_Id);
-                return View(list.Data);
-            }
-            catch (Exception ex)
+            if (rol == "0")
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                var response = await _departamentoServicios.DetallesDepartamento(Esta_Id);
+                if (response.Success)
+                {
+
+                    return View(response.Data);
+
+                }
+
+                else
+                {
+
+                    return RedirectToAction("Index", "Departamento");
+                }
             }
         }
 

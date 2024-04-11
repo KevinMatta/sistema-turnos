@@ -14,11 +14,18 @@ namespace Sistema_Turnos.BusinessLogic.Services
         {
             service.AddScoped<DepartamentoRepository>();
             service.AddScoped<TurnosPorEmpleadoRepository>();
+            service.AddScoped<RolesRepository>();
+            service.AddScoped<PantallaRepository>();
+            service.AddScoped<UsuarioRepository>();
+            service.AddScoped<MunicipioRepository>();
+            service.AddScoped<CargoRepository>();
+            service.AddScoped<EstadoCivilRepository>();
 
             Sistemas_TurnosContext.BuildConnectionString(conn);
         }
         public static void BusinessLogic(this IServiceCollection service)
         {
+            service.AddScoped<AccesoServices>();
             service.AddScoped<GeneralService>();
             service.AddScoped<TurnoService>();
         }

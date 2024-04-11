@@ -1,0 +1,173 @@
+﻿@model IEnumerable<Sistema_Turnos.Models.CargoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-header ">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Cargos</h3>
+        <button type="button" class="btn btn-primary animation-on-hover btn-sm" data-toggle="modal" data-target="#crearModal"> <i class="tim-icons icon-simple-add"></i> Nuevo</button>
+    </div>
+</div>
+
+<div class="card-body ">
+    <table class="table tablesorter table-hover table-striped" id="tabla">
+        <thead class=" text-primary">
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Carg_Id)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Carg_Descripcion)
+                </th>
+                <th class="text-right">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Carg_Id)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Carg_Descripcion)
+                    </td>
+                    <td class="text-right">
+                        <button class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Carg_Id">Editar <i class="tim-icons icon-pencil"></i></button>
+                        @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
+                        <a href="@Url.Action("Details", "Cargo", new { Carg_Id = item.Carg_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
+                        <a asp-route-id="@item.Carg_Id" asp-controller="Departamento" asp-action="Delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID(@item.Carg_Id)">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade modal-black" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Editar Cargo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Edit", new Sistema_Turnos.Models.CargoViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-black" id="crearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Crear Cargo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Create", new Sistema_Turnos.Models.CargoViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-black" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Eliminar Cargo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Delete", new Sistema_Turnos.Models.CargoViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#crearModal form').submit(function (event) {
+            var cargo = $('#Carg_Descripcion').val();
+
+            if (!cargo) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> El cargo es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+        });
+
+        $('#editarModal form').submit(function (event) {
+            var cargo = $('#ciu').val();
+
+            if (!cargo) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> El cargo es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+        });
+
+
+        $(".editar-depa").click(function () {
+            var id = $(this).data("depa-id");
+            var url = "https://localhost:44363/API/Cargo/FillCargos/" + id;
+
+            console.log("Id: " + id);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.data);
+                    var datos = data.data[0];
+                    var cargo = datos.carg_Descripcion;
+                    console.log(cargo);
+                    $("#iddd").val(id);
+                    $("#ciu").val(cargo);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+
+    });
+</script>

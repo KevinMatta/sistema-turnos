@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Sistema_Turnos.Models.RolViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-header ">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Roles</h3>
+        <a asp-controller="Rol" asp-action="Create" type="button" class="btn btn-primary animation-on-hover btn-sm"> <i class="tim-icons icon-simple-add"></i> Nuevo</a>
+    </div>
+</div>
+
+
+<div class="card-body ">
+    <table class="table tablesorter table-hover table-striped" id="tabla">
+        <thead class=" text-primary">
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Rol_Id)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Rol_Descripcion)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Rol_Id)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Rol_Descripcion)
+                    </td>
+                    <td class="text-right">
+                        <a href="@Url.Action("Edit", "Rol", new { Rol_Id = item.Rol_Id })" class="btn btn-warning btn-sm">Editar <i class="tim-icons icon-pencil"></i></a>
+                        <a href="@Url.Action("Details", "Rol", new { Rol_Id = item.Rol_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
+                        <a asp-route-id="@item.Rol_Id" asp-controller="Rol" asp-action="Delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID(@item.Rol_Id)">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade modal-black" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Eliminar Departamento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Delete", new Sistema_Turnos.Models.RolViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var saber = 0;
+        $('.chequear:checked').each(function () {
+            $("#rolid").attr("hidden");
+            $("#rolid").addClass("collapse");
+
+            saber = 15;
+
+        });
+
+        if ($("#checkboxxx").is(":checked"))
+        {
+
+            $("#rolid").attr("hidden", true);
+
+            var uno = 1;
+            $("#txtadmin").val(uno);
+        }
+
+        console.log(saber);
+
+    });
+</script>
