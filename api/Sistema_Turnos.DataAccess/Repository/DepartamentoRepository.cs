@@ -111,6 +111,20 @@ namespace Sistema_Turnos.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbEstados> ObtenerEstado(string Esta_Descripcion)
+        {
+            string sql = ScriptsBaseDeDatos.Estad_ObtenerEstado;
+
+            List<tbEstados> result = new List<tbEstados>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { Esta_Descripcion };
+                result = db.Query<tbEstados>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
         public RequestStatus Update(tbEstados item)
         {
             string sql = ScriptsBaseDeDatos.Estad_Actualizar;

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Sistema_Turnos.Models;
 using Sistema_Turnos.Services;
 using System;

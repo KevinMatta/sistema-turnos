@@ -4,8 +4,8 @@
     <form asp-action="@ViewData["ViewName"]" asp-controller="Departamento">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
-            <div class="form-group">
-                <div class="col-sm-12">
+            <div class="col-sm-12">
+                <div class="form-group">
                     <label asp-for="Esta_Descripcion" class="control-label"></label>
                     <input id="Descripcion" asp-for="Esta_Descripcion" name="Descripcion" class="form-control" />
                     <span asp-validation-for="Esta_Descripcion" class="text-danger"></span>

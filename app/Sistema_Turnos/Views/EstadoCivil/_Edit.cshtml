@@ -1,0 +1,37 @@
+﻿@model Sistema_Turnos.Models.EstadoCivilViewModel
+
+<div class="card-body">
+    <form asp-action="@ViewData["ViewName"]">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-sm-11">
+                <div class="form-group">
+                    <label asp-for="EsCi_Descripcion" class="control-label"></label>
+                    <input asp-for="EsCi_Descripcion" id="estci" name="EsCi_Descripcion" class="form-control" />
+                    <span asp-validation-for="EsCi_Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" hidden>
+            <label asp-for="EsCi_Id" class="control-label"></label>
+            <input asp-for="EsCi_Id" id="iddd" name="EsCi_Id" class="form-control" />
+            <span asp-validation-for="EsCi_Id" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input asp-controller="EstadoCivil" asp-action="Edit" type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-dark">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

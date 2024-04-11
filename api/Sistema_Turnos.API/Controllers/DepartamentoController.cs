@@ -70,8 +70,8 @@ namespace Sistema_Turnos.API.Controllers
             {
                 Esta_Id = item.Esta_Id,
                 Esta_Descripcion = item.Esta_Descripcion,
-                //Esta_Modificacion = 1,
-                //Esta_FechaModificacion = DateTime.Now,
+                Esta_Modificacion = item.Esta_Modificacion,
+                Esta_FechaModificacion = item.Esta_FechaModificacion,
             };
             var list = _generalService.ActualizarEstado(modelo);
             return Ok(list);
@@ -81,6 +81,13 @@ namespace Sistema_Turnos.API.Controllers
         public IActionResult Details(string Esta_Id)
         {
             var list = _generalService.ListDepto(Esta_Id);
+            return Ok(list);
+        }
+
+        [HttpGet("ObetenerEstado")]
+        public IActionResult ObtenerEstado(string Esta_Descripcion)
+        {
+            var list = _generalService.ObtenerEsta(Esta_Descripcion);
             return Ok(list);
         }
 
