@@ -23,7 +23,7 @@ namespace Sistema_Turnos.Entities.Entities
 
         //campos extras
         [NotMapped]
-        public int groupId { get; set; }
+        public int url { get; set; }
         [NotMapped]
         public int id { get; set; }
         [NotMapped]

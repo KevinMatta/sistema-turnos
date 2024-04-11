@@ -98,10 +98,36 @@ namespace Sistema_Turnos.Services
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Post<TurnosPorEmpleadoViewModel, ServiceResult>(req =>
+                var response = await _api.Put<TurnosPorEmpleadoViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"/API/TurnosPorEmpleado/Buscar";
+                    req.Path = $"/API/TurnosPorEmpleado/Editar";
                     req.Content = item;
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
+        public async Task<ServiceResult> EliminarTurnoEmpleado(int item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Delete<TurnosPorEmpleadoViewModel, ServiceResult>(req =>
+                {
+                    req.Path = $"/API/TurnosPorEmpleado/Eliminar?id={item}";
+                    //req.Content = item;
                 });
                 if (!response.Success)
                 {

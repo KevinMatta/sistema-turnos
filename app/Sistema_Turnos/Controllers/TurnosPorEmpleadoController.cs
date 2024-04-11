@@ -79,6 +79,7 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "No puedes asignar este turno mas de 2 veces a la semana";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index", "TurnosPorEmpleado");
                 }
 
                 if (semanaPasada.Any(t => t.Empl_Id == item.Empl_Id))
@@ -88,7 +89,7 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[1] = "Advertencia";
                     notificaciones[2] = "Este empleado ya tuvo este turno la semana pasada";
                     notificaciones[3] = "warning";
-                    TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index", "TurnosPorEmpleado");
                 }
 
                 if (mismoDia.Any(t => t.Empl_Id == item.Empl_Id))
@@ -99,6 +100,7 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "Este empleado ya tiene un turno para este dia";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index", "TurnosPorEmpleado");
                 }
 
                 if (turnoNocturno.Any(t => t.Empl_Id == item.Empl_Id))
@@ -109,6 +111,7 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "No puede tener este turno 2 dias seguidos";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
+                    return RedirectToAction("Index", "TurnosPorEmpleado");
                 }
 
                 if (ModelState.IsValid)
@@ -118,10 +121,10 @@ namespace Sistema_Turnos.Controllers
                     item.TuEm_FechaCreacion = DateTime.Now;
                     var list = await _turnosPorEmpleadoService.CrearTurnoEmpleado(item);
                     string[] notificaciones = new string[4];
-                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
-                    notificaciones[1] = "Agregado";
+                    notificaciones[0] = "tim-icons icon-check-2";
+                    notificaciones[1] = "Exito";
                     notificaciones[2] = "Se agregaron los datos con exito";
-                    notificaciones[3] = "info";
+                    notificaciones[3] = "success";
                     TempData["Notificaciones"] = notificaciones;
                 }
 
@@ -129,7 +132,7 @@ namespace Sistema_Turnos.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "TurnosPorEmpleado");
+                return Json(new { success = false, message = "error" });
             }
         }
 
@@ -142,11 +145,6 @@ namespace Sistema_Turnos.Controllers
                 item.TuEm_Id = TuEm_Id;
                 item.TuEm_FechaInicio = TuEm_FechaInicio;
                 item.Empl_Id = Empl_Id;
-                //var x = await _turnosPorEmpleadoService.BuscarTurnoEmpleado(TuEm_Id);
-                //item.Empl_Id = x.Data;
-                //var datalist = x.Data as List<TurnosPorEmpleadoViewModel>;
-                //item.Empl_Id = datalist[0].Empl_Id;
-
 
                 var listaTurnosEmpleado = new List<TurnosPorEmpleadoViewModel>();
                 var listaTurnosEmpleadoResponse = await _turnosPorEmpleadoService.TurnosPorEmpleadoList();
@@ -178,9 +176,10 @@ namespace Sistema_Turnos.Controllers
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-bell-55";
                     notificaciones[1] = "Advertencia";
-                    notificaciones[2] = "Este empleado ya tuvo este turno la semana pasada";
+                    notificaciones[2] = "Este empleado ya tuvo este turno esta semana";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
+                    return Json(new { success = false, message = "error" });
                 }
 
                 if (semanaPasada.Any(t => t.Empl_Id == item.Empl_Id))
@@ -190,7 +189,8 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[1] = "Advertencia";
                     notificaciones[2] = "Este empleado ya tuvo este turno la semana pasada";
                     notificaciones[3] = "warning";
-                    TempData["Notificaciones"] = notificaciones;
+                    TempData["Notificaciones"] = notificaciones; 
+                    return Json(new { success = false, message = "error" });
                 }
 
                 if (mismoDia.Any(t => t.Empl_Id == item.Empl_Id))
@@ -201,6 +201,7 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "Este empleado ya tiene un turno para este dia";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
+                    return Json(new { success = false, message = "error" });
                 }
 
                 if (turnoNocturno.Any(t => t.Empl_Id == item.Empl_Id))
@@ -211,27 +212,61 @@ namespace Sistema_Turnos.Controllers
                     notificaciones[2] = "No puede tener este turno 2 dias seguidos";
                     notificaciones[3] = "warning";
                     TempData["Notificaciones"] = notificaciones;
+                    return Json(new { success = false, message = "error" });
                 }
 
-                if(false)
+
                 {
-                    //listo para insertar
+                    //listo para actualizar
                     item.TuEm_Modificacion = 1;
                     item.TuEm_FechaModificacion = DateTime.Now;
                     var list = await _turnosPorEmpleadoService.EditarTurnoEmpleado(item);
                     string[] notificaciones = new string[4];
-                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
-                    notificaciones[1] = "Agregado";
-                    notificaciones[2] = "Se agregaron los datos con exito";
-                    notificaciones[3] = "info";
+                    notificaciones[0] = "tim-icons icon-check-2";
+                    notificaciones[1] = "Exito";
+                    notificaciones[2] = "Se actualizo la fecha con exito";
+                    notificaciones[3] = "success";
                     TempData["Notificaciones"] = notificaciones;
                 }
 
-                return RedirectToAction("Index", "TurnosPorEmpleado");
+                return Json(new { success = false, message = "error" });
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Index", "TurnosPorEmpleado");
+            }
+        }
+
+        [HttpPost("TurnosPorEmpleado/Eliminar")]
+        public async Task<IActionResult> Eliminar(int TuEm_Id)
+        {
+            try
+            {
+                var list = await _turnosPorEmpleadoService.EliminarTurnoEmpleado(TuEm_Id);
+                if (!list.Success)
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-alert-circle-exc";
+                    notificaciones[1] = "Error";
+                    notificaciones[2] = "Ocurrio un error al eliminar el turno";
+                    notificaciones[3] = "danger";
+                    TempData["Notificaciones"] = notificaciones;
+                }
+                else
+                {
+                    string[] notificaciones = new string[4];
+                    notificaciones[0] = "tim-icons icon-check-2";
+                    notificaciones[1] = "Exito";
+                    notificaciones[2] = "Se elimino el turno con exito";
+                    notificaciones[3] = "success";
+                    TempData["Notificaciones"] = notificaciones;
+                }
+                return RedirectToAction("Index");
+                //return View(new List<DepartamentoViewModel> { (DepartamentoViewModel)list.Data } );
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
             }
         }
     }

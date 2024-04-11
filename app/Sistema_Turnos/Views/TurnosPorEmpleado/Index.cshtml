@@ -42,18 +42,20 @@
                     <i class="tim-icons icon-simple-remove"></i>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p>¿Desea eliminar este Turno?</p>
-                        <input type="hidden" name="TuEm_Id" value="" />
+            <form asp-action="Eliminar">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p id="mensajeEliminar"></p>
+                            <input type="hidden" id="idEliminar" name="TuEm_Id" value="" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -75,6 +77,7 @@
                 listDay: { buttonText: 'Dia' },
                 dayGridWeek: { buttonText: 'Semana' },
                 dayGridMonth: { buttonText: 'Mes' },
+                today: {buttonText: 'Hoy'}
             },
             initialView: 'dayGridMonth',
             dayMaxEventRows: 2,
@@ -92,24 +95,32 @@
                 }
             },
             eventClick: function (info) {
+                info.jsEvent.preventDefault();
+                var todayStr = new Date().toISOString().slice(0, 10);
+                var formattedDate = moment(info.event.start).format('YYYY-MM-DD');
+                if (todayStr < formattedDate) {
+                    console.log(info.event.url)
 
+                    $('#mensajeEliminar').text(`Desea Eliminar ${info.event.title} del ${formattedDate}`)
+                    $('#idEliminar').val(info.event.id)
+                    $('#eliminarModal').modal('show');
+                }  
             },
             eventDrop: function (info) {
                 var todayStr = new Date().toISOString().slice(0, 10);
                 var formattedDate = moment(info.event.start).format('YYYY-MM-DD');
+                var oldDate = moment(info.oldEvent.start).format('YYYY-MM-DD');
                 if (todayStr > info.oldEvent.start) {
                     info.revert();
                 }
-                else if (formattedDate > todayStr) {
-                    console.log('Evento movido a la fecha:', formattedDate);
-                    console.log('id:', info.event.id)
-                    console.log('empl_ID:', info.event.groupId)
+                else if (formattedDate > todayStr && oldDate > todayStr) {
                     $.ajax({
-                        url: `/TurnosPorEmpleado/Editar/${info.event.id}/${formattedDate}/${info.event.groupId}`,
+                        url: `/TurnosPorEmpleado/Editar/${info.event.id}/${formattedDate}/${info.event.url}`,
                         type: 'POST',
                         contentType: 'application/json',
                         /*data: JSON.stringify({ TuEm_Id: info.event.id, TuEm_FechaInicio: formattedDate }),*/
                         success: function (data) {
+                            window.location.href = '/ListTurnosEmpleados';
                             console.log('Solicitud exitosa', data);
                         },
                         error: function (xhr, status, error) {

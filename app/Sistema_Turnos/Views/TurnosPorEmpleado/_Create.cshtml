@@ -77,11 +77,6 @@
 
     const localStorageSetHandler = function (e) {
         $('#FechaInicio').val(e.value)
-        console.log(e.value)
-
-        //var empleadosFiltrados = filtrarEmpleados(e.value);
-        //console.log(empleadosFiltrados)
-        //actualizarListaEmpleados(empleadosFiltrados);
     };
     document.addEventListener("itemInserted", localStorageSetHandler, false);
 

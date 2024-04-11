@@ -91,8 +91,6 @@ namespace Sistema_Turnos.DataAccess.Repository
                 var parameter = new DynamicParameters();
                 parameter.Add("@TuEm_Id", item.TuEm_Id);
                 parameter.Add("@TuEm_FechaInicio", item.TuEm_FechaInicio);
-                parameter.Add("@Turn_Id", item.Turn_Id);
-                parameter.Add("@Empl_Id", item.Empl_Id);
                 parameter.Add("@TuEm_Modificacion", item.TuEm_Modificacion);
                 parameter.Add("@TuEm_FechaModificacion", item.TuEm_FechaModificacion);
 
