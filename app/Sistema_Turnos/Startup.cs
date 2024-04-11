@@ -36,6 +36,8 @@ namespace Sistema_Turnos
             services.AddScoped<DepartamentoService>();
             services.AddScoped<RolService>();
             services.AddScoped<TurnosPorEmpleadoService>();
+            services.AddScoped<TurnoService>();
+            services.AddScoped<EmpleadoService>();
             services.AddScoped<UsuarioService>();
             services.AddScoped<MunicipioService>();
             services.AddScoped<CargoService>();
@@ -57,7 +59,6 @@ namespace Sistema_Turnos
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.IsEssential = true;
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

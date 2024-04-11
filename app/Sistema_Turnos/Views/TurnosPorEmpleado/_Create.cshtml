@@ -1,0 +1,127 @@
+﻿@model Sistema_Turnos.Models.TurnosPorEmpleadoViewModel
+
+<form id="formulario" asp-action="Create">
+    <div class="modal-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input id="FechaInicio" type="hidden" name="TuEm_FechaInicio" value="" />
+        <div class="row">
+            <div class="col-md-6 pr-1">
+                <div class="form-group">
+                    <label asp-for="Empl_Id" class="control-label"></label>
+                    <input id="Empl_Id" type="hidden" name="Empl_Id" value="" />
+                    <input type="text" id="empleado" class="form-control" placeholder="Identidad" list="suggestions">
+                    <span asp-validation-for="Empl_Id" class="text-danger"></span>
+                    <datalist id="suggestions">
+                        @foreach (var item in ViewBag.ListaEmpleados)
+                        {
+                            <option value="@item.Pers_Identidad"></option>
+                        }
+                    </datalist>
+
+                </div>
+            </div>
+            <div class="col-md-6 pl-1">
+                <div class="form-group">
+                    <label asp-for="Turn_Id" class="control-label"></label>
+                    <input id="Turn_Id" type="hidden" name="Turn_Id" value="" />
+                    <input type="text" id="turno" class="form-control" placeholder="Turno" list="sugerencia" />
+                    <datalist id="sugerencia">
+                        @foreach (var item in ViewBag.ListaTurnos)
+                        {
+                            <option value="@item.Turn_Descripcion"></option>
+                        }
+                    </datalist>
+
+                    <span asp-validation-for="Turn_Id" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 pr-1">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" id="nombre" class="form-control" placeholder="Nombre" readonly>
+
+                </div>
+            </div>
+            <div class="col-md-6 pl-1">
+                <div class="form-group">
+                    <label>Horario</label>
+                    <input type="text" id="horario" class="form-control" placeholder="Horario" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+
+    //actualizar el localStorage
+    $('#FechaInicio').val(localStorage.getItem("fechaInicio"));
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function (key, value) {
+        const event = new Event('itemInserted');
+        event.value = value;
+        event.key = key;
+        document.dispatchEvent(event);
+        originalSetItem.apply(this, arguments);
+    };
+
+    const localStorageSetHandler = function (e) {
+        $('#FechaInicio').val(e.value)
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler, false);
+
+
+
+    //rellenar otros campos
+    $('#empleado').change(function () {
+        var seleccion = $(this).val();
+
+        var empleados = {};
+        var empleadosID = {};
+        @foreach (var item in ViewBag.ListaEmpleados)
+        {
+            <text>
+                empleados['@item.Pers_Identidad'] = '@item.Nombre';
+                empleadosID['@item.Pers_Identidad'] = '@item.Empl_Id';
+            </text>
+        }
+
+        var nombre = empleados[seleccion];
+        var id = empleadosID[seleccion];
+        $('#nombre').val(nombre);
+        $('#Empl_Id').val(id);
+    });
+
+    $('#turno').change(function () {
+        var seleccion = $(this).val();
+
+        var turnos = {};
+        var turnosID = {};
+        @foreach (var item in ViewBag.ListaTurnos)
+        {
+            <text>
+                turnos['@item.Turn_Descripcion'] = '@item.Turn_HoraEntrada - @item.Turn_HoraSalida';
+                turnosID['@item.Turn_Descripcion'] = '@item.Turn_Id';
+            </text>
+        }
+
+        var horario = turnos[seleccion];
+        var id = turnosID[seleccion];
+        console.log(horario)
+        console.log(id)
+        $('#horario').val(horario);
+        $('#Turn_Id').val(id)
+
+    });
+
+</script>

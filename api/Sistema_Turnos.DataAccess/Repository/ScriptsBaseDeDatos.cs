@@ -32,7 +32,7 @@ namespace Sistema_Turnos.DataAccess.Repository
 
                 public static string Panta_Listar = "[Acce].[sp_Pantallas_listar]";
 
-        #endregion
+                #endregion
 
                 #region Usuario
                 public static string Usua_Insertar = "[Acce].[sp_Usuarios_crear]";
@@ -106,17 +106,21 @@ namespace Sistema_Turnos.DataAccess.Repository
 
                 #region TurnosPorEmpleado
                 public static string TuEm_Listar = "[Turn].[sp_TurnosPorEmpleados_listar]";
+                public static string TuEm_Buscar = "[Turn].[sp_TurnosPorEmpleados_buscar]";
+                public static string TuEm_Crear = "[Turn].[sp_TurnosPorEmpleados_crear]";
+                public static string TuEm_Editar = "[Turn].[sp_TurnosPorEmpleados_editar]";
+                public static string TuEm_Eliminar = "[Turn].[sp_TurnosPorEmpleados_eliminar]";
                 #endregion
 
                 #region Empleados
-                public static string Emple_Insertar = "[Turn].[sp_Empleados_crear]";
-                public static string Emple_Listar = "[Turn].[sp_Empleados_listar]";
-                public static string Emple_Eliminar = "[Turn].[sp_Empleados_eliminar]";
-                public static string Emple_Actualizar = "[Turn].[sp_Empleados_editar]";
-                public static string Emple_Obtener = "[Turn].[sp_Empleados_buscar] ";
+                public static string Empl_Insertar = "[Turn].[sp_Empleados_crear]";
+                public static string Empl_Listar = "[Turn].[sp_Empleados_listar]";
+                public static string Empl_Eliminar = "[Turn].[sp_Empleados_eliminar]";
+                public static string Empl_Actualizar = "[Turn].[sp_Empleados_editar]";
+                public static string Empl_Obtener = "[Turn].[sp_Empleados_buscar] ";
                 //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
                 //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
-        #endregion
+                #endregion
 
                 #region Hospitales
                 public static string Hospi_Insertar = "[Turn].[sp_Hospitales_crear]";
@@ -126,18 +130,19 @@ namespace Sistema_Turnos.DataAccess.Repository
                 public static string Hospi_Obtener = "[Turn].[sp_Empleados_buscar] ";
                 //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
                 //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
-        #endregion
+                #endregion
 
-                #region Hospitales
-                public static string Turno_Insertar = "[Turn].[sp_Turnos_crear]";
-                public static string Turno_Listar = "[Turn].[sp_Turnos_listar]";
-                public static string Turno_Eliminar = "[Turn].[sp_Turnos_eliminar]";
-                public static string Turno_Actualizar = "[Turn].[sp_Turnos_editar]";
-                public static string Turno_Obtener = "[Turn].[sp_Turnos_buscar]  ";
+                #region Turnos
+                public static string Turn_Insertar = "[Turn].[sp_Turnos_crear]";
+                public static string Turn_Listar = "[Turn].[sp_Turnos_listar]";
+                public static string Turn_Eliminar = "[Turn].[sp_Turnos_eliminar]";
+                public static string Turn_Actualizar = "[Turn].[sp_Turnos_editar]";
+                public static string Turn_Obtener = "[Turn].[sp_Turnos_buscar]  ";
                 //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
                 //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
                 #endregion
 
         #endregion
+
     }
 }

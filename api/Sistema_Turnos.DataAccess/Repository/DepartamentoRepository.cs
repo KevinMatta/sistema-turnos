@@ -11,7 +11,7 @@ namespace Sistema_Turnos.DataAccess.Repository
 {
     public class DepartamentoRepository : IRepository<tbEstados>
     {
-        public RequestStatus Delete(tbEstados item)
+        public RequestStatus Delete(int? id)
         {
             throw new NotImplementedException();
         }
