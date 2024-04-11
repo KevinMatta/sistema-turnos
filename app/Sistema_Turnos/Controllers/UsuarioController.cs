@@ -47,7 +47,7 @@ namespace Sistema_Turnos.Controllers
                         }
                     }
 
-                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "admin")
+                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
                     {
                         var listarol = await _rolService.ObtenerRolList();
                         var roles = listarol.Data as IEnumerable<RolViewModel>;
@@ -198,7 +198,7 @@ namespace Sistema_Turnos.Controllers
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-alert-circle-exc";
                     notificaciones[1] = "Exito";
-                    notificaciones[2] = "Se elimino el cargo con exito";
+                    notificaciones[2] = "Se elimino el usuario con exito";
                     notificaciones[3] = "info";
                     TempData["Notificaciones"] = notificaciones;
                 }
@@ -210,6 +210,33 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> Details(int Usua_Id)
+        {
+            string rol = HttpContext.Session.GetString("roles");
+
+            if (rol == "0")
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                var response = await _usuarioService.DetallesUsuario(Usua_Id);
+
+                if (response.Success)
+                {
+
+                    return View(response.Data);
+
+                }
+
+                else
+                {
+
+                    return RedirectToAction("Index", "Cargo");
+                }
+            }
+        }
         public async Task<IActionResult> Restablecer(int Usua_Id, string Usua_Clave, int Usua_Modificacion, DateTime Usua_FechaModificacion)
         {
             try

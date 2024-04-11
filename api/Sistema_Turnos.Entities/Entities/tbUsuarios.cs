@@ -65,6 +65,12 @@ namespace Sistema_Turnos.Entities.Entities
         [NotMapped]
         public string Rol_Descripcion { get; set; }
 
+        [NotMapped]
+        public string usua_creac { get; set; }
+
+        [NotMapped]
+        public string usua_modi { get; set; }
+
         public virtual tbUsuarios Usua_CreacionNavigation { get; set; }
         public virtual tbUsuarios Usua_ModificacionNavigation { get; set; }
         public virtual ICollection<tbUsuarios> InverseUsua_CreacionNavigation { get; set; }

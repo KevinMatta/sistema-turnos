@@ -38,7 +38,7 @@ namespace Sistema_Turnos.Controllers
                     int valor = 0;
                     if (rol != "")
                     {
-                        var url = await _rolService.ValidarUrl(4, int.Parse(rol));
+                        var url = await _rolService.ValidarUrl(8, int.Parse(rol));
                         var validarurl = url.Data as IEnumerable<RolViewModel>;
                         foreach (var item in validarurl)
                         {
@@ -47,7 +47,7 @@ namespace Sistema_Turnos.Controllers
                         }
                     }
 
-                    if (valor == 1 || HttpContext.Session.GetString("rol") == "Administrador")
+                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
                     {
 
                         var model = new List<EstadoCivilViewModel>();

@@ -125,7 +125,7 @@ namespace Sistema_Turnos.Services
             {
                 var response = await _api.Delete<UsuarioViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"API/Usuario/DeleteUsuarios?Usua_Id={Usua_Id}&Usua_Modificacion={Usua_Modificacion}&Usua_FechaModificacion={Usua_FechaModificacion}";
+                    req.Path = $"API/Usuario/DeleteUsuarios?id={Usua_Id}&usuario={Usua_Modificacion}&fecha={Usua_FechaModificacion}";
                 });
                 if (!response.Success)
                 {

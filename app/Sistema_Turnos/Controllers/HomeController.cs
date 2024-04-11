@@ -35,7 +35,8 @@ namespace Sistema_Turnos.Controllers
         {
             string usuario = "";
             int ? idrol = 0;
-
+            TempData["Credenciales"] = "collapse";
+            TempData["saberrr"] = "";
             int num = 0;
             HttpContext.Session.SetString("roles", num.ToString());
 
@@ -48,52 +49,57 @@ namespace Sistema_Turnos.Controllers
                 var Claim = new List<Claim>();
                 var list = await _usuarioService.Login(Usuario, Contrasenia);
                 var saber = list.Data as IEnumerable<UsuarioViewModel>;
-                var listsss = saber.ToList();
-                if (listsss.Count > 0)
+                if(saber.ToList().Count > 0) 
                 {
-                    var loginlist = listsss.FirstOrDefault();
-
-                    foreach (var item in listsss)
+                    var listsss = saber.ToList();
+                    if (listsss.Count > 0)
                     {
-                        HttpContext.Session.SetString("Usua_Id", item.Usua_Id.ToString());
-                        HttpContext.Session.SetString("roles", item.Rol_Id.ToString());
-                        HttpContext.Session.SetString("Usuario", item.Usua_Nombre.ToString());
-                        if (item.rol != null)
+                        var loginlist = listsss.FirstOrDefault();
+
+                        foreach (var item in listsss)
                         {
-                            HttpContext.Session.SetString("rol", item.rol);
+                            HttpContext.Session.SetString("Usua_Id", item.Usua_Id.ToString());
+                            HttpContext.Session.SetString("roles", item.Rol_Id.ToString());
+                            HttpContext.Session.SetString("Usuario", item.Usua_Nombre.ToString());
+                            if (item.rol != null)
+                            {
+                                HttpContext.Session.SetString("rol", item.rol);
+                            }
+                            pantallasPorRol.Add(item.Pant_Descripcion);
+                            if (item.Pant_Descripcion != null)
+                            {
+                                Claim.Add(new Claim(ClaimTypes.Role, item.Pant_Descripcion));
+                            }
+                            else
+                            {
+                                Claim.Add(new Claim(ClaimTypes.Role, "Ninguna Pantalla"));
+                            }
+                            rol = item.Rol_Id;
                         }
-                        pantallasPorRol.Add(item.Pant_Descripcion);
-                        if (item.Pant_Descripcion != null)
+
+                        if (loginlist.Usua_Administrador == "Si")
                         {
-                            Claim.Add(new Claim(ClaimTypes.Role, item.Pant_Descripcion));
+                            string admin = "IsAdmin";
+                            HttpContext.Session.SetString("IsAdmin", admin);
+                            pantallasPorRol.Add("Admin");
+                            Claim.Add(new Claim(ClaimTypes.Role, "Admin"));
                         }
-                        else
-                        {
-                            Claim.Add(new Claim(ClaimTypes.Role, "Ninguna Pantalla"));
-                        }
-                        rol = item.Rol_Id;
+
+                        var ClaimsIdentity = new ClaimsIdentity(Claim, CookieAuthenticationDefaults.AuthenticationScheme);
+
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity));
+
+                        var pantallasJson = JsonSerializer.Serialize(pantallasPorRol);
+                        HttpContext.Session.SetString("Pantallas", pantallasJson);
+
+                        return RedirectToAction("Index");
                     }
-
-                    if (loginlist.Usua_Administrador == "Si")
-                    {
-                        string admin = "admin";
-                        HttpContext.Session.SetString("IsAdmin", admin);
-                        pantallasPorRol.Add("Admin");
-                        Claim.Add(new Claim(ClaimTypes.Role, "Admin"));
-                    }
-
-                    var ClaimsIdentity = new ClaimsIdentity(Claim, CookieAuthenticationDefaults.AuthenticationScheme);
-
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity));
-
-                    var pantallasJson = JsonSerializer.Serialize(pantallasPorRol);
-                    HttpContext.Session.SetString("Pantallas", pantallasJson);
-
-                   return RedirectToAction("Index");
                 }
+                TempData["Credenciales"] = "";
+                TempData["saberrr"] = "Credenciales invalidas";
+                return View();
             }
-
             return View();
         }
 
