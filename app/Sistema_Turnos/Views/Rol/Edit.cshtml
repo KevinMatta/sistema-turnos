@@ -1,0 +1,141 @@
+﻿@model Sistema_Turnos.Models.RolViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/Checkout-2.css" rel="stylesheet"/>
+
+<div class="card-header ">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Editar Rol</h3>
+    </div>
+</div>
+@*r
+    puedes ponerme tambien un disenio mas animado en el input con el id "checktodos"*@
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card-header row">
+                <div class="col-md-6">
+                    <input type="text" id="txtRol" name="txtRol" value="@Model.Rol_Descripcion" placeholder="Nombre del Rol" class="form-control" />
+                </div>
+                <div class="row">
+                    <div class="form-switch col-sm-4">
+                        @*<input class="form-check-input" type="checkbox" id="checkTodos">*@
+                        <div class="checkbox-wrapper-5">
+                            <div class="check">
+                                <input id="checkTodos" type="checkbox">
+                                <label for="checkTodos"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-switch col-sm-8" style="margin-left:-2%">
+                        <label class="form-check-label" style="font-size:14px" for="checkTodos">Seleccionar Todos</label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" style="margin-left:5%;">
+                <h5 class="card-title">Pantallas</h5>
+                <div class="row">
+                    @foreach (var pantalla in Model.pantallas)
+                    {
+                    <div class="col-md-4">
+
+                        <div class="">
+                            <input class="form-check-input pantalla-checkbox" type="checkbox" id="pantalla-@pantalla.Pant_Id" name="pantallasSeleccionadas" value="@pantalla.Pant_Id" @(Model.PantallasID.Contains(pantalla.Pant_Id) ? "checked" : "")>
+                            <label class="form-check-label" for="pantalla-@pantalla.Pant_Id">
+                                @pantalla.Pant_Descripcion
+                            </label>
+                        </div>
+
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button id="btnAgregar" type="button" class="btn btn-primary">Editar</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <a asp-action="Index" class="btn btn-dark">Regresar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#checkTodos').change(function () {
+            if (this.checked) {
+                $('.pantalla-checkbox').prop('checked', true);
+            } else {
+                $('.pantalla-checkbox').prop('checked', false);
+            }
+        });
+    });
+
+    $('#btnAgregar').click(function () {
+        var rol = $('#txtRol').val();
+        var idrol = $('txtidrol').val();
+
+        if (rol != null) {
+            var pantallasSeleccionadas = [];
+            console.log(rol)
+            $('.pantalla-checkbox:checked').each(function () {
+                pantallasSeleccionadas.push($(this).val());
+            });
+            var formData = {
+                Rol_Id: @Model.Rol_Id,
+                txtRol: rol,
+                pantallasSeleccionadas: pantallasSeleccionadas,
+            };
+
+            console.log(formData)
+
+            $.ajax({
+                url: 'https://localhost:44363/API/Rol/UpdateRol/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    window.location.href = 'RolListado';
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        else
+        {
+            $.notify({
+                icon: "tim-icons icon-bell-55",
+                message: "<b>Advertencia</b> El rol es un campo requerido"
+            }, {
+                type: 'warning',
+                timer: 1000,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                }
+            });
+        }
+    });
+
+</script>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

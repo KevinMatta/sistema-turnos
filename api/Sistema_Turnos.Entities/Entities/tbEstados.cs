@@ -21,6 +21,7 @@ namespace Sistema_Turnos.Entities.Entities
         public DateTime Esta_FechaCreacion { get; set; }
         public int? Esta_Modificacion { get; set; }
         public DateTime? Esta_FechaModificacion { get; set; }
+
         [NotMapped]
         public string usua_creac { get; set; }
 

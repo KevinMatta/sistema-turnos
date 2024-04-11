@@ -9,13 +9,15 @@ namespace Sistema_Turnos.BusinessLogic.Services
     public class GeneralService
     {
         private readonly DepartamentoRepository _departamentoRepository1;
-        //private readonly RolRepository _RolRepository;
-        //private readonly PantallaRepository _pantallaRepository;
-        public GeneralService(DepartamentoRepository departamentoRepository)
+        private readonly MunicipioRepository _municipioRepository;
+        private readonly CargoRepository _cargoRepository;
+        private readonly EstadoCivilRepository _estadoCivilRepository;
+        public GeneralService(DepartamentoRepository departamentoRepository, MunicipioRepository municipioRepository, CargoRepository cargoRepository, EstadoCivilRepository estadoCivilRepository)
         {
             _departamentoRepository1 = departamentoRepository;
-            ////_RolRepository = RolRepository;
-            ////_pantallaRepository = pantallaRepository;
+            _municipioRepository = municipioRepository;
+            _cargoRepository = cargoRepository;
+            _estadoCivilRepository = estadoCivilRepository;
         }
 
         #region Estado 
@@ -125,6 +127,309 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ObtenerEsta(string Esta_Descripcion)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _departamentoRepository1.ObtenerEstado(Esta_Descripcion);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
         #endregion
+
+        #region Municipio
+        public ServiceResult ListMunicipio()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.List();
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarMunicipio(tbCiudades item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.Insert(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarMunicipio(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.EliminarMunicipio(id);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarMunicipio(tbCiudades item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _municipioRepository.Update(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListMunic(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _municipioRepository.List(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        #endregion
+
+        #region Cargos
+
+        public ServiceResult ListCargo()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _cargoRepository.List();
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarCargo(tbCargos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _cargoRepository.Insert(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarCargo(int id, int usuario, DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _cargoRepository.EliminarCargo(id, usuario, fecha);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarCargo(tbCargos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _cargoRepository.Update(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListCar(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _cargoRepository.List(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        #endregion
+
+        #region EstadosCiviles
+
+        public ServiceResult ListEstadosCiviles()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _estadoCivilRepository.List();
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarEstadosCiviles(tbEstadosCiviles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _estadoCivilRepository.Insert(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarEstadosCiviles(int id, int usuario, DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _estadoCivilRepository.EliminarEstadosCiviles(id, usuario, fecha);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarEstadosCiviles(tbEstadosCiviles item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _estadoCivilRepository.Update(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListEstadosCiv(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _estadoCivilRepository.List(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        #endregion
+
     }
 }

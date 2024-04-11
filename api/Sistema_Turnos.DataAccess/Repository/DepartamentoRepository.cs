@@ -11,7 +11,7 @@ namespace Sistema_Turnos.DataAccess.Repository
 {
     public class DepartamentoRepository : IRepository<tbEstados>
     {
-        public RequestStatus Delete(tbEstados item)
+        public RequestStatus Delete(int? id)
         {
             throw new NotImplementedException();
         }
@@ -106,6 +106,20 @@ namespace Sistema_Turnos.DataAccess.Repository
             using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
             {
                 var parameters = new { Esta_Id };
+                result = db.Query<tbEstados>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
+        public IEnumerable<tbEstados> ObtenerEstado(string Esta_Descripcion)
+        {
+            string sql = ScriptsBaseDeDatos.Estad_ObtenerEstado;
+
+            List<tbEstados> result = new List<tbEstados>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { Esta_Descripcion };
                 result = db.Query<tbEstados>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
                 return result;
             }

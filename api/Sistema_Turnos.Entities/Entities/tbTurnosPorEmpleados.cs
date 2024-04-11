@@ -18,12 +18,20 @@ namespace Sistema_Turnos.Entities.Entities
         public DateTime TuEm_FechaCreacion { get; set; }
         public int? TuEm_Modificacion { get; set; }
         public DateTime? TuEm_FechaModificacion { get; set; }
+        public string TuEm_HoraEntrada { get; set; }
+        public string TuEm_HoraSalida { get; set; }
 
         //campos extras
+        [NotMapped]
+        public int url { get; set; }
+        [NotMapped]
+        public int id { get; set; }
         [NotMapped]
         public string title { get; set; }
         [NotMapped]
         public string start { get; set; }
+        [NotMapped]
+        public string end { get; set; }
 
         public virtual tbEmpleados Empl { get; set; }
         public virtual tbUsuarios TuEm_CreacionNavigation { get; set; }

@@ -5,6 +5,7 @@ using Sistema_Turnos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -50,6 +51,7 @@ namespace Sistema_Turnos.WebAPI
             catch (Exception ex)
             {
                 result.Success = false;
+
                 result.Message = Helpers.GetMessage(ex);
             }
             return result;
@@ -99,12 +101,12 @@ namespace Sistema_Turnos.WebAPI
                 var content = await responseData.Content.ReadAsStringAsync();
                 result = JsonConvert.DeserializeObject<ApiResult<B>>(content);
                 result.Path = config.Path;
-                //result.StatusCode = responseData.StatusCode;
+                result.StatusCode = responseData.StatusCode;
 
-                //if (responseData.StatusCode == HttpStatusCode.OK)
-                //    result.Success = true;
-                //else
-                //    result.Success = false;
+                if (responseData.StatusCode == HttpStatusCode.OK)
+                    result.Success = true;
+                else
+                    result.Success = false;
             }
             catch (Exception ex)
             {

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Sistema_Turnos.Models.EstadoCivilViewModel>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var item in Model)
+{
+    <style>
+        .letras {
+            color: white;
+            font-size: 130%
+        }
+
+        .letras-content {
+            color: beige;
+            font-size: 110%
+        }
+    </style>
+
+    <div class="card-header ">
+        <div class="d-flex justify-content-between">
+            <h3 class="card-title">Detalles - Cargo</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dl class="form-group col-sm-3">
+                <dt class="col-sm-12 letras">
+                    @Html.DisplayNameFor(model => item.EsCi_Descripcion)
+                </dt>
+                <dd class="col-sm-12 letras-content">
+                    @Html.DisplayFor(model => item.EsCi_Descripcion)
+                </dd>
+            </dl>
+        </dl>
+        <table class="table table-bordered table-striped" style="border: 2px solid #e14eca" id="MasterTable">
+            <thead>
+                <tr style="background-color: #DB2BC3 ">
+                    <th class="letras">
+                        Acciones
+                    </th>
+                    <th class="letras">
+                        Usuario
+                    </th>
+                    <th class="letras">
+                        Fecha
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Creacion
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.usua_creac)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.EsCi_FechaCreacion)
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Modificacion</td>
+                    <td>
+                        @Html.DisplayFor(model => item.usua_modi)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.EsCi_FechaModificacion)
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="btn btn-dark">Regresar</a>
+    </div>
+}
