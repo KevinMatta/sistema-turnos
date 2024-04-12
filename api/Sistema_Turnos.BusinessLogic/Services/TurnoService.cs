@@ -333,6 +333,20 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
+        public ServiceResult ContarTurnosEmpleados(string FechaInicio, string FechaFin,int Emple_id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _turnosPorEmpleadoRepository.ContarTurnosEmpleados(FechaInicio, FechaFin, Emple_id);
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
         #endregion
 
         #region Hospitales

@@ -120,6 +120,20 @@ namespace Sistema_Turnos.DataAccess.Repository
             }
         }
 
+        public IEnumerable<tbTurnos> ContarTurnosEmpleados(string FechaInicio, string FechaFin, int Emple_id)
+        {
+            string sql = ScriptsBaseDeDatos.TuEm_ContarTurnos_Empleados;
+
+            List<tbTurnos> result = new List<tbTurnos>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var parameters = new { FechaInicio, FechaFin , Emple_id };
+                result = db.Query<tbTurnos>(sql, parameters, commandType: CommandType.StoredProcedure).ToList();
+                return result;
+            }
+        }
+
         public RequestStatus Delete(tbTurnosPorEmpleados item)
         {
             throw new NotImplementedException();
