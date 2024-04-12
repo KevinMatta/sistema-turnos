@@ -52,8 +52,11 @@
             <script src="~/assets/js/apexcharts.min.js"></script>
             <script>
                 $('#turnos').toggle("collapse");
+                $('#esquema').click(function () {
+                    $('#turnos').toggle("collapse");
+                });
                 $('#btnAgregar').click(function () {
-
+                    $('#btnAgregar').hide();
                     $('#fechas').hide();
                     $('#chart').show();
 
@@ -133,28 +136,30 @@
             </div>
             <hr />
             <div id="charttt"></div>
-            <div class="row" id="fechasss">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">Fecha Inicio</label>
-                        <input type="date" id="fechainicioo" class="form-control" />
-                        <span class="text-danger"></span>
+            <div id="cont1">
+                <div class="row" id="fechasss">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Fecha Inicio</label>
+                            <input type="date" id="fechainicioo" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="control-label">Fecha Fin</label>
+                            <input type="date" id="fechafinn" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label class="control-label">Fecha Fin</label>
-                        <input type="date" id="fechafinn" class="form-control" />
-                        <span class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row" id="fechasss">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label asp-for="Empl_Id" class="control-label"></label>
-                        <select asp-for="Empl_Id" id="ddlEmpleados" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.Empleados">
-                        </select>
+                <div class="row" id="fechasss">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Empl_Id" class="control-label"></label>
+                            <select asp-for="Empl_Id" id="ddlEmpleados" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.Empleados">
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,7 +176,9 @@
 
                 $('#btnAgregarrrr').click(function () {
 
-                    $('#fechasss').hide();
+                    $('#btnAgregarrrr').hide();
+
+                    $('#cont1').hide();
                     $('#charttt').show();
 
                     var fechainicioo = $('#fechainicioo').val();
@@ -249,6 +256,7 @@
     <script>
         $('#btnRegresar').click(function () {
             window.location.href = window.location.href + '?nocache=' + new Date().getTime();
+
         });
     </script>
 </div>

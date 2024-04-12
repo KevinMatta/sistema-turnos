@@ -68,6 +68,7 @@
 
 
 <script>
+
     $(document).ready(function () {
         var saber = 0;
         $('.chequear:checked').each(function () {
@@ -90,6 +91,9 @@
 
 
         $('#access').toggle("collapse");
+        $('#acceso').click(function () {
+            $('#access').collapse("hide");
+        })
     });
 
 </script>

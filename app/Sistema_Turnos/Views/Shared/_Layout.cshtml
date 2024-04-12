@@ -52,7 +52,7 @@
                 @if (pantallas != null && pantallas.Contains("Roles") || pantallas.Contains("Admin") || pantallas.Contains("Usuarios"))
                 {
                     <li>
-                        <a data-toggle="collapse" href="#access" aria-expanded="true" aria-controls="access">
+                        <a data-toggle="collapse" href="#access" onclick="hola()" aria-expanded="true" aria-controls="access" id="acceso">
                             <i class="tim-icons icon-key-25"></i>
                             <span class="nav-link-text">Acceso</span>
                             <b class="caret mt-1"></b>
@@ -84,7 +84,7 @@
                 @if (pantallas != null && pantallas.Contains("Cargos") || pantallas.Contains("Admin") || pantallas.Contains("Departamento") || pantallas.Contains("Personas") || pantallas.Contains("Estados Civiles") || pantallas.Contains("Municipios"))
                 {
                     <li>
-                        <a data-toggle="collapse" href="#general" aria-expanded="false" aria-controls="general">
+                        <a data-toggle="collapse" href="#general" aria-expanded="false" aria-controls="general" id="esquemaGeneral">
                             <i class="tim-icons icon-world"></i>
                             <span class="nav-link-text">General</span>
                             <b class="caret mt-1"></b>
@@ -144,7 +144,7 @@
                 @if (pantallas != null && pantallas.Contains("Empleados") || pantallas.Contains("Admin") || pantallas.Contains("Calendario") || pantallas.Contains("Hospitales") || pantallas.Contains("Turnos") || pantallas.Contains("Graficos"))
                 {
                     <li>
-                        <a data-toggle="collapse" href="#turnos" aria-expanded="false" aria-controls="turnos">
+                        <a data-toggle="collapse" href="#turnos" aria-expanded="false" aria-controls="turnos" id="esquemaTurnos">
                             <i class="tim-icons icon-app"></i>
                             <span class="nav-link-text">Turnos</span>
                             <b class="caret mt-1"></b>
@@ -337,9 +337,8 @@
     }
 
     <script>
+
         $(document).ready(function () {
-
-
                 $sidebar = $('.sidebar');
                 $navbar = $('.navbar');
 

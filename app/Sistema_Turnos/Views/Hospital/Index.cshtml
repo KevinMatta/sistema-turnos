@@ -81,7 +81,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content ">
             <div class="modal-header" style="margin-block-end:-3%;">
-                <h4 class="modal-title" id="exampleModalLabel">Crear Turno</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Crear Hospital</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -97,7 +97,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content ">
                 <div class="modal-header" style="margin-block-end:-3%;">
-                    <h4 class="modal-title" id="exampleModalLabel">Eliminar Turno</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Eliminar Hopital</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -120,8 +120,6 @@
             var Hosp_Descripcion = $('#Hosp_Descripcion').val();
             var Hosp_Direccion = $('#Hosp_Direccion').val();
             var Ciud_Id = $('#Ciud_Id').val();
-
-            console.log(departamento)
 
             if (!Hosp_Descripcion) {
                 event.preventDefault();
@@ -241,6 +239,8 @@
                     var id = datos.hosp_Id;
                     console.log(descripcion);
                     console.log(direccion);
+                    console.log(ciudad);
+                    console.log(id);
                     $("#idd").val(id);
                     $("#txtdescripcion").val(descripcion);
                     $("#txtdireccion").val(direccion);
