@@ -118,7 +118,7 @@ namespace Sistema_Turnos.Services
             }
         }
 
-        public async Task<ServiceResult> EliminarPersona(int id, int modificacion, DateTime fecha)
+        public async Task<ServiceResult> EliminarPersona(string id, int modificacion, DateTime fecha)
         {
             var result = new ServiceResult();
             try

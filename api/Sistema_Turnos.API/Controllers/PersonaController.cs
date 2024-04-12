@@ -72,7 +72,7 @@ namespace Sistema_Turnos.API.Controllers
                 persona.Pers_Creacion = item.Pers_Creacion;
                 persona.Pers_FechaCreacion = item.Pers_FechaCreacion;
             }
-            return Ok(persona);
+            return Json(persona);
         }
 
         [HttpPut("UpdatePersonas")]
@@ -96,7 +96,7 @@ namespace Sistema_Turnos.API.Controllers
         }
 
         [HttpDelete("DeletePersonas")]
-        public IActionResult Delete(int id, int modificacion, DateTime fecha)
+        public IActionResult Delete(string id, int modificacion, DateTime fecha)
         {
             var list = _generalService.EliminarPersonas(id, modificacion, fecha);
             return Ok(list);

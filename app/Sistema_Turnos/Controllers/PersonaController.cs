@@ -78,13 +78,17 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        [HttpPost("Persona/Create)]
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Create()
+        [HttpGet("/Persona/Create")]
+        public async Task<IActionResult> Create()
         {
 
             try
             {
+                var listestadosciviles = await _estadoCivilService.ObtenerEstadoCivilList();
+                var estadocivil = listestadosciviles.Data as IEnumerable<EstadoCivilViewModel>;
+                var estado = estadocivil.ToList().Select(x => new SelectListItem { Text = x.EsCi_Descripcion, Value = x.EsCi_Id.ToString() }).ToList();
+                estado.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+                ViewBag.estado = estado;
                 return View();
 
             }
@@ -176,7 +180,7 @@ namespace Sistema_Turnos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int Pers_Identidad, int modificacion, DateTime fecha)
+        public async Task<IActionResult> Delete(string Pers_Identidad, int modificacion, DateTime fecha)
         {
             try
             {

@@ -17,7 +17,7 @@ namespace Sistema_Turnos.DataAccess.Repository
             throw new NotImplementedException();
         }
 
-        public RequestStatus EliminarPersona(int id, int usuario, DateTime fecha)
+        public RequestStatus EliminarPersona(string id, int usuario, DateTime fecha)
         {
             string sql = ScriptsBaseDeDatos.Person_Eliminar;
             using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))

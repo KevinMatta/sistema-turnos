@@ -469,7 +469,7 @@ namespace Sistema_Turnos.BusinessLogic.Services
             }
         }
 
-        public ServiceResult EliminarPersonas(int id, int usuario, DateTime fecha)
+        public ServiceResult EliminarPersonas(string id, int usuario, DateTime fecha)
         {
             var result = new ServiceResult();
             try

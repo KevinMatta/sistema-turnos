@@ -8,7 +8,7 @@
 <div class="card-header ">
     <div class="d-flex justify-content-between">
         <h3 class="card-title">Personas</h3>
-        <a type="button" asp-action="Create" class="btn btn-primary animation-on-hover btn-sm"> <i class="tim-icons icon-simple-add"></i> Nuevo</a>
+        <a asp-action="Create" class="btn btn-primary animation-on-hover btn-sm"> <i class="tim-icons icon-simple-add"></i> Nuevo</a>
     </div>
 </div>
 
@@ -61,4 +61,20 @@
             }
         </tbody>
     </table>
+</div>
+
+<div class="modal fade modal-black" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Eliminar Persona</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Delete", new Sistema_Turnos.Models.PersonaViewModel())
+            </div>
+        </div>
+    </div>
 </div>
