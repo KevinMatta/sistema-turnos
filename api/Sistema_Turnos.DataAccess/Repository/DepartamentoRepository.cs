@@ -93,6 +93,35 @@ namespace Sistema_Turnos.DataAccess.Repository
             //throw new NotImplementedException();
         }
 
+
+        public IEnumerable<tbEstados> ListEstadoCiudades()
+        {
+            string sql = ScriptsBaseDeDatos.Estad_ListaDepartamentoCiudades;
+
+            List<tbEstados> result = new List<tbEstados>();
+
+            using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
+            {
+                var lookup = new Dictionary<string, tbEstados>();
+                return db.Query<tbEstados, tbCiudades, tbEstados>(
+                    sql,
+                    (departamento, ciudad) =>
+                    {
+                        if (!lookup.TryGetValue(departamento.Esta_Id, out var departamentoEntry))
+                        {
+                            departamentoEntry = departamento;
+                            departamentoEntry.tbCiudades = new List<tbCiudades>();
+                            lookup.Add(departamentoEntry.Esta_Id, departamentoEntry);
+                        }
+                        departamentoEntry.tbCiudades.Add(ciudad);
+                        return departamentoEntry;
+                    },
+                    splitOn: "Ciud_Id")
+                    .Distinct()
+                    .ToList();
+            }
+        }
+
         public IEnumerable<tbEstados> List(string Esta_Id)
         {
             string sql = ScriptsBaseDeDatos.Estad_Obtener;

@@ -32,12 +32,12 @@ namespace Sistema_Turnos.Controllers
             {
                 string rol = HttpContext.Session.GetString("roles");
 
-                if(rol == "0")
+                if (rol == "0")
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                else 
+                else
                 {
                     int valor = 0;
                     if (rol != "")
@@ -117,7 +117,7 @@ namespace Sistema_Turnos.Controllers
                     return RedirectToAction("Index");
                 }
 
-                if(depaid.ToList().Count > 0)
+                if (depaid.ToList().Count > 0)
                 {
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-bell-55";
@@ -128,9 +128,9 @@ namespace Sistema_Turnos.Controllers
                     return RedirectToAction("Index");
                 }
 
-                else 
+                else
                 {
-                    item.Esta_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id")) ;
+                    item.Esta_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                     item.Esta_FechaCreacion = DateTime.Now;
                     var list = await _departamentoServicios.CrearDepartamento(item);
                     string[] notificaciones = new string[4];
@@ -203,9 +203,9 @@ namespace Sistema_Turnos.Controllers
         {
             try
             {
-                var list =  await _departamentoServicios.EliminarDepartamento(Esta_Id);
+                var list = await _departamentoServicios.EliminarDepartamento(Esta_Id);
                 var hola = list.Message;
-                if (hola == "Error al realizar la operacion.") 
+                if (hola == "Error al realizar la operacion.")
                 {
                     string[] notificaciones = new string[4];
                     notificaciones[0] = "tim-icons icon-bell-55";
@@ -256,6 +256,14 @@ namespace Sistema_Turnos.Controllers
                     return RedirectToAction("Index", "Departamento");
                 }
             }
+        }
+
+        [HttpGet("Departamento/DepartamentoCiudades")]
+        public async Task<IActionResult> ListDespartamentoCiudades()
+        {
+            var response = await _departamentoServicios.DepartamentoCiudadesList();
+            return Json(response);
+
         }
 
     }

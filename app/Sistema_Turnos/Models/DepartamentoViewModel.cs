@@ -29,5 +29,7 @@ namespace Sistema_Turnos.Models
         [Display(Name = "Usuario Modificacion")]
         [NotMapped]
         public string usua_modi { get; set; }
+        [NotMapped]
+        public ICollection<MunicipioViewModel> tbCiudades { get; set; }
     }
 }

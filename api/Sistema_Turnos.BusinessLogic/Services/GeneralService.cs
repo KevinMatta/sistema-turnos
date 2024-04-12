@@ -2,6 +2,7 @@
 using Sistema_Turnos.Entities.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Sistema_Turnos.BusinessLogic.Services
@@ -137,6 +138,31 @@ namespace Sistema_Turnos.BusinessLogic.Services
                 var list = _departamentoRepository1.ObtenerEstado(Esta_Descripcion);
 
                 return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult ListadoDepartamentosCiudades()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var resultados = _departamentoRepository1.ListEstadoCiudades();
+                var departamentosConCiudades = resultados.Select(r => new tbEstados
+                {
+                    Esta_Id = r.Esta_Id,
+                    Esta_Descripcion = r.Esta_Descripcion,
+                    tbCiudades = r.tbCiudades.Select(c => new tbCiudades
+                    {
+                        Ciud_Id = c.Ciud_Id,
+                        Ciud_Descripcion = c.Ciud_Descripcion
+                    }).ToList()
+                });
+
+                return result.Ok(departamentosConCiudades);
             }
             catch (Exception ex)
             {

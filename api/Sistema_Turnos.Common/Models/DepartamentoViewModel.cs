@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sistema_Turnos.Entities.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -21,5 +22,7 @@ namespace Sistema_Turnos.Common.Models
 
         [NotMapped]
         public string usua_modi { get; set; }
+        [NotMapped]
+        public ICollection<tbCiudades> tbCiudades { get; set; }
     }
 }
