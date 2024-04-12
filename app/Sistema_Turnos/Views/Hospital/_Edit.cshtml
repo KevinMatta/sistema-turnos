@@ -1,0 +1,55 @@
+﻿@model Sistema_Turnos.Models.HospitalViewModel
+
+<div class="card-body">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Hosp_Descripcion" class="control-label"></label>
+                    <input asp-for="Hosp_Descripcion" id="txtdescripcion" class="form-control" />
+                    <span asp-validation-for="Hosp_Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Hosp_Direccion" class="control-label"></label>
+                    <input asp-for="Hosp_Direccion" id="txtdireccion" class="form-control" />
+                    <span asp-validation-for="Hosp_Direccion" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Ciud_Id" class="control-label"></label>
+                    <select asp-for="Ciud_Id" id="ciudad" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.municipio"></select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group" hidden>
+                    <label asp-for="Hosp_Id" class="control-label"></label>
+                    <input asp-for="Hosp_Id" id="idd" class="form-control" />
+                    <span asp-validation-for="Hosp_Id" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input type="submit" asp-controller="Hospital" asp-action="Edit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-danger">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

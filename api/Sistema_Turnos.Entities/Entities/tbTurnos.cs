@@ -27,6 +27,12 @@ namespace Sistema_Turnos.Entities.Entities
         [NotMapped]
         public string Conteo { get; set; }
 
+        [NotMapped]
+        public string usua_creac { get; set; }
+
+        [NotMapped]
+        public string usua_modi { get; set; }
+
         public virtual tbUsuarios Turn_CreacionNavigation { get; set; }
         public virtual tbUsuarios Turn_ModificacionNavigation { get; set; }
         public virtual ICollection<tbTurnosPorEmpleados> tbTurnosPorEmpleados { get; set; }

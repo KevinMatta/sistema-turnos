@@ -13,12 +13,14 @@ namespace Sistema_Turnos.BusinessLogic.Services
         private readonly MunicipioRepository _municipioRepository;
         private readonly CargoRepository _cargoRepository;
         private readonly EstadoCivilRepository _estadoCivilRepository;
-        public GeneralService(DepartamentoRepository departamentoRepository, MunicipioRepository municipioRepository, CargoRepository cargoRepository, EstadoCivilRepository estadoCivilRepository)
+        private readonly PersonaRepository _personaRepository;
+        public GeneralService(DepartamentoRepository departamentoRepository, MunicipioRepository municipioRepository, CargoRepository cargoRepository, EstadoCivilRepository estadoCivilRepository, PersonaRepository personaRepository)
         {
             _departamentoRepository1 = departamentoRepository;
             _municipioRepository = municipioRepository;
             _cargoRepository = cargoRepository;
             _estadoCivilRepository = estadoCivilRepository;
+            _personaRepository = personaRepository;
         }
 
         #region Estado 
@@ -446,6 +448,101 @@ namespace Sistema_Turnos.BusinessLogic.Services
             try
             {
                 var list = _estadoCivilRepository.List(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        #endregion
+
+        #region Personas
+        public ServiceResult ListPersonas()
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _personaRepository.List();
+                return result.Ok(lost);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult InsertarPersonas(tbPersonas item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _personaRepository.Insert(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarPersonas(string id, int usuario, DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _personaRepository.EliminarPersona(id, usuario, fecha);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarPersonas(tbPersonas item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _personaRepository.Update(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListPerson(string id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _personaRepository.List(id);
 
                 return result.Ok(list);
             }

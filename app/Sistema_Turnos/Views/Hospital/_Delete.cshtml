@@ -1,0 +1,30 @@
+﻿@model Sistema_Turnos.Models.HospitalViewModel
+
+@using (Html.BeginForm("Delete", "Hospital", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Hosp_Id" id="hiddenId" />
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-dark">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function ObtenerID(id) {
+            console.log("si entra" + id);
+            $("#hiddenId").val(id);
+        }
+    </script>
+}

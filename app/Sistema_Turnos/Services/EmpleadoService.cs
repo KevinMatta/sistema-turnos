@@ -23,7 +23,7 @@ namespace Sistema_Turnos.Services
             {
                 var response = await _api.Get<IEnumerable<EmpleadoViewModel>, IEnumerable<EmpleadoViewModel>>(req =>
                 {
-                    req.Path = $"API/Empleado/Listar";
+                    req.Path = $"API/Empleado/ListarEmpledos";
                 });
                 if (!response.Success)
                 {
@@ -40,5 +40,134 @@ namespace Sistema_Turnos.Services
                 throw;
             }
         }
+
+        public async Task<ServiceResult> CrearEmpleado(EmpleadoViewModel item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Post<EmpleadoViewModel, ServiceResult>(req =>
+                {
+                    req.Path = $"API/Empleado/CreateEmpleados";
+                    req.Content = item;
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
+        public async Task<ServiceResult> ObtenerEmpleado(int Empl_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Get<IEnumerable<EmpleadoViewModel>, EmpleadoViewModel>(req =>
+                {
+                    req.Path = $"API/Empleado/FillEmpleados{Empl_Id}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
+        public async Task<ServiceResult> EditarEmpleado(EmpleadoViewModel item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Put<EmpleadoViewModel, ServiceResult>(req =>
+                {
+                    req.Path = $"API/Empleado/UpdateEmpleados";
+                    req.Content = item;
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
+        public async Task<ServiceResult> EliminarEmpleado(int id, int modificacion, DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Delete<EmpleadoViewModel, ServiceResult>(req =>
+                {
+                    req.Path = $"API/Empleado/DeleteEmpleados?id={id}&modificacion={modificacion}&fecha={fecha}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
+        public async Task<ServiceResult> DetallesEmpelado(int Empl_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var response = await _api.Get<IEnumerable<EmpleadoViewModel>, IEnumerable<EmpleadoViewModel>>(req =>
+                {
+                    req.Path = $"API/Empleado/FillEmpleados{Empl_Id}";
+                });
+                if (!response.Success)
+                {
+                    return result.FromApi(response);
+                }
+                else
+                {
+                    // Aquí deberías devolver directamente el objeto DepartamentoViewModel
+                    return result.Ok(response.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(Helpers.GetMessage(ex));
+                throw;
+            }
+        }
+
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sistema_Turnos.Common.Models
 {
-    class EmpleadoViewModel
+    public class EmpleadoViewModel
     {
         public int Empl_Id { get; set; }
         public string Pers_Identidad { get; set; }
@@ -23,5 +23,20 @@ namespace Sistema_Turnos.Common.Models
         //extra
         [NotMapped]
         public string Nombre { get; set; }
+
+        [NotMapped]
+        public string usua_creac { get; set; }
+
+        [NotMapped]
+        public string usua_modi { get; set; }
+
+        [NotMapped]
+        public string Carg_Descripcion { get; set; }
+
+        [NotMapped]
+        public string Hosp_Descripcion { get; set; }
+
+        [NotMapped]
+        public string usuario { get; set; }
     }
 }

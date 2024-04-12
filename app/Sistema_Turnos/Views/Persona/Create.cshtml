@@ -1,0 +1,95 @@
+﻿@model Sistema_Turnos.Models.PersonaViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-body">
+
+    <h4>Editar - Persona</h4>
+    <hr />
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Pers_Identidad" class="control-label"></label>
+                    <input asp-for="Pers_Identidad" class="form-control" />
+                    <span asp-validation-for="Pers_Identidad" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Pers_PrimerNombre" class="control-label"></label>
+                    <input asp-for="Pers_PrimerNombre" class="form-control" />
+                    <span asp-validation-for="Pers_PrimerNombre" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Pers_SegundoNombre" class="control-label"></label>
+                    <input asp-for="Pers_SegundoNombre" class="form-control" />
+                    <span asp-validation-for="Pers_SegundoNombre" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Pers_PrimerApellido" class="control-label"></label>
+                    <input asp-for="Pers_PrimerApellido" class="form-control" />
+                    <span asp-validation-for="Pers_PrimerApellido" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Pers_SegundoApellido" class="control-label"></label>
+                    <input asp-for="Pers_SegundoApellido" class="form-control" />
+                    <span asp-validation-for="Pers_SegundoApellido" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="EsCi_Id" class="control-label"></label>
+                    <select asp-for="EsCi_Id" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.estado"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group" style="margin-left:4%">
+                    <label asp-for="Pers_Sexo" class="control-label"></label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-check">
+                                <input asp-for="Pers_Sexo" value="F" class="form-check-input" type="radio" id="femaleRadio" />
+                                <label class="form-check-label" for="femaleRadio">Femenino</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-check">
+                                <input asp-for="Pers_Sexo" value="M" class="form-check-input" type="radio" id="maleRadio" />
+                                <label class="form-check-label" for="maleRadio">Masculino</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-m-3">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-dark">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

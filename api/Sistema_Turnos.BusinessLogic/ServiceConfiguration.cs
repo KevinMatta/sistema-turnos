@@ -22,6 +22,9 @@ namespace Sistema_Turnos.BusinessLogic.Services
             service.AddScoped<MunicipioRepository>();
             service.AddScoped<CargoRepository>();
             service.AddScoped<EstadoCivilRepository>();
+            service.AddScoped<HospitalRepository>();
+            service.AddScoped<PersonaRepository>();
+
 
             Sistemas_TurnosContext.BuildConnectionString(conn);
         }

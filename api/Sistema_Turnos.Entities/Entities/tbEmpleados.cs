@@ -29,6 +29,21 @@ namespace Sistema_Turnos.Entities.Entities
         [NotMapped]
         public string Nombre { get; set; }
 
+        [NotMapped]
+        public string usua_creac { get; set; }
+
+        [NotMapped]
+        public string usua_modi { get; set; }
+
+        [NotMapped]
+        public string Carg_Descripcion { get; set; }
+
+        [NotMapped]
+        public string Hosp_Descripcion { get; set; }
+
+        [NotMapped]
+        public string usuario { get; set; }
+
         public virtual tbCargos Carg { get; set; }
         public virtual tbUsuarios Empl_CreacionNavigation { get; set; }
         public virtual tbUsuarios Empl_ModificacionNavigation { get; set; }
