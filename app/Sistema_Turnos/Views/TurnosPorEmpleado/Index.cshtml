@@ -165,15 +165,15 @@
         console.log('hola')
         html2canvas(document.getElementById("impr")).then(canvas => {
             const imgData = canvas.toDataURL('image/png');
-
+            const imgWidth = 297; 
+            const imgHeight = canvas.height * imgWidth / canvas.width;
             const pdf = new jspdf.jsPDF({
-                orientation: "portrait",
-                unit: "px",
-                format: [canvas.width, canvas.height]
+                orientation: "landscape",
+                unit: "mm",
+                format: "a4"
             });
-
-            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-
+            pdf.setTextColor(0, 0, 0);
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
             pdf.save("download.pdf");
         });
     })
