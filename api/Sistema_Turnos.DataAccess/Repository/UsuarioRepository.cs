@@ -166,7 +166,7 @@ namespace Sistema_Turnos.DataAccess.Repository
 
         public RequestStatus Restablecer(int Usua_Id, string Usua_Clave, int usuario, DateTime fecha)
         {
-            string sql = ScriptsBaseDeDatos.Usua_Actualizar;
+            string sql = ScriptsBaseDeDatos.Usua_restablecer;
 
             using (var db = new SqlConnection(Sistemas_TurnosContext.ConnectionString))
             {

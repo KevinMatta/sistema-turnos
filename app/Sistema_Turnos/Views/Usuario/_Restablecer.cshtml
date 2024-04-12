@@ -1,0 +1,41 @@
+﻿@model Sistema_Turnos.Models.UsuarioViewModel
+
+<div class="card-body">
+    <form asp-action="Restablecer">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Usua_Clave" class="control-label"></label>
+                    <input asp-for="Usua_Clave" name="Usua_Clave" class="form-control" />
+                    <span asp-validation-for="Usua_Clave" class="text-danger"></span>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group" hidden>
+                    <label asp-for="Usua_Id" class="control-label"></label>
+                    <input asp-for="Usua_Id" id="restablecerid" class="form-control" />
+                    <span asp-validation-for="Usua_Id" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <input type="submit" asp-controller="Usuario" asp-action="Restablecer" value="Guardar" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-danger">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

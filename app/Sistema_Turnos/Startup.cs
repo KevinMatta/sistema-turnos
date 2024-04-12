@@ -42,7 +42,8 @@ namespace Sistema_Turnos
             services.AddScoped<MunicipioService>();
             services.AddScoped<CargoService>();
             services.AddScoped<EstadoCivilService>();
-
+            services.AddScoped<HospitalService>();
+            services.AddScoped<PersonaService>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(option =>

@@ -176,7 +176,7 @@ namespace Sistema_Turnos.Services
             {
                 var response = await _api.Post<UsuarioViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"API/Usuario/DeleteUsuarios?Usua_Id={Usua_Id}&Usua_Clave={Usua_Clave}&Usua_Modificacion={Usua_Modificacion}&Usua_FechaModificacion={Usua_FechaModificacion}";
+                    req.Path = $"API/Usuario/RestablecerUsuarios?Usua_Id={Usua_Id}&Usua_Clave={Usua_Clave}&usuario={Usua_Modificacion}&fecha={Usua_FechaModificacion}";
                 });
                 if (!response.Success)
                 {
