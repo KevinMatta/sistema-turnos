@@ -339,7 +339,7 @@
     <script>
         $(document).ready(function () {
 
-            $().ready(function () {
+
                 $sidebar = $('.sidebar');
                 $navbar = $('.navbar');
 
@@ -445,9 +445,33 @@
                 $('.dark-badge').click(function () {
                     $('body').removeClass('white-content');
                 });
-            });
+
 
             let table = new DataTable('#tabla');
+
+
+
+            //sidebar dany
+            //var currentUrl = window.location.pathname;
+            //if (currentUrl.includes('/Usuarios/Index') || currentUrl.includes('/Rol/Index')) {
+            //    $('#Acceso').addClass('active');
+            //    $('#Acceso').addClass('show');
+            //    $('#AccesoItem').addClass('active');
+            //} else if (currentUrl.includes('/Pais/Index') || currentUrl.includes('/Municipio/Index') || currentUrl.includes('/Departamento/Index') || currentUrl.includes('/EstadoCivil/Index') || currentUrl.includes('/Parentesco/Index')) {
+            //    $('#Generales').addClass('active');
+            //    $('#Generales').addClass('show');
+            //    $('#GeneralItem').addClass('active');
+            //} else if (currentUrl.includes('/Cargo/Index') || currentUrl.includes('/Cobertura/Index') || currentUrl.includes('/Empleado/Index') || currentUrl.includes('/Unidad/Index')) {
+            //    $('#Seguro').addClass('active');
+            //    $('#Seguro').addClass('show');
+            //    $('#SeguroItem').addClass('active');
+            //} else if (currentUrl.includes('/Poliza/Index') || currentUrl.includes('/Desembolos') || currentUrl.includes('/Quejas')) {
+            //    $('#Administracion').addClass('active');
+            //    $('#Administracion').addClass('show');
+            //    $('#AdministracionItem').addClass('active');
+            //}
+
+
 
         });
 

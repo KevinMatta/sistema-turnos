@@ -69,7 +69,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     $(document).ready(function () {
-
+        $('#turnos').toggle("collapse");
         $('#crearModal form').submit(function (event) {
             var empleado = $('#empleado').val();
             var Turn_Id = $('#Turn_Id').val();
@@ -163,6 +163,9 @@
 
     $('#imprimir').click(function generatePDF() {
         console.log('hola')
+        $('.fc-toolbar-title').css('color', 'black');
+        $('.fc-col-header-cell-cushion').css('color', 'black');
+        
         html2canvas(document.getElementById("impr")).then(canvas => {
             const imgData = canvas.toDataURL('image/png');
             const imgWidth = 297; 
@@ -176,6 +179,8 @@
             pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
             pdf.save("download.pdf");
         });
+        $('.fc-toolbar-title').css('color', 'white');
+        $('.fc-col-header-cell-cushion').css('color', 'white');
     })
 
 </script>
