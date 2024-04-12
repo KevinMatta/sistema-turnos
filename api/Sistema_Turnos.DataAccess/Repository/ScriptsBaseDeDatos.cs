@@ -50,17 +50,18 @@ namespace Sistema_Turnos.DataAccess.Repository
 
         #region General
 
-        #region Departamentos
-        public static string Estad_Insertar = "[Gene].[sp_Estados_crear]";
-                public static string Estad_Listar = "[Gene].[sp_Estados_listar]";
-                public static string Estad_Eliminar = "[Gene].[sp_Estados_eliminar]";
-                public static string Estad_Actualizar = "[Gene].[sp_Estados_editar]";
-                public static string Estad_Obtener = "[Gene].[sp_Estados_obtener]";
-                public static string Estad_Llenar = "[Gene].[sp_Estados_llenar]";
-                public static string Estad_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
+                #region Departamentos
+                public static string Estad_Insertar = "[Gene].[sp_Estados_crear]";
+                        public static string Estad_Listar = "[Gene].[sp_Estados_listar]";
+                        public static string Estad_Eliminar = "[Gene].[sp_Estados_eliminar]";
+                        public static string Estad_Actualizar = "[Gene].[sp_Estados_editar]";
+                        public static string Estad_Obtener = "[Gene].[sp_Estados_obtener]";
+                        public static string Estad_Llenar = "[Gene].[sp_Estados_llenar]";
+                        public static string Estad_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
                 #endregion
 
                 #region Municipios
+                public static string Munic_ddl = "[Gene].[sp_Ciudades_ddl]";
                 public static string Munic_Insertar = "[Gene].[sp_Ciudades_crear]";
                 public static string Munic_Listar = "[Gene].[sp_Ciudades_listar]";
                 public static string Munic_Eliminar = "[Gene].[sp_Ciudades_eliminar]";
@@ -102,7 +103,7 @@ namespace Sistema_Turnos.DataAccess.Repository
 
                 #endregion
 
-                #region Turnos
+        #region Turnos
 
                 #region TurnosPorEmpleado
                 public static string TuEm_Listar = "[Turn].[sp_TurnosPorEmpleados_listar]";

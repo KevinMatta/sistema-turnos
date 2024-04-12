@@ -72,6 +72,7 @@
                     @Html.DisplayFor(modelItem => item.Rol_Descripcion)
                 </td>
                 <td class="text-right">
+                    <button class="btn btn-dark btn-sm editar-depa" data-toggle="modal" data-target="#RestablecerModal" data-depa-id="@item.Usua_Id">Restablecer <i class="tim-icons icon-settings-gear-63"></i></button>
                     <button class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Usua_Id">Editar <i class="tim-icons icon-pencil"></i></button>
                     @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
                     <a href="@Url.Action("Details", "Usuario", new { Usua_Id = item.Usua_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
@@ -94,6 +95,22 @@
             </div>
             <div class="modal-body">
                 @Html.Partial("_Edit", new Sistema_Turnos.Models.UsuarioViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-black" id="RestablecerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Restablecer Clave</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Restablecer", new Sistema_Turnos.Models.UsuarioViewModel())
             </div>
         </div>
     </div>
@@ -273,6 +290,7 @@
                     var admin = datos.usua_IsAdmin;
                     $("#usua").val(usuario);
                     $("#iddd").val(id);
+                    $("#restablecerid").val(id);
                     $("#rolidddd").val(rolid);
                     $("#txtadmin").val(admin);
                     console.log("Rol: " + rolid);

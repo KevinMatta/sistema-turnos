@@ -15,12 +15,14 @@ namespace Sistema_Turnos.API.Controllers
     public class HospitalesController : Controller
     {
         private readonly TurnoService _turnoService;
+        private readonly GeneralService _generalService;
         private readonly IMapper _mapper;
 
-        public HospitalesController(TurnoService turnoService, IMapper mapper)
+        public HospitalesController(TurnoService turnoService, IMapper mapper, GeneralService generalService)
         {
             _turnoService = turnoService;
             _mapper = mapper;
+            _generalService = generalService;
         }
 
         //Hospitales
@@ -40,7 +42,6 @@ namespace Sistema_Turnos.API.Controllers
                 Hosp_Descripcion = item.Hosp_Descripcion,
                 Hosp_Direccion = item.Hosp_Direccion,
                 Ciud_Id = item.Ciud_Id,
-                Esta_Id = item.Esta_Id,
                 Hosp_Creacion = item.Hosp_Creacion,
                 Hosp_FechaCreacion = DateTime.Now,
             };
@@ -67,7 +68,6 @@ namespace Sistema_Turnos.API.Controllers
                 Hosp_Descripcion = item.Hosp_Descripcion,
                 Hosp_Direccion = item.Hosp_Direccion,
                 Ciud_Id = item.Ciud_Id,
-                Esta_Id = item.Esta_Id,
                 Hosp_Creacion = item.Hosp_Creacion,
                 Hosp_FechaCreacion = DateTime.Now,
             };

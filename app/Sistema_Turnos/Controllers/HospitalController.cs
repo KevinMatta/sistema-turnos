@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Turnos.Models;
 using Sistema_Turnos.Services;
 using System;
@@ -12,11 +13,13 @@ namespace Sistema_Turnos.Controllers
     public class HospitalController : Controller
     {
         public readonly HospitalService _hospitalService;
+        public readonly MunicipioService _municipioService;
         public RolService _rolService;
-        public HospitalController(HospitalService hospitalService, RolService rolService)
+        public HospitalController(HospitalService hospitalService, RolService rolService, MunicipioService municipioService)
         {
             _rolService = rolService;
             _hospitalService = hospitalService;
+            _municipioService = municipioService;
         }
 
         [HttpGet("Hospital/Listado")]
@@ -37,7 +40,7 @@ namespace Sistema_Turnos.Controllers
                     int valor = 0;
                     if (rol != "")
                     {
-                        var url = await _rolService.ValidarUrl(7, int.Parse(rol));
+                        var url = await _rolService.ValidarUrl(6, int.Parse(rol));
                         var validarurl = url.Data as IEnumerable<RolViewModel>;
                         foreach (var item in validarurl)
                         {
@@ -48,6 +51,12 @@ namespace Sistema_Turnos.Controllers
 
                     if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
                     {
+                        var listaciudad= await _municipioService.ObtenerMunicipioList();
+                        var munic = listaciudad.Data as IEnumerable<MunicipioViewModel>;
+                        var muni = munic.ToList().Select(x => new SelectListItem { Text = x.Ciud_Descripcion, Value = x.Ciud_Id }).ToList();
+                        muni.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+                        ViewBag.municipio = muni;
+
                         var list = await _hospitalService.ObtenerHospitalList();
                         return View(list.Data);
                     }
@@ -79,6 +88,8 @@ namespace Sistema_Turnos.Controllers
 
             try
             {
+
+
                 item.Hosp_Creacion = int.Parse(HttpContext.Session.GetString("Usua_Id"));
                 item.Hosp_FechaCreacion = DateTime.Now;
                 var list = await _hospitalService.CrearHospital(item);
@@ -113,7 +124,7 @@ namespace Sistema_Turnos.Controllers
             }
         }
 
-        [HttpPost("Cargo/Edit")]
+        [HttpPost("Hospital/Edit")]
         public async Task<IActionResult> Edit(HospitalViewModel item, int Hosp_Id, string Hosp_Descripcion, string Hosp_Direccion, string Ciud_Id)
         {
 

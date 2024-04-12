@@ -38,7 +38,7 @@ namespace Sistema_Turnos.Controllers
                     int valor = 0;
                     if (rol != "")
                     {
-                        var url = await _rolService.ValidarUrl(7, int.Parse(rol));
+                        var url = await _rolService.ValidarUrl(5, int.Parse(rol));
                         var validarurl = url.Data as IEnumerable<RolViewModel>;
                         foreach (var item in validarurl)
                         {

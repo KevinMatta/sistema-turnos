@@ -59,7 +59,6 @@ namespace Sistema_Turnos.DataAccess.Repository
                 parameter.Add("@Hosp_Descripcion", item.Hosp_Descripcion);
                 parameter.Add("@Hosp_Direccion", item.Hosp_Direccion);
                 parameter.Add("@Ciud_Id", item.Ciud_Id);
-                parameter.Add("@Esta_Id", item.Esta_Id);
                 parameter.Add("@Hosp_Creacion", item.Hosp_Creacion);
                 parameter.Add("@Hosp_FechaCreacion", item.Hosp_FechaCreacion);
 
@@ -112,7 +111,6 @@ namespace Sistema_Turnos.DataAccess.Repository
                 parameter.Add("@Hosp_Descripcion", item.Hosp_Descripcion);
                 parameter.Add("@Hosp_Direccion", item.Hosp_Direccion);
                 parameter.Add("@Ciud_Id", item.Ciud_Id);
-                parameter.Add("@Esta_Id", item.Esta_Id);
                 parameter.Add("@Hosp_Modificacion", item.Hosp_Modificacion);
                 parameter.Add("@Hosp_FechaModificacion", item.Hosp_FechaModificacion);
 

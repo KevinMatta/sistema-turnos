@@ -36,27 +36,222 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Hosp_Id)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Hosp_Descripcion)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Hosp_Direccion)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.Ciud_Descripcion)
-                </td>
-                <td class="text-right">
-                    <button class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Hosp_Id">Editar <i class="tim-icons icon-pencil"></i></button>
-                    @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
-                    <a href="@Url.Action("Details", "Hospital", new { id = item.Hosp_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
-                    <a asp-route-id="@item.Hosp_Id" asp-controller="Departamento" asp-action="Delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID(@item.Hosp_Id)">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
-                </td>
-            </tr>
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Hosp_Id)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Hosp_Descripcion)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Hosp_Direccion)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Ciud_Descripcion)
+                    </td>
+                    <td class="text-right">
+                        <button class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Hosp_Id">Editar <i class="tim-icons icon-pencil"></i></button>
+                        @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
+                        <a href="@Url.Action("Details", "Hospital", new { id = item.Hosp_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
+                        <a asp-route-id="@item.Hosp_Id" asp-controller="Departamento" asp-action="Delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID(@item.Hosp_Id)">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
+
+<div class="modal fade modal-black" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Editar Hospital</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Edit", new Sistema_Turnos.Models.HospitalViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-black" id="crearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Crear Turno</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Create", new Sistema_Turnos.Models.HospitalViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-black" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header" style="margin-block-end:-3%;">
+                    <h4 class="modal-title" id="exampleModalLabel">Eliminar Turno</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.Partial("_Delete", new Sistema_Turnos.Models.HospitalViewModel())
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#crearModal form').submit(function (event) {
+            var Hosp_Descripcion = $('#Hosp_Descripcion').val();
+            var Hosp_Direccion = $('#Hosp_Direccion').val();
+            var Ciud_Id = $('#Ciud_Id').val();
+
+            console.log(departamento)
+
+            if (!Hosp_Descripcion) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La descipcion es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!Hosp_Direccion) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La direccion es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (Ciud_Id == "1") {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La ciudad es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+        });
+
+        $('#editarModal form').submit(function (event) {
+            var txtdescripcion = $('#txtdescripcion').val();
+            var txtdireccion = $('#txtdireccion').val();
+            var ciudad = $('#ciudad').val();
+
+            if (!txtdescripcion) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La descipcion es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!txtdireccion) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La direccion es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (ciudad == "1") {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La ciudad es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+        });
+
+
+        $(".editar-depa").click(function () {
+            var id = $(this).data("depa-id");
+            var url = "https://localhost:44363/API/Hospitales/FillHospitales/" + id;
+
+            console.log("Id: " + id);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.data);
+                    var datos = data.data[0];
+                    var descripcion = datos.hosp_Descripcion;
+                    var direccion = datos.hosp_Direccion;
+                    var ciudad = datos.ciud_Id;
+                    var id = datos.hosp_Id;
+                    console.log(descripcion);
+                    console.log(direccion);
+                    $("#idd").val(id);
+                    $("#txtdescripcion").val(descripcion);
+                    $("#txtdireccion").val(direccion);
+                    $("#ciudad").val(ciudad);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+
+    });
+</script>

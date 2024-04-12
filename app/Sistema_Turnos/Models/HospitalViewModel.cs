@@ -23,6 +23,7 @@ namespace Sistema_Turnos.Models
         public int? Hosp_Modificacion { get; set; }
         public DateTime? Hosp_FechaModificacion { get; set; }
         [Display(Name = "Departamento")]
+
         public string Esta_Id { get; set; }
 
         [Display(Name = "Municipio")]
