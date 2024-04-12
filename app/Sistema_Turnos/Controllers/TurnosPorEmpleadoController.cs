@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Sistema_Turnos.Models;
 using Sistema_Turnos.Services;
 using System;
@@ -51,8 +52,14 @@ namespace Sistema_Turnos.Controllers
 
                     if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
                     {
-                        var list = await _turnosPorEmpleadoService.TurnosPorEmpleadoList();
 
+                        var listaempleado = await _empleadoService.EmpleadosList();
+                        var emplea = listaempleado.Data as IEnumerable<EmpleadoViewModel>;
+                        var emple = emplea.ToList().Select(x => new SelectListItem { Text = x.Nombre, Value = x.Empl_Id.ToString() }).ToList();
+                        emple.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+                        ViewBag.Empleados = emple;
+
+                        var list = await _turnosPorEmpleadoService.TurnosPorEmpleadoList();
                         var empleados = await _empleadoService.EmpleadosList();
                         var turnos = await _turnoService.TurnosList();
 
@@ -320,6 +327,7 @@ namespace Sistema_Turnos.Controllers
                 int valor = 0;
                 if (rol != "")
                 {
+
                     var url = await _rolService.ValidarUrl(13, int.Parse(rol));
                     var validarurl = url.Data as IEnumerable<RolViewModel>;
                     foreach (var item in validarurl)
@@ -331,6 +339,11 @@ namespace Sistema_Turnos.Controllers
 
                 if(valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
                 {
+                    var listaempleado = await _empleadoService.EmpleadosList();
+                    var emplea = listaempleado.Data as IEnumerable<EmpleadoViewModel>;
+                    var emple = emplea.ToList().Select(x => new SelectListItem { Text = x.Nombre, Value = x.Empl_Id.ToString() }).ToList();
+                    emple.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+                    ViewBag.Empleados = emple;
                     return View();
                 }
 

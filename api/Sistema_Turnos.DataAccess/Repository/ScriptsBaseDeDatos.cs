@@ -115,18 +115,19 @@ namespace Sistema_Turnos.DataAccess.Repository
                 public static string TuEm_Editar = "[Turn].[sp_TurnosPorEmpleados_editar]";
                 public static string TuEm_Eliminar = "[Turn].[sp_TurnosPorEmpleados_eliminar]";
                 public static string TuEm_ContarTurnos = "[Turn].[sp_TurnosPorEmpleados_ContarTurnos]";
-        #endregion
+                public static string TuEm_ContarTurnos_Empleados = "[Turn].[sp_TurnosPorEmpleados_ContarTurnosEmpleados]";
+                #endregion
 
                 #region Empleados
-                        public static string Empl_Traer_Emple = "[Turn].[sp_Empleados_obtener]";
-                        public static string Empl_Insertar = "[Turn].[sp_Empleados_crear]";
-                        public static string Empl_Listar = "[Turn].[sp_Empleados_listar]";
-                        public static string Empl_Eliminar = "[Turn].[sp_Empleados_eliminar]";
-                        public static string Empl_Actualizar = "[Turn].[sp_Empleados_editar]";
-                        public static string Empl_Obtener = "[Turn].[sp_Empleados_buscar]";
-                        //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
-                        //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
-                        #endregion
+                public static string Empl_Traer_Emple = "[Turn].[sp_Empleados_obtener]";
+                                public static string Empl_Insertar = "[Turn].[sp_Empleados_crear]";
+                                public static string Empl_Listar = "[Turn].[sp_Empleados_listar]";
+                                public static string Empl_Eliminar = "[Turn].[sp_Empleados_eliminar]";
+                                public static string Empl_Actualizar = "[Turn].[sp_Empleados_editar]";
+                                public static string Empl_Obtener = "[Turn].[sp_Empleados_buscar]";
+                                //public static string Munic_Llenar = "[Gene].[sp_Estados_llenar]";
+                                //public static string Munic_ObtenerEstado = "[Gene].[sp_Estados_obtener_estado]";
+                                #endregion
 
                 #region Hospitales
                 public static string Hospi_Insertar = "[Turn].[sp_Hospitales_crear]";
