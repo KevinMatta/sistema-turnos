@@ -1,0 +1,52 @@
+﻿@model Sistema_Turnos.Models.TurnoViewModel
+
+<div class="card-body">
+    <form asp-action="_Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Turn_Descripcion" class="control-label"></label>
+                    <input asp-for="Turn_Descripcion" id="txtdescripcion" class="form-control" />
+                    <span asp-validation-for="Turn_Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Turn_HoraEntrada" class="control-label"></label>
+                    <input asp-for="Turn_HoraEntrada" type="time" id="txtentrada" class="form-control" />
+                    <span asp-validation-for="Turn_HoraEntrada" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Turn_HoraSalida" class="control-label"></label>
+                    <input asp-for="Turn_HoraSalida" type="time" id="txtsalida" class="form-control" />
+                    <span asp-validation-for="Turn_HoraSalida" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-sm-6" hidden>
+                <div class="form-group">
+                    <label asp-for="Turn_Id" class="control-label"></label>
+                    <input asp-for="Turn_Id" id="idd" class="form-control" />
+                    <span asp-validation-for="Turn_Id" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input type="submit" asp-controller="Turno" asp-action="Edit" value="Crear" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-danger">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

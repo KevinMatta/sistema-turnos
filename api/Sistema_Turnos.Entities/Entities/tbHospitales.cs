@@ -31,6 +31,12 @@ namespace Sistema_Turnos.Entities.Entities
         [NotMapped]
         public string Esta_Descripcion { get; set; }
 
+        [NotMapped]
+        public string usua_creac { get; set; }
+
+        [NotMapped]
+        public string usua_modi { get; set; }
+
         public virtual tbCiudades Ciud { get; set; }
         public virtual tbEstados Esta { get; set; }
         public virtual tbUsuarios Hosp_CreacionNavigation { get; set; }

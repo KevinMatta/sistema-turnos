@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace Sistema_Turnos.Services
 {
-    public class TurnoService
+    public class PersonaService
     {
-        private readonly API _api;
 
-        public TurnoService(API api)
+        private readonly API _api;
+        public PersonaService(API api)
         {
             _api = api;
         }
 
-        public async Task<ServiceResult> TurnosList()
+        public async Task<ServiceResult> PersonasList()
         {
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Get<IEnumerable<TurnoViewModel>, IEnumerable<TurnoViewModel>>(req =>
+                var response = await _api.Get<IEnumerable<PersonaViewModel>, IEnumerable<PersonaViewModel>>(req =>
                 {
-                    req.Path = $"API/Turno/ListarTurnos";
+                    req.Path = $"API/Persona/ListadoPersonas";
                 });
                 if (!response.Success)
                 {
@@ -41,14 +41,14 @@ namespace Sistema_Turnos.Services
             }
         }
 
-        public async Task<ServiceResult> CrearTurno(TurnoViewModel item)
+        public async Task<ServiceResult> CrearPersona(PersonaViewModel item)
         {
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Post<TurnoViewModel, ServiceResult>(req =>
+                var response = await _api.Post<PersonaViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"API/Turno/CreateTurnos";
+                    req.Path = $"API/Persona/CreatePersonas";
                     req.Content = item;
                 });
                 if (!response.Success)
@@ -67,14 +67,14 @@ namespace Sistema_Turnos.Services
             }
         }
 
-        public async Task<ServiceResult> ObtenerTurno(int turn_Id)
+        public async Task<ServiceResult> ObtenerPersona(string Pers_Identidad)
         {
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Get<IEnumerable<TurnoViewModel>, TurnoViewModel>(req =>
+                var response = await _api.Get<IEnumerable<PersonaViewModel>, PersonaViewModel>(req =>
                 {
-                    req.Path = $"API/Turno/FillTurnos/{turn_Id}";
+                    req.Path = $"API/Persona/FillPersonas/{Pers_Identidad}";
                 });
                 if (!response.Success)
                 {
@@ -92,14 +92,14 @@ namespace Sistema_Turnos.Services
             }
         }
 
-        public async Task<ServiceResult> EditarTurno(TurnoViewModel item)
+        public async Task<ServiceResult> EditarPersona(PersonaViewModel item)
         {
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Put<TurnoViewModel, ServiceResult>(req =>
+                var response = await _api.Put<PersonaViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"API/Turno/UpdateTurnos";
+                    req.Path = $"API/Persona/UpdatePersonas";
                     req.Content = item;
                 });
                 if (!response.Success)
@@ -118,14 +118,14 @@ namespace Sistema_Turnos.Services
             }
         }
 
-        public async Task<ServiceResult> EliminarTurno(int id, int modificacion, DateTime fecha)
+        public async Task<ServiceResult> EliminarPersona(int id, int modificacion, DateTime fecha)
         {
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Delete<TurnoViewModel, ServiceResult>(req =>
+                var response = await _api.Delete<PersonaViewModel, ServiceResult>(req =>
                 {
-                    req.Path = $"API/Turno/DeleteTurnos?id={id}&modificacion={modificacion}&fecha={fecha}";
+                    req.Path = $"API/Persona/DeletePersonas?id={id}&modificacion={modificacion}&fecha={fecha}";
                 });
                 if (!response.Success)
                 {
@@ -143,14 +143,14 @@ namespace Sistema_Turnos.Services
             }
         }
 
-        public async Task<ServiceResult> DetallesTurno(int turn_Id)
+        public async Task<ServiceResult> DetallesPersona(string Pers_Identidad)
         {
             var result = new ServiceResult();
             try
             {
-                var response = await _api.Get<IEnumerable<TurnoViewModel>, IEnumerable<TurnoViewModel>>(req =>
+                var response = await _api.Get<IEnumerable<PersonaViewModel>, IEnumerable<PersonaViewModel>>(req =>
                 {
-                    req.Path = $"API/Turno/FillTurnos/{turn_Id}";
+                    req.Path = $"API/Persona/FillPersonas/{Pers_Identidad}";
                 });
                 if (!response.Success)
                 {

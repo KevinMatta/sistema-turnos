@@ -1,0 +1,255 @@
+﻿@model IEnumerable<Sistema_Turnos.Models.TurnoViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-header ">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Turnos</h3>
+        <button type="button" class="btn btn-primary animation-on-hover btn-sm" data-toggle="modal" data-target="#crearModal"> <i class="tim-icons icon-simple-add"></i> Nuevo</button>
+    </div>
+</div>
+
+<div class="card-body ">
+    <table class="table tablesorter table-hover table-striped" id="tabla">
+        <thead class=" text-primary">
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Turn_Id)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Turn_Descripcion)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Turn_HoraEntrada)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Turn_HoraSalida)
+                </th>
+                <th class="text-right">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Turn_Id)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Turn_Descripcion)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Turn_HoraEntrada)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Turn_HoraSalida)
+                    </td>
+                    <td class="text-right">
+                        <button class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Turn_Id">Editar <i class="tim-icons icon-pencil"></i></button>
+                        @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
+                        <a href="@Url.Action("Details", "Turno", new { Turn_Id = item.Turn_Id })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
+                        <a asp-route-id="@item.Turn_Id" asp-controller="Turno" asp-action="Delete" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID(@item.Turn_Id)">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade modal-black" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Editar Turno</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Edit", new Sistema_Turnos.Models.TurnoViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-black" id="crearModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Crear Turno</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Create", new Sistema_Turnos.Models.TurnoViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-black" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <div class="modal-header" style="margin-block-end:-3%;">
+                <h4 class="modal-title" id="exampleModalLabel">Eliminar Turno</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_Delete", new Sistema_Turnos.Models.TurnoViewModel())
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#crearModal form').submit(function (event) {
+            var descripcion = $('#Turn_Descripcion').val();
+            var entrada = $('#Turn_HoraEntrada').val();
+            var salida = $('#Turn_HoraSalida').val();
+
+            if (!descripcion) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> El turno es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!entrada) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La hora de entrada es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!salida) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La hora de salida es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+        });
+
+        $('#editarModal form').submit(function (event) {
+            var descripcion = $('#txtdescripcion').val();
+            var entrada = $('#txtentrada').val();
+            var salida = $('#txtsalida').val();
+
+            if (!descripcion) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> El turno es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!entrada) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La hora de entrada es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+            if (!salida) {
+                event.preventDefault();
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "<b>Advertencia</b> La hora de salida es un campo requerido"
+                }, {
+                    type: 'warning',
+                    timer: 1000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+
+        });
+
+
+        $(".editar-depa").click(function () {
+            var id = $(this).data("depa-id");
+            var url = "https://localhost:44363/API/Turno/FillTurnos/" + id;
+
+            console.log("Id: " + id);
+
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.data);
+                    var datos = data.data[0];
+                    var id = datos.turn_Id;
+                    var turno = datos.turn_Descripcion;
+                    var entrada = datos.turn_HoraEntrada;
+                    var salida = datos.turn_HoraSalida;
+                    $("#idd").val(id);
+                    $("#txtdescripcion").val(turno);
+                    $("#txtentrada").val(entrada);
+                    $("#txtsalida").val(salida);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+
+
+    });
+</script>

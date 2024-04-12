@@ -33,5 +33,11 @@ namespace Sistema_Turnos.Models
         [NotMapped]
         public string Esta_Descripcion { get; set; }
 
+        [NotMapped]
+        public string usua_creac { get; set; }
+
+        [NotMapped]
+        public string usua_modi { get; set; }
+
     }
 }

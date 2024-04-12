@@ -36,6 +36,100 @@ namespace Sistema_Turnos.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult InsertarEmpleados(tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _empleadoRepository.Insert(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarEmpleados(int id, int usuario, DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _empleadoRepository.EliminarEmpleados(id, usuario, fecha);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarEmpleados(tbEmpleados item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _empleadoRepository.Update(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListEmpl(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.List(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
+        public ServiceResult TraerEmple(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _empleadoRepository.ObtenerEmple(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
         #endregion
 
         #region Turnos
@@ -52,6 +146,85 @@ namespace Sistema_Turnos.BusinessLogic.Services
                 return result.Error(ex.Message);
             }
         }
+
+        public ServiceResult InsertarTurnos(tbTurnos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _turnoRepository.Insert(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult EliminarTurnos(int id, int usuario, DateTime fecha)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _turnoRepository.EliminarTurnos(id, usuario, fecha);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ActualizarTurnos(tbTurnos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var lost = _turnoRepository.Update(item);
+                if (lost.CodeStatus > 0)
+                {
+                    return result.Ok(lost);
+                }
+                else
+                {
+                    return result.Error(lost);
+                }
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex.Message);
+            }
+        }
+
+        public ServiceResult ListTurn(int id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _turnoRepository.List(id);
+
+                return result.Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return result.Error(ex);
+            }
+        }
+
         #endregion
 
         #region TurnosPorEmpleado

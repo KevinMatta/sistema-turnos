@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Sistema_Turnos.Models.PersonaViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-header ">
+    <div class="d-flex justify-content-between">
+        <h3 class="card-title">Personas</h3>
+        <a type="button" asp-action="Create" class="btn btn-primary animation-on-hover btn-sm"> <i class="tim-icons icon-simple-add"></i> Nuevo</a>
+    </div>
+</div>
+
+<div class="card-body ">
+    <table class="table tablesorter table-hover table-striped" id="tabla">
+        <thead class=" text-primary">
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Pers_Identidad)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Pers_PrimerNombre)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Pers_PrimerApellido)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Pers_Sexo)
+                </th>
+                <th class="text-right">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Pers_Identidad)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Pers_PrimerNombre)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Pers_PrimerApellido)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Pers_Sexo)
+                    </td>
+
+                    <td class="text-right">
+                        <a asp-action="Edit" asp-route-id="@item.Pers_Identidad" class="btn btn-warning btn-sm editar-depa" data-depa-id="@item.Pers_Identidad">Editar <i class="tim-icons icon-pencil"></i></a>
+                        @*<a href="@Url.Action("Edit", "Persona", new { id = item.Pers_Identidad })" class="btn btn-warning btn-sm editar-depa">Editar <i class="tim-icons icon-pencil"></i></a>*@
+                        @*<a href="@Url.Action("Edit", "Departamento", new { Esta_Id = item.Esta_Id })" class="btn btn-warning btn-sm editar-depa" data-toggle="modal" data-target="#editarModal" data-depa-id="@item.Esta_Id">Editar <i class="tim-icons icon-pencil"></i></a>*@
+                        <a href="@Url.Action("Details", "Persona", new { Pers_Identidad = item.Pers_Identidad })" class="btn btn-info btn-sm">Detalles <i class="tim-icons icon-zoom-split"></i></a>
+                        <a asp-route-id="@item.Pers_Identidad" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal" onclick="ObtenerID('@item.Pers_Identidad')">Eliminar <i class="tim-icons icon-trash-simple"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

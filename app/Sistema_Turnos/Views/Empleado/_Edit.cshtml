@@ -1,0 +1,53 @@
+﻿@model Sistema_Turnos.Models.EmpleadoViewModel
+
+<div class="card-body">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Pers_Identidad" class="control-label"></label>
+                    <select asp-for="Pers_Identidad" id="persona" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.persona"></select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Usua_Id" class="control-label"></label>
+                    <select asp-for="Usua_Id" id="usuario" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.usuario"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Carg_Id" class="control-label"></label>
+                    <select asp-for="Carg_Id" id="cargo" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.cargo"></select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Hosp_Id" class="control-label"></label>
+                    <select asp-for="Hosp_Id" id="hospital" style="background-color:#222a42;" class="form-control" asp-items="ViewBag.hospital"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" hidden>
+            <label asp-for="Empl_Id" class="control-label"></label>
+            <input asp-for="Empl_Id" id="iddd" class="form-control" />
+            <span asp-validation-for="Empl_Id" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-danger">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

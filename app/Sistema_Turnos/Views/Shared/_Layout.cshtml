@@ -131,7 +131,7 @@
                                 @if (pantallas != null && pantallas.Contains("Personas") || pantallas.Contains("Admin"))
                                 {
                                     <li>
-                                        <a href="">
+                                        <a asp-controller="Persona" asp-action="Index">
                                             <span class="sidenav-normal"> Personas </span>
                                         </a>
                                     </li>
@@ -155,7 +155,7 @@
                                 @if (pantallas != null && pantallas.Contains("Empleados") || pantallas.Contains("Admin") )
                                 {
                                     <li>
-                                        <a asp-controller="TurnosPorEmpleado" asp-action="Index">
+                                        <a asp-controller="Empleado" asp-action="Index">
                                             <span class="sidenav-normal"> Empleados </span>
                                         </a>
                                     </li>
@@ -182,7 +182,7 @@
                                 @if (pantallas != null && pantallas.Contains("Turnos") || pantallas.Contains("Admin"))
                                 {
                                     <li>
-                                        <a href="">
+                                        <a asp-controller="Turno" asp-action="Index">
                                             <span class="sidenav-normal"> Turnos </span>
                                         </a>
                                     </li>
