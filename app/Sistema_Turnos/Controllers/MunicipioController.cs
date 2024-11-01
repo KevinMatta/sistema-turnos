@@ -36,20 +36,20 @@ namespace Sistema_Turnos.Controllers
 
                 else
                 {
-                    int valor = 0;
-                    if (rol != "")
-                    {
-                        var url = await _rolService.ValidarUrl(3, int.Parse(rol));
-                        var validarurl = url.Data as IEnumerable<RolViewModel>;
-                        foreach (var item in validarurl)
-                        {
-                            int? rol_id = item.Rol_Id;
-                            valor = 1;
-                        }
-                    }
+                    //int valor = 0;
+                    //if (rol != "")
+                    //{
+                    //    var url = await _rolService.ValidarUrl(3, int.Parse(rol));
+                    //    var validarurl = url.Data as IEnumerable<RolViewModel>;
+                    //    foreach (var item in validarurl)
+                    //    {
+                    //        int? rol_id = item.Rol_Id;
+                    //        valor = 1;
+                    //    }
+                    //}
 
-                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
-                    {
+                    //if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                    //{
                         var listadepto = await _departamentoServicios.ObtenerDepartamentoList();
 
                         var depto = listadepto.Data as IEnumerable<DepartamentoViewModel>;
@@ -61,12 +61,12 @@ namespace Sistema_Turnos.Controllers
                         var model = new List<DepartamentoViewModel>();
                         var list = await _municipioService.ObtenerMunicipioList();
                         return View(list.Data);
-                    }
+                    //}
 
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
 
                 }
             }

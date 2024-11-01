@@ -35,35 +35,35 @@ namespace Sistema_Turnos.Controllers
 
                 else
                 {
-                    int valor = 0;
-                    if(rol != "") 
-                    {
-                        var url = await _rolService.ValidarUrl(4, int.Parse(rol));
-                        var validarurl = url.Data as IEnumerable<RolViewModel>;
-                        foreach (var item in validarurl)
-                        {
-                            int? rol_id = item.Rol_Id;
-                            valor = 1;
-                        }
-                    }
+                    //int valor = 0;
+                    //if(rol != "") 
+                    //{
+                    //    var url = await _rolService.ValidarUrl(4, int.Parse(rol));
+                    //    var validarurl = url.Data as IEnumerable<RolViewModel>;
+                    //    foreach (var item in validarurl)
+                    //    {
+                    //        int? rol_id = item.Rol_Id;
+                    //        valor = 1;
+                    //    }
+                    //}
 
-                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
-                    {
-                        var listarol = await _rolService.ObtenerRolList();
-                        var roles = listarol.Data as IEnumerable<RolViewModel>;
-                        var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
-                        role.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
-                        ViewBag.Rol = role;
+                    //if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                    
+                    //    var listarol = await _rolService.ObtenerRolList();
+                    //    var roles = listarol.Data as IEnumerable<RolViewModel>;
+                    //    var role = roles.ToList().Select(x => new SelectListItem { Text = x.Rol_Descripcion, Value = x.Rol_Id.ToString() }).ToList();
+                    //    role.Insert(0, new SelectListItem { Text = "Seleccione", Value = "1" });
+                    //    ViewBag.Rol = role;
 
                         var model = new List<UsuarioViewModel>();
                         var list = await _usuarioService.ObtenerUsuarioList();
                         return View(list.Data);
-                    }
+                    
 
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
 
                 }
             }

@@ -37,20 +37,20 @@ namespace Sistema_Turnos.Controllers
 
                 else
                 {
-                    int valor = 0;
-                    if (rol != "")
-                    {
-                        var url = await _rolService.ValidarUrl(6, int.Parse(rol));
-                        var validarurl = url.Data as IEnumerable<RolViewModel>;
-                        foreach (var item in validarurl)
-                        {
-                            int? rol_id = item.Rol_Id;
-                            valor = 1;
-                        }
-                    }
+                    //int valor = 0;
+                    //if (rol != "")
+                    //{
+                    //    var url = await _rolService.ValidarUrl(6, int.Parse(rol));
+                    //    var validarurl = url.Data as IEnumerable<RolViewModel>;
+                    //    foreach (var item in validarurl)
+                    //    {
+                    //        int? rol_id = item.Rol_Id;
+                    //        valor = 1;
+                    //    }
+                    //}
 
-                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
-                    {
+                    //if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                    //{
                         var listaciudad= await _municipioService.ObtenerMunicipioList();
                         var munic = listaciudad.Data as IEnumerable<MunicipioViewModel>;
                         var muni = munic.ToList().Select(x => new SelectListItem { Text = x.Ciud_Descripcion, Value = x.Ciud_Id }).ToList();
@@ -59,12 +59,12 @@ namespace Sistema_Turnos.Controllers
 
                         var list = await _hospitalService.ObtenerHospitalList();
                         return View(list.Data);
-                    }
+                    //}
 
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
 
                 }
             }

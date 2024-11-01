@@ -6,6 +6,7 @@ using Sistema_Turnos.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Sistema_Turnos.API.Controllers
@@ -36,7 +37,7 @@ namespace Sistema_Turnos.API.Controllers
             var modelo = new tbUsuarios()
             {
                 Usua_Usuario = item.Usua_Usuario,
-                Usua_Clave = item.Usua_Clave,
+                Usua_Clave = Encoding.UTF8.GetBytes(item.Usua_Clave),
                 Rol_Id = item.Rol_Id,
                 Usua_IsAdmin = item.Usua_IsAdmin,
                 Usua_Creacion = item.Usua_Creacion,

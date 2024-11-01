@@ -41,7 +41,7 @@ namespace Sistema_Turnos.Entities.Entities
 
         public int Usua_Id { get; set; }
         public string Usua_Usuario { get; set; }
-        public string Usua_Clave { get; set; }
+        public byte[] Usua_Clave { get; set; }
         public int? Rol_Id { get; set; }
         public bool? Usua_IsAdmin { get; set; }
         public bool? Usua_Estado { get; set; }

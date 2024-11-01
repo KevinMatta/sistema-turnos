@@ -39,20 +39,20 @@ namespace Sistema_Turnos.Controllers
 
                 else
                 {
-                    int valor = 0;
-                    if (rol != "")
-                    {
-                        var url = await _rolService.ValidarUrl(9, int.Parse(rol));
-                        var validarurl = url.Data as IEnumerable<RolViewModel>;
-                        foreach (var item in validarurl)
-                        {
-                            int? rol_id = item.Rol_Id;
-                            valor = 1;
-                        }
-                    }
+                    //int valor = 0;
+                    //if (rol != "")
+                    //{
+                    //    var url = await _rolService.ValidarUrl(9, int.Parse(rol));
+                    //    var validarurl = url.Data as IEnumerable<RolViewModel>;
+                    //    foreach (var item in validarurl)
+                    //    {
+                    //        int? rol_id = item.Rol_Id;
+                    //        valor = 1;
+                    //    }
+                    //}
 
-                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
-                    {
+                    //if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                    //{
                         var listestadosciviles = await _estadoCivilService.ObtenerEstadoCivilList();
                         var estadocivil = listestadosciviles.Data as IEnumerable<EstadoCivilViewModel>;
                         var estado = estadocivil.ToList().Select(x => new SelectListItem { Text = x.EsCi_Descripcion, Value = x.EsCi_Id.ToString() }).ToList();
@@ -62,12 +62,12 @@ namespace Sistema_Turnos.Controllers
                         var model = new List<PersonaViewModel>();
                         var list = await _personaService.PersonasList();
                         return View(list.Data);
-                    }
+                    //}
 
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
 
                 }
             }

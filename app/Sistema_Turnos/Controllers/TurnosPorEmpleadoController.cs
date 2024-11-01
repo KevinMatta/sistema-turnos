@@ -38,20 +38,20 @@ namespace Sistema_Turnos.Controllers
 
                 else
                 {
-                    int valor = 0;
-                    if (rol != "")
-                    {
-                        var url = await _rolService.ValidarUrl(11, int.Parse(rol));
-                        var validarurl = url.Data as IEnumerable<RolViewModel>;
-                        foreach (var item in validarurl)
-                        {
-                            int? rol_id = item.Rol_Id;
-                            valor = 1;
-                        }
-                    }
+                    //int valor = 0;
+                    //if (rol != "")
+                    //{
+                    //    var url = await _rolService.ValidarUrl(11, int.Parse(rol));
+                    //    var validarurl = url.Data as IEnumerable<RolViewModel>;
+                    //    foreach (var item in validarurl)
+                    //    {
+                    //        int? rol_id = item.Rol_Id;
+                    //        valor = 1;
+                    //    }
+                    //}
 
-                    if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
-                    {
+                    //if (valor == 1 || HttpContext.Session.GetString("IsAdmin") == "IsAdmin")
+                    //{
 
                         var listaempleado = await _empleadoService.EmpleadosList();
                         var emplea = listaempleado.Data as IEnumerable<EmpleadoViewModel>;
@@ -68,12 +68,12 @@ namespace Sistema_Turnos.Controllers
                         ViewBag.ListaTurnoEmpleado = list.Data;
 
                         return View(list.Data);
-                    }
+                    //}
 
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
 
                 }
             }
